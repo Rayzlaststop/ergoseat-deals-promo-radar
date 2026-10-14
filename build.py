@@ -8,6 +8,7 @@ import html
 import json
 import os
 import re
+import shutil
 from pathlib import Path
 from scraper import load_config
 
@@ -87,6 +88,8 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     data = json.loads(data_file.read_text(encoding="utf-8")) if data_file.exists() else {"fetched_at": "", "offers": [], "sources": []}
     offers = data.get("offers", [])
     providers = config["providers"]
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "assets").mkdir(exist_ok=True)
     (output_dir / "assets" / "site.css").write_text((ROOT / "assets" / "site.css").read_text(encoding="utf-8"), encoding="utf-8")
@@ -174,3 +177,4 @@ def empty_message():
 
 if __name__ == "__main__":
     main()
+
