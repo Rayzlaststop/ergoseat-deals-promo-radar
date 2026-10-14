@@ -1,7 +1,7 @@
 ILANG
 ::TYPE{config|PROJECT:ergo-seat-deals|LANG:en-US}
 
-::STATE{@SITE, brand:ErgoSeat Deals, niche:ergonomic office chair deals, domain:pending-cloudflare-pages-url, base_url:}
+::STATE{@SITE, brand:ErgoSeat Deals, niche:ergonomic office chair deals, domain:ergoseat-deals.pages.dev, base_url:https://ergoseat-deals.pages.dev}
 
 ::MODULE{PROVIDERS|title:Public official sale pages only}
 Herman Miller | https://store.hermanmiller.com | https://store.hermanmiller.com/sale | 
@@ -14,6 +14,6 @@ title brand price currency original_price offer_url source_url valid_until fetch
 
 ::RULE{only:Use a price when the official source exposes an explicit current price and a higher comparison price for the same product}
 ::RULE{missing:If a price or comparison price cannot be verified, omit the offer; never estimate}
-::RULE{expiry:If valid_until is exposed and has passed, do not present the offer as current}
+::RULE{expiry:If valid_until is exposed and has passed, do not present it as current}
 ::BOUNDARY{never:Invent prices, discounts, coupons, expiry dates, affiliate IDs, or commissions|scope:permanent}
 ::BOUNDARY{crawl:Public pages only; honor robots.txt; no login, CAPTCHA, APIs, blocked paths, or anti-bot bypass|scope:permanent}
