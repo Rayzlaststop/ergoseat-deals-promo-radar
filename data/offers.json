@@ -1,0 +1,32 @@
+{
+  "fetched_at": "2026-10-14T15:05:49+00:00",
+  "offers": [],
+  "sources": [
+    {
+      "provider": "Herman Miller",
+      "source": "https://store.hermanmiller.com/sale",
+      "robots": "https://store.hermanmiller.com/robots.txt",
+      "result": "skipped: HTTP 403 (no bypass attempted)"
+    },
+    {
+      "provider": "Steelcase",
+      "source": "https://store.steelcase.com/sale",
+      "robots": "https://store.steelcase.com/robots.txt",
+      "result": "skipped: sale URL redirected to homepage"
+    },
+    {
+      "provider": "Haworth",
+      "source": "https://store.haworth.com/collections/sale",
+      "robots": "https://store.haworth.com/robots.txt",
+      "result": "read; verified explicit markdown rows: 0",
+      "final_url": "https://store.haworth.com/collections/sale"
+    },
+    {
+      "provider": "Branch",
+      "source": "https://www.branchfurniture.com/collections/work-from-home-sale",
+      "robots": "https://www.branchfurniture.com/robots.txt",
+      "result": "read; verified explicit markdown rows: 0",
+      "final_url": "https://www.branchfurniture.com/collections/work-from-home-sale"
+    }
+  ]
+}
