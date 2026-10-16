@@ -348,6 +348,29 @@ def robots_allow(url: str) -> tuple[bool, str]:
     return parser.can_fetch(UA, url), robots_url
 
 
+def finalize_rows(rows: list[dict]) -> list[dict]:
+    """One row per price plan and one row per title.
+
+    Two rows at the same current and comparison price are the same plan, so the
+    most specific title wins. A title that appears at two different prices cannot
+    be told apart, so only its lowest price is kept; no numbering is used to pad
+    duplicates.
+    """
+    by_plan = {}
+    for offer in rows:
+        key = (offer["brand"], offer["currency"], offer["price"], offer["original_price"])
+        current = by_plan.get(key)
+        if current is None or len(offer["title"]) > len(current["title"]):
+            by_plan[key] = offer
+    by_title = {}
+    for offer in by_plan.values():
+        key = (offer["brand"], offer["currency"], offer["title"].casefold())
+        current = by_title.get(key)
+        if current is None or float(offer["price"]) < float(current["price"]):
+            by_title[key] = offer
+    return sorted(by_title.values(), key=lambda o: (o["brand"].casefold(), o["title"].casefold()))
+
+
 def scrape(config: dict | None = None) -> dict:
     config = config or load_config()
     checked_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
@@ -366,9 +389,10 @@ def scrape(config: dict | None = None) -> dict:
             elif urllib.parse.urlparse(final_url).path in {"", "/"} and urllib.parse.urlparse(provider["source"]).path not in {"", "/"}:
                 status["result"] = "skipped: sale URL redirected to homepage"
             else:
-                found = (parse_configured_offer_rows(raw, provider, checked_at)
-                         + parse_ssr_preload_pairs(raw, provider, checked_at)
-                         + parse_markup_price_pairs(raw, provider, checked_at))
+                found = finalize_rows(
+                    parse_configured_offer_rows(raw, provider, checked_at)
+                    + parse_ssr_preload_pairs(raw, provider, checked_at)
+                    + parse_markup_price_pairs(raw, provider, checked_at))
                 offers.extend(found)
                 status["result"] = f"read; verified explicit markdown rows: {len(found)}"
                 status["final_url"] = final_url

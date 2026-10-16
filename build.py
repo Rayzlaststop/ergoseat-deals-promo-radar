@@ -53,6 +53,12 @@ def safe_slug(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")[:70] or "offer"
 
 
+def normalize_name(value: str) -> str:
+    """Compare brand names without case, spaces, or punctuation so 'X-Chair'
+    and 'xchair' match, while slugs stay distinct."""
+    return re.sub(r"[^a-z0-9]", "", (value or "").lower())
+
+
 def offer_slug(offer: dict) -> str:
     return safe_slug(offer.get("brand", "") + "-" + offer.get("title", ""))
 
@@ -145,24 +151,32 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     last_update = data.get("fetched_at") or "No verified source snapshot yet"
     disclaimer = "Prices and availability can change. Always confirm details on the official seller page."
 
-    card_list, deal_urls = [], []
-    # A collector provider whose slug matches a brand page keeps its own URL suffix so
-    # the two pages never overwrite each other (brand pages are written after providers).
-    brand_slugs = {row["slug"] for row in load_brand_pages(config_text)}
+    card_list = []
+    # One address per brand: when a brand page exists, the collector listing for that
+    # brand is not published as a second page. The old collector URL is redirected to
+    # the brand page instead, and the brand page itself is left untouched.
+    brand_rows = load_brand_pages(config_text)
+    brand_by_norm = {normalize_name(row["name"]): row for row in brand_rows}
+    brand_slugs = {row["slug"] for row in brand_rows}
+    redirects = []
     default_lastmod = (re.match(r"^(\d{4}-\d{2}-\d{2})", last_update).group(1) if re.match(r"^(\d{4}-\d{2}-\d{2})", last_update) else dt.date.today().isoformat())
     sitemap_rows = [(canonical(base), default_lastmod), (canonical(base, "compare.html"), default_lastmod), (canonical(base, "about.html"), default_lastmod), (canonical(base, "contact.html"), default_lastmod), (canonical(base, "privacy.html"), default_lastmod)]
     for provider in providers:
+        brand_row = brand_by_norm.get(normalize_name(provider["name"]))
+        if brand_row:
+            # The retired collector URL: the plain slug when it did not collide with
+            # the brand page, or that slug plus "-verified" when it did.
+            collector_slug = safe_slug(provider["name"])
+            if collector_slug in brand_slugs:
+                collector_slug = collector_slug + "-verified"
+            redirects.append((f"providers/{collector_slug}.html", f"providers/{brand_row['slug']}.html"))
+            continue
         provider_slug = safe_slug(provider["name"])
-        if provider_slug in brand_slugs:
-            provider_slug = provider_slug + "-verified"
         path = f"providers/{provider_slug}.html"
         matching = [o for o in offers if o.get("brand") == provider["name"]]
         provider_cards = []
         for offer in matching:
-            detail_path = "deals/" + offer_slug(offer) + ".html"
-            deal_urls.append((detail_path, offer))
-            provider_cards.append(deal_card(offer, canonical(base, detail_path)))
-            sitemap_rows.append((canonical(base, detail_path), default_lastmod))
+            provider_cards.append(deal_card(offer, canonical(base, "deals/" + offer_slug(offer) + ".html")))
         status = next((s.get("result", "not yet checked") for s in data.get("sources", []) if s.get("provider") == provider["name"]), "not yet checked")
         body = f'<section class="hero compact"><p class="eyebrow">Official source</p><h1>{esc(provider["name"])}</h1><p><a href="{esc(provider["home"])}" rel="nofollow noopener">Visit the official store</a></p><p class="muted">Latest source check: {esc(status)}</p></section><section><h2>Verified price reductions</h2>{"".join(provider_cards) or empty_message()}</section>'
         (output_dir / "providers").mkdir(exist_ok=True)
@@ -173,7 +187,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         sitemap_rows.append((canonical(base, path), default_lastmod))
 
     brand_data = json.loads(BRAND_DATA.read_text(encoding="utf-8")).get("brands", {}) if BRAND_DATA.exists() else {}
-    for row in load_brand_pages(config_text):
+    for row in brand_rows:
         item = brand_data.get(row["slug"])
         # A brand page is built only when its own sourced content exists; never a placeholder.
         if not item or item.get("status") != "live":
@@ -209,7 +223,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     (output_dir / "compare.html").write_text(render_page("compare.html", brand, "Compare verified ergonomic chair offers", compare_body, canonical(base, "compare.html"), "Compare current verified chair offers.", compare_list), encoding="utf-8")
 
     (output_dir / "deals").mkdir(exist_ok=True)
-    for path, offer in deal_urls:
+    written_deals = set()
+    # One page per verified offer, independent of which listing page survives:
+    # every homepage and compare-table card must resolve to a real page.
+    for offer in offers:
+        path = "deals/" + offer_slug(offer) + ".html"
+        # One address per deal: the first listing wins; a later duplicate slug
+        # is skipped instead of writing a second page or a second sitemap entry.
+        if path in written_deals:
+            continue
+        written_deals.add(path)
+        sitemap_rows.append((canonical(base, path), default_lastmod))
         target = canonical(base, path)
         current, original = money(offer["price"], offer["currency"]), money(offer["original_price"], offer["currency"])
         discount = round((float(offer["original_price"]) - float(offer["price"])) / float(offer["original_price"]) * 100)
@@ -221,7 +245,10 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         if offer.get("affiliate_url"):
             structured["offers"]["seller"] = {"@type": "Organization", "name": offer["brand"]}
         rel = "nofollow sponsored noopener" if offer.get("affiliate_url") else "nofollow noopener"
-        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › <a href="/providers/{safe_slug(offer["brand"])}.html">{esc(offer["brand"])}</a></nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section><p class="disclosure">{esc(disclaimer)}</p>'
+        crumb_row = brand_by_norm.get(normalize_name(offer["brand"]))
+        crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
+        crumb = f'<a href="/providers/{crumb_slug}.html">{esc(offer["brand"])}</a>'
+        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section><p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, offer["title"], target, base)]}
         (output_dir / path).write_text(render_page("deal.html", brand, f'{offer["title"]} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
 
@@ -235,8 +262,20 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     (output_dir / "robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: " + canonical(base, "sitemap.xml") + "\n", encoding="utf-8")
     date_match = re.match(r"^(\d{4}-\d{2}-\d{2})", last_update)
     del date_match
+    # One address once: the first occurrence of each URL wins; later duplicates
+    # are dropped so the sitemap never lists the same page twice.
+    seen_urls, unique_rows = set(), []
+    for url, lastmod in sitemap_rows:
+        if url in seen_urls:
+            continue
+        seen_urls.add(url)
+        unique_rows.append((url, lastmod))
+    sitemap_rows = unique_rows
     urls = "\n".join(f"  <url><loc>{esc(u)}</loc><lastmod>{lm}</lastmod></url>" for u, lm in sitemap_rows)
     (output_dir / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n", encoding="utf-8")
+    # One brand one address: retired collector URLs 301 to the surviving brand page.
+    if redirects:
+        (output_dir / "_redirects").write_text("".join(f"/{old} /{new} 301\n" for old, new in redirects), encoding="utf-8")
     print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} source-verified offers; base URL {base}")
 
 
