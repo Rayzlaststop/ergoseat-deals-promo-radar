@@ -1033,6 +1033,218 @@
     }
    ],
    "closing": "Every line above was read from xchair.com on 2026-10-16. The Fall Upgrade Sale percentages, the marked prices, the shipping statements and the return fees are X-Chair's own current claims, and the site itself counts the sale down to \"through Oct 20\"."
+  },
+  "herman-miller": {
+   "status": "live",
+   "name": "Herman Miller",
+   "home": "https://store.hermanmiller.com",
+   "review_date": "2026-10-16",
+   "title": "Herman Miller offers right now: the 12-year Aeron warranty, free shipping and the 14-day price-adjustment policy, checked at the source",
+   "description": "Official Herman Miller Store terms checked on 2026-10-16: free standard shipping on many products, the delivery area, the $10/day storage fee after 10 days, the 14-day price-adjustment credit, the 12-year new Aeron warranty and the 5-year refurbished Aeron warranty, all quoted from hermanmiller.com.",
+   "h1": "Herman Miller: is there a discount code right now?",
+   "answer": "No coupon or promo code is published on the official Herman Miller Store on the review date. What the store publishes instead are its standing terms: free standard shipping on many products, a 14-day price-adjustment credit if an item drops in price after you order, a 12-year warranty on a new Aeron chair and a 5-year warranty on a refurbished Aeron.",
+   "rows": [
+    {
+     "offer": "Free standard shipping on many Standard Delivery products",
+     "condition": "The FAQ states \"Free standard shipping is available on many products that ship via Standard Delivery. Shipping rates for all other products are based on the total order amount.\"",
+     "source": "https://store.hermanmiller.com/customerservice-shipping-delivery.html?lang=en_US",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Delivery within the 50 United States, Puerto Rico and Canada",
+     "condition": "The FAQ states \"The Herman Miller Store ships within the 50 United States, Puerto Rico, and Canada. If you are looking to purchase internationally, please use our Global Dealer Locator to find a dealer near you. We do not currently accept orders for US Territories, FBP and APO addresses.\"",
+     "source": "https://store.hermanmiller.com/customer-service/shipping-returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Daily storage fee of $10 per day after a 10-day grace window",
+     "condition": "The FAQ states \"We allow 10 calendar days for you to accept your order without fees, after which you'll begin to incur daily storage fees of $10 per day, per order.\"",
+     "source": "https://store.hermanmiller.com/customer-service/shipping-returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "14-day price-adjustment credit",
+     "condition": "The FAQ states \"A sale price credit will be honored if an item goes on sale within 14 days after an order is placed. The credit will be applied to the original source of payment for the difference between the price that was charged and the sale price. Final sale items are excluded from all price adjustments.\"",
+     "source": "https://store.hermanmiller.com/customer-service/shipping-returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "12-year warranty on a new Aeron Chair",
+     "condition": "The FAQ states \"A new Aeron Chair is sold brand-new and unused, offers full customization options, and comes with Herman Miller's full 12-year warranty.\"",
+     "source": "https://store.hermanmiller.com/customer-service/shipping-returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "5-year warranty on a refurbished Aeron Chair",
+     "condition": "The FAQ states \"Refurbished Aeron Chairs include a 5-year Herman Miller refurbished product limited warranty\".",
+     "source": "https://store.hermanmiller.com/refurbished-warranty",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Returns handled through the official Returns page",
+     "condition": "The FAQ directs customers to \"visit our Returns page for more information.\" The store does not print a single site-wide return-window sentence on the FAQ, so the exact return window is Unconfirmed from that page; use the linked Returns page for the current terms.",
+     "source": "https://store.hermanmiller.com/customerservice-returns-exchanges.html?lang=en_US",
+     "review_date": "2026-10-16"
+    }
+   ],
+   "faq": [
+    {
+     "q": "Does Herman Miller have a discount code right now?",
+     "a": "No coupon or promo code is published on the official Herman Miller Store on the review date. Every line above quotes the store's own FAQ and policy pages rather than a code."
+    },
+    {
+     "q": "Is shipping free at Herman Miller?",
+     "a": "The FAQ states free standard shipping is available on many products that ship via Standard Delivery, while shipping rates for all other products are based on the total order amount."
+    },
+    {
+     "q": "What is the Herman Miller warranty on an Aeron?",
+     "a": "The FAQ states a new Aeron Chair comes with Herman Miller's full 12-year warranty, and a refurbished Aeron Chair includes a 5-year refurbished product limited warranty."
+    },
+    {
+     "q": "Can I get a price adjustment after ordering?",
+     "a": "The FAQ states a sale price credit is honored if an item goes on sale within 14 days after an order is placed, applied to the original source of payment for the difference; final sale items are excluded."
+    },
+    {
+     "q": "What is the Herman Miller return window?",
+     "a": "The FAQ points customers to the official Returns page for the current terms and does not print a single site-wide return-window sentence, so the exact window is marked Unconfirmed here. Check the linked Returns page before ordering."
+    }
+   ],
+   "closing": "Every line above was read from store.hermanmiller.com on 2026-10-16. Herman Miller publishes no coupon code on the pages checked, and the shipping, storage, price-adjustment and warranty terms are the brand's own current claims."
+  },
+  "branch": {
+   "status": "live",
+   "name": "Branch",
+   "home": "https://www.branchfurniture.com",
+   "review_date": "2026-10-16",
+   "title": "Branch offers right now: free shipping over $90, the 30-day return window and the 2-to-10-year warranty, checked at the source",
+   "description": "Official Branch terms checked on 2026-10-16: complimentary shipping over $90 with a $9 flat fee below, three delivery methods, the 30-day return window with no exchanges, the flat-rate return fee, and the 2-to-10-year warranty, all quoted from branchfurniture.com.",
+   "h1": "Branch: is there a discount code right now?",
+   "answer": "No coupon code is published on the official Branch store on the review date. What Branch publishes instead are its standing terms: complimentary shipping in the continental US and Canada on orders above $90, a 30-day return window (no exchanges), and a warranty of two to ten years on new products.",
+   "rows": [
+    {
+     "offer": "Complimentary shipping on orders above $90",
+     "condition": "The shipping page states \"We offer complimentary shipping in the continental US and Canada, for orders above $90.\" and \"Parcel shipping is free on orders over $90. A flat $9 fee applies to orders under $90 (or as marked at checkout).\"",
+     "source": "https://www.branchfurniture.com/pages/shipping",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Three shipping methods: Parcel, Freight LTL and White Glove",
+     "condition": "The shipping page states Parcel ships via UPS or FedEx, Freight (LTL) is \"delivered curbside\" in \"10-15 business days\", and White Glove (assembly, placement and packaging removal) delivers in \"15-30 business days\". In-stock orders are processed and shipped within 1-5 business days.",
+     "source": "https://www.branchfurniture.com/pages/shipping",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Ships to the contiguous US and most of Canada",
+     "condition": "The FAQ states \"We ship to the contiguous USA (excluding Alaska and Hawaii) and most areas in Canada (excluding North West Territories, Yukon, and Nunavut).\" and \"Right now, we don't ship internationally.\"",
+     "source": "https://www.branchfurniture.com/pages/faq",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "30-day return window, no exchanges",
+     "condition": "The returns page states \"like-new Branch products in their original packaging can be returned for a refund within 30 days of delivery. Just pay return shipping!\" and \"In order to faciliate fast processing and shipping of orders, we don't offer exchanges.\"",
+     "source": "https://www.branchfurniture.com/pages/returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Flat-rate return shipping fee",
+     "condition": "The returns page states \"A flat rate return shipping fee of $40 (per unit) will be deducted from any office chair purchase. A flat rate of $15 (per unit) will be deducted from any accessory purchase.\" and \"we'll process your refund to your original form of payment within 5-10 business days, less the cost of return shipping.\"",
+     "source": "https://www.branchfurniture.com/pages/returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Open Box products are final sale",
+     "condition": "The returns page states \"All Open Box products are final sale and not eligible for return.\"",
+     "source": "https://www.branchfurniture.com/pages/returns",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Warranty of two to ten years on new products",
+     "condition": "The warranty page states \"The Branch Warranty provides two (2) to ten (10) years of warranty protection on new products purchased from Branch, except in certain instances, as indicated in our full policy. All warranty periods begin from the date of delivery.\" The warranty page lists chair coverage of 3, 5 or 7 years by model and a limited lifetime warranty on the Elevate Chair.",
+     "source": "https://www.branchfurniture.com/pages/warranty",
+     "review_date": "2026-10-16"
+    }
+   ],
+   "faq": [
+    {
+     "q": "Does Branch have a discount code right now?",
+     "a": "No coupon code is published on the official Branch store on the review date. The savings on the site are its standing shipping, return and warranty terms rather than a code."
+    },
+    {
+     "q": "Is shipping free at Branch?",
+     "a": "The shipping page states Branch offers complimentary shipping in the continental US and Canada on orders above $90, with a flat $9 fee on orders under $90."
+    },
+    {
+     "q": "How long does Branch delivery take?",
+     "a": "The shipping page states in-stock orders are processed and shipped within 1-5 business days; Freight (LTL) deliveries arrive in 10-15 business days curbside, and White Glove deliveries in 15-30 business days."
+    },
+    {
+     "q": "Can I return a Branch product?",
+     "a": "The returns page states like-new products in original packaging can be returned for a refund within 30 days of delivery for the return shipping cost, and that Branch does not offer exchanges. Open Box products are final sale."
+    },
+    {
+     "q": "What warranty does Branch give?",
+     "a": "The warranty page states the Branch Warranty provides two to ten years of protection on new products, with all warranty periods beginning from the date of delivery; chair coverage runs 3, 5 or 7 years by model, and the Elevate Chair has a limited lifetime warranty."
+    }
+   ],
+   "closing": "Every line above was read from branchfurniture.com on 2026-10-16. Branch publishes no coupon code on the pages checked, and the shipping, return and warranty terms are the brand's own current claims."
+  },
+  "haworth": {
+   "status": "live",
+   "name": "Haworth",
+   "home": "https://store.haworth.com",
+   "review_date": "2026-10-16",
+   "title": "Haworth offers right now: the Product Claims Center warranty process, checked at the source",
+   "description": "Official Haworth Store terms checked on 2026-10-16: the warranty claim process through the Product Claims Center within three days of delivery and the downloadable limited-warranty PDFs, quoted from store.haworth.com.",
+   "h1": "Haworth: is there a discount code right now?",
+   "answer": "No coupon or promo code is published on the official Haworth Store on the review date. The only store policy readable on 2026-10-16 was the warranty claim process: claims must go through the Product Claims Center within three days of delivery, with downloadable limited-warranty PDFs by brand. The shipping and returns pages did not render, so those terms are marked Unconfirmed.",
+   "rows": [
+    {
+     "offer": "Warranty claims through the Product Claims Center within three days",
+     "condition": "The warranty page states \"Please inspect your order upon delivery. If you find an issue, please submit a claim through our Product Claims Center within three days of receiving your order.\"",
+     "source": "https://store.haworth.com/pages/warranty",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Downloadable limited-warranty PDFs by brand",
+     "condition": "The warranty page links downloadable PDFs including the Haworth Limited Warranty, Emeco Warranty & Care, Courant Warranty & Care, Tala Warranty & Care, Artifox Warranty & Care, JANUS et Cie Warranty, Floyd Warranty, Fluidstance Warranty & Care, Enkel Warranty & Care, Mater Warranty & Care, Gantri Warranty & Care and Most Modest Warranty & Care.",
+     "source": "https://store.haworth.com/pages/warranty",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Shipping terms",
+     "condition": "Unconfirmed. The Haworth Store shipping page did not render its policy text in the fetched HTML on 2026-10-16, so no official wording could be quoted for shipping methods, delivery areas or lead times.",
+     "source": "https://store.haworth.com/pages/warranty",
+     "review_date": "2026-10-16"
+    },
+    {
+     "offer": "Return policy",
+     "condition": "Unconfirmed. The Haworth Store returns page did not render its policy text in the fetched HTML on 2026-10-16, so no official wording could be quoted for the return window or restocking terms.",
+     "source": "https://store.haworth.com/pages/warranty",
+     "review_date": "2026-10-16"
+    }
+   ],
+   "faq": [
+    {
+     "q": "Does Haworth have a discount code right now?",
+     "a": "No coupon or promo code is published on the official Haworth Store on the review date. The only readable store policy on 2026-10-16 was the warranty claim process."
+    },
+    {
+     "q": "How do I make a Haworth warranty claim?",
+     "a": "The warranty page states you should inspect your order upon delivery and submit a claim through the Product Claims Center within three days of receiving your order, and it links downloadable limited-warranty PDFs by brand."
+    },
+    {
+     "q": "What are Haworth's shipping and return terms?",
+     "a": "Unconfirmed on the review date. The Haworth Store shipping and returns pages did not render their policy text in the fetched HTML, so no official wording is quoted here. Check the links in the site footer before ordering."
+    }
+   ],
+   "closing": "Every line above was read from store.haworth.com on 2026-10-16. The warranty claim process is Haworth's own published text; the shipping and returns terms could not be verified and are marked Unconfirmed rather than guessed."
+  },
+  "steelcase": {
+   "status": "dropped",
+   "name": "Steelcase",
+   "home": "https://www.steelcase.com",
+   "review_date": "2026-10-16",
+   "redirect_to": "/"
   }
  }
 }

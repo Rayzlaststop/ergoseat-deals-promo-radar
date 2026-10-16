@@ -170,17 +170,30 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     brand_by_norm = {normalize_name(row["name"]): row for row in brand_rows}
     brand_slugs = {row["slug"] for row in brand_rows}
     redirects = []
+    # Brand content (status, rows, faq) is needed both here (to decide live vs
+    # dropped redirects) and below (to render live brand pages), so load it once.
+    brand_data = json.loads(BRAND_DATA.read_text(encoding="utf-8")).get("brands", {}) if BRAND_DATA.exists() else {}
     default_lastmod = (re.match(r"^(\d{4}-\d{2}-\d{2})", last_update).group(1) if re.match(r"^(\d{4}-\d{2}-\d{2})", last_update) else dt.date.today().isoformat())
     sitemap_rows = [(canonical(base), default_lastmod), (canonical(base, "compare.html"), default_lastmod), (canonical(base, "about.html"), default_lastmod), (canonical(base, "contact.html"), default_lastmod), (canonical(base, "privacy.html"), default_lastmod)]
     for provider in providers:
         brand_row = brand_by_norm.get(normalize_name(provider["name"]))
         if brand_row:
-            # The retired collector URL: the plain slug when it did not collide with
-            # the brand page, or that slug plus "-verified" when it did.
-            collector_slug = safe_slug(provider["name"])
-            if collector_slug in brand_slugs:
-                collector_slug = collector_slug + "-verified"
-            redirects.append((f"providers/{collector_slug}.html", f"providers/{brand_row['slug']}.html"))
+            item = brand_data.get(brand_row["slug"])
+            if item and item.get("status") == "live":
+                # Retire the old collector URL; it now points at the live brand page.
+                collector_slug = safe_slug(provider["name"])
+                if collector_slug in brand_slugs:
+                    collector_slug = collector_slug + "-verified"
+                redirects.append((f"providers/{collector_slug}.html", f"providers/{brand_row['slug']}.html"))
+            elif item and item.get("status") == "dropped":
+                # No live page to publish: 301 the collector URL and the brand slot
+                # to the chosen target so the old empty shell is never served.
+                target = item.get("redirect_to") or "/"
+                collector_slug = safe_slug(provider["name"])
+                redirects.append((f"providers/{brand_row['slug']}.html", target))
+                if collector_slug in brand_slugs:
+                    redirects.append((f"providers/{collector_slug}-verified.html", target))
+            # Missing or neither-live-nor-dropped brand data: emit nothing.
             continue
         provider_slug = safe_slug(provider["name"])
         path = f"providers/{provider_slug}.html"
@@ -197,7 +210,6 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         card_list.append(f'<a class="provider-link" href="/{esc(path)}"><strong>{esc(provider["name"])}</strong><span>{len(matching)} verified offer(s)</span></a>')
         sitemap_rows.append((canonical(base, path), default_lastmod))
 
-    brand_data = json.loads(BRAND_DATA.read_text(encoding="utf-8")).get("brands", {}) if BRAND_DATA.exists() else {}
     for row in brand_rows:
         item = brand_data.get(row["slug"])
         # A brand page is built only when its own sourced content exists; never a placeholder.
@@ -286,7 +298,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     (output_dir / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n", encoding="utf-8")
     # One brand one address: retired collector URLs 301 to the surviving brand page.
     if redirects:
-        (output_dir / "_redirects").write_text("".join(f"/{old} /{new} 301\n" for old, new in redirects), encoding="utf-8")
+        (output_dir / "_redirects").write_text("".join(f"/{old} /{new.lstrip('/')} 301\n" for old, new in redirects), encoding="utf-8")
     print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} source-verified offers; base URL {base}")
 
 
