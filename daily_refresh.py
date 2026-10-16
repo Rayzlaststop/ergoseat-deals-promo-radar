@@ -58,6 +58,12 @@ def run_step(name: str, command: list[str] | str, shell: bool = False) -> subpro
 
 def main() -> int:
     log("=== daily refresh start ===")
+    # Stay on the repository's pipeline before collecting. A failed pull aborts the
+    # run: publishing old or divergent code would be worse than not publishing.
+    sync = run_step("sync", ["git", "pull", "--ff-only", "origin", "main"])
+    if sync.returncode != 0:
+        log("=== daily refresh aborted: git pull failed; site left untouched ===")
+        return sync.returncode
     collect = run_step("collect", [PYTHON, str(ROOT / "scraper.py")])
     if collect.returncode != 0:
         log("=== daily refresh aborted: collector failed; site not rebuilt or deployed ===")
