@@ -40,3 +40,12 @@ No earnings or search-traffic outcome is guaranteed. The pipeline is determinist
 Site rules are described in I-Lang; see `.ilang/site.ilang` (protocol: ilang.ai).
 
 Git commit age is not a promised search-ranking signal. The site should be maintained for accurate, useful offers; Google says to focus on helpful people-first content and warns against changing dates only to make unchanged pages appear fresh.
+
+## Open data & tools
+
+This repository is the data engine behind [deskchairdeals.com](https://deskchairdeals.com), a live directory of verified ergonomic-chair price reductions. The `open-data/` folder exports the same verified offers and brand policies the site renders, and `tools/` contains scripts to regenerate those exports and check data freshness.
+
+- `open-data/offers.csv` — every verified offer with current price, comparison price, source URL, and capture timestamp.
+- `open-data/brand-policies.md` — official shipping, returns, and warranty statements per brand, each with its source URL and review date.
+- `tools/build_open_data.py` — regenerate the exports from `data/offers.json` and `data/brands.json`.
+- `tools/verify_offers.py` — flag offers older than a given age.
