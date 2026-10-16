@@ -108,6 +108,16 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict):
         for row in item.get("rows", [])
     ) or '<tr><td colspan="4">No offer was published on the official pages at review time.</td></tr>'
     faq_html = "".join(f'<h3>{esc(q["q"])}</h3><p>{esc(q["a"])}</p>' for q in item.get("faq", []))
+    # Fixed, site-wide "how to use this offer" strip. Sits between the offers table
+    # and the FAQ on every brand page. Pure flow text (all English, no prices, no
+    # dates), references only the existing table columns, adds no external resource.
+    howto = (
+        f'<section class="howto"><h2>How to use this offer</h2><ol>'
+        f'<li>Open the official source page shown in the "Official source page" column for the row you want.</li>'
+        f'<li>Follow the instructions in the "How to get it" column to apply that offer.</li>'
+        f"<li>Before you check out, confirm the price shown on the seller's page.</li>"
+        f'</ol></section>'
+    )
     body = (
         f'<section class="hero compact"><p class="eyebrow">Official source · reviewed {review}</p>'
         f'<h1>{esc(item["h1"])}</h1><p>{esc(item["answer"])}</p>'
@@ -115,6 +125,7 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict):
         f'<section><h2>Current offers, quoted from the official pages</h2><div class="table-wrap"><table>'
         f'<thead><tr><th>Offer</th><th>How to get it</th><th>Official source page</th><th>Reviewed</th></tr></thead>'
         f'<tbody>{rows}</tbody></table></div></section>'
+        f'{howto}'
         f'<section class="faq"><h2>Frequently asked questions</h2>{faq_html}</section>'
         f'<p>{esc(item.get("closing", ""))}</p><p class="disclosure">{esc(disclaimer)}</p>'
     )
