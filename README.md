@@ -1,6 +1,6 @@
 # ErgoSeat Deals
 
-An independent US directory for ergonomic office-chair offers. The first release watches public sale pages published by Herman Miller, Steelcase, Haworth, and Branch. It only lists a reduction when the source exposes both a current price and a higher comparison price for the same product. A fetch is not a promise that a seller's price will remain available.
+An independent US directory for ergonomic office-chair offers. It watches public sale pages published by Herman Miller, Steelcase, Haworth, Branch, Flexispot, Vari, and X-Chair. It only lists a reduction when the source exposes both a current price and a higher comparison price for the same product. A fetch is not a promise that a seller's price will remain available.
 
 ## Run locally
 
@@ -11,6 +11,8 @@ python -m http.server 8000 --directory site
 ```
 
 The crawler checks each host's `robots.txt` before fetching the configured URL. It skips blocked paths, failed pages, redirects to a homepage, non-HTML pages, and records without explicit comparison prices. It makes one request per provider per scheduled run and does not use a browser, login, proxy, CAPTCHA solver, or API key.
+
+A row is kept only when the official page itself states a current price and a comparison price for the same product. Three explicit shapes are read: product records in page JSON (for example X-Chair's `price` / `compareAtPrice` pairs with the page's own `USD` declaration), a Flexispot-style server-rendered product record carrying a sale price and an original price for the same SKU list, and a Vari-style tile whose price container prints a struck-through comparison price next to the current sale price. Percent-off campaigns, clip coupons, shipping offers, and pages that expose only one price never produce a row. A currency is recorded only when the page states one.
 
 ## Configuration
 
