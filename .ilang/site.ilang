@@ -1,7 +1,7 @@
 ILANG
 ::TYPE{config|PROJECT:ergo-seat-deals|LANG:en-US}
 
-::STATE{@SITE, brand:ErgoSeat Deals, niche:ergonomic office chair deals, domain:pending-cloudflare-pages-url, base_url:}
+::STATE{@SITE, brand:ErgoSeat Deals, niche:ergonomic office chair deals, domain:deskchairdeals.com, base_url:https://deskchairdeals.com}
 
 ::MODULE{PROVIDERS|title:Public official sale pages only}
 Herman Miller | https://store.hermanmiller.com | https://store.hermanmiller.com/sale | 
@@ -17,3 +17,19 @@ title brand price currency original_price offer_url source_url valid_until fetch
 ::RULE{expiry:If valid_until is exposed and has passed, do not present the offer as current}
 ::BOUNDARY{never:Invent prices, discounts, coupons, expiry dates, affiliate IDs, or commissions|scope:permanent}
 ::BOUNDARY{crawl:Public pages only; honor robots.txt; no login, CAPTCHA, APIs, blocked paths, or anti-bot bypass|scope:permanent}
+
+::MODULE{BRAND_PAGES|title:One brand one page, official sources only}
+Secretlab | secretlab | https://www.secretlab.co
+Autonomous | autonomous | https://www.autonomous.ai
+Uplift | uplift | https://www.upliftdesk.com
+Flexispot | flexispot | https://www.flexispot.com
+Vari | vari | https://www.vari.com
+Sihoo | sihoo | https://sihoooffice.com
+Nouhaus | nouhaus | https://nouhaus.com
+Staples | staples | https://www.staples.com
+Wayfair | wayfair | https://www.wayfair.com
+Office Depot | officedepot | https://www.officedepot.com
+IKEA | ikea | https://www.ikea.com
+Overstock | overstock | https://www.overstock.com
+Humanscale | humanscale | https://www.humanscale.com
+X-Chair | xchair | https://www.xchair.com

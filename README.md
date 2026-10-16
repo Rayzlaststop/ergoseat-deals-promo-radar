@@ -16,11 +16,20 @@ The crawler checks each host's `robots.txt` before fetching the configured URL. 
 
 `.ilang/site.ilang` is the source of truth for site identity and provider URLs. Both `scraper.py` and `build.py` read it. Update a provider there; the next refresh will use the new row and the generated provider page will reflect the edit.
 
-The workflow runs on a six-hour schedule and can also be started manually. It checks sources on each run but commits only when verified offers or source status change; unchanged timestamps do not create artificial page freshness. A connected Cloudflare Pages project rebuilds the static output from a changed snapshot.
+## How the site actually updates itself
+
+Two different pipelines exist; do not confuse them.
+
+- **The live site** (project `ergoseat-deals` on Cloudflare Pages) is a **direct-upload** project: its API `source` is `null`, so no repository push can rebuild or publish it. The only publishing step is `npx wrangler pages deploy site`, run from this working copy.
+- **Daily self-update**: the Windows scheduled task `ErgoSeatDeals-DailyRefresh` runs `daily_refresh.py` once a day (09:00 local). The script runs, in order, `scraper.py` → `build.py` → `npx wrangler pages deploy site`, and appends a timestamped log to `logs/refresh.log`. It aborts before deploying if the collector or the build fails, and exits non-zero so failures are visible in Task Scheduler.
+- `scraper.py` stamps `data/offers.json` with the UTC timestamp of the run that just completed. A run that verifies zero offers still writes a real snapshot date; the homepage "Latest data snapshot" line is that run date, never a re-labelled old one.
+- **The GitHub repository** (`.github/workflows/update.yml`) runs the collector on GitHub's own runners every six hours and commits its own `data/offers.json` snapshot on that copy. It cannot publish the live site (the Pages project is not connected to it), so treat it as an independent collector, not as the deploy line. Making GitHub the publisher would require either connecting the Pages project to the repository or adding Cloudflare deploy secrets to the workflow; both are configuration changes that need the account owner.
 
 Run `python verify.py` to make a temporary `.ilang` edit and confirm both the scraper and builder read it, then check that the generated provider page and canonical URL change accordingly. This check makes no network requests and writes only to a temporary directory.
 
-For Cloudflare Pages, connect this public repository, set the build command to `python build.py`, and the output directory to `site`. Pages provides `CF_PAGES_URL`; the builder uses that deployment URL for canonical links, sitemap, and robots.txt rather than guessing a hostname.
+Run `python daily_refresh.py` by hand any time to do exactly what the scheduled task does; each run logs to `logs/refresh.log`.
+
+For Cloudflare Pages: the current project is a direct-upload project, which is why publishing uses `wrangler pages deploy site` (see "How the site actually updates itself"). If the project is ever connected to this public repository instead, set the build command to `python build.py`, the output directory to `site`, and Pages provides `CF_PAGES_URL`; the builder uses that deployment URL for canonical links, sitemap, and robots.txt rather than guessing a hostname.
 
 Affiliate destinations are intentionally blank until a program accepts the site and provides approved links. No commission is claimed or represented in this repository. Add an approved destination to the provider row only after verifying the program terms; the page already marks outbound offer links as sponsored where that applies.
 

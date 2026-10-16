@@ -160,11 +160,6 @@ def robots_allow(url: str) -> tuple[bool, str]:
 def scrape(config: dict | None = None) -> dict:
     config = config or load_config()
     checked_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
-    try:
-        previous = json.loads(OUTPUT.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError):
-        previous = {"fetched_at": "", "offers": [], "sources": []}
-    old_offers = {(row.get("brand"), row.get("title", "").casefold(), row.get("currency")): row for row in previous.get("offers", [])}
     offers, sources = [], []
     for provider in config["providers"]:
         allowed, robots_source = robots_allow(provider["source"])
@@ -181,11 +176,6 @@ def scrape(config: dict | None = None) -> dict:
                 status["result"] = "skipped: sale URL redirected to homepage"
             else:
                 found = parse_configured_offer_rows(raw, provider, checked_at)
-                for row in found:
-                    key = (row["brand"], row["title"].casefold(), row["currency"])
-                    old = old_offers.get(key)
-                    if old and all(old.get(field) == row.get(field) for field in row if field != "fetched_at"):
-                        row["fetched_at"] = old.get("fetched_at", checked_at)
                 offers.extend(found)
                 status["result"] = f"read; verified explicit markdown rows: {len(found)}"
                 status["final_url"] = final_url
@@ -197,15 +187,10 @@ def scrape(config: dict | None = None) -> dict:
         time.sleep(1)
     offers.sort(key=lambda row: (row["brand"].casefold(), row["title"].casefold()))
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    dataset = {"fetched_at": previous.get("fetched_at", ""), "offers": offers, "sources": sources}
-    def comparable(value):
-        normalized = json.loads(json.dumps(value))
-        for offer in normalized.get("offers", []):
-            offer.pop("fetched_at", None)
-        return {"offers": normalized.get("offers", []), "sources": normalized.get("sources", [])}
-    if comparable(dataset) != comparable(previous):
-        dataset["fetched_at"] = checked_at
-        OUTPUT.write_text(json.dumps(dataset, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    # The snapshot timestamp is the day this run actually completed. A run that reads
+    # zero offers still stamps the real run date; a zero result is a result.
+    dataset = {"fetched_at": checked_at, "offers": offers, "sources": sources}
+    OUTPUT.write_text(json.dumps(dataset, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     dataset["checked_at"] = checked_at
     return dataset
 
