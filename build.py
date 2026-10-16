@@ -146,10 +146,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     disclaimer = "Prices and availability can change. Always confirm details on the official seller page."
 
     card_list, deal_urls = [], []
+    # A collector provider whose slug matches a brand page keeps its own URL suffix so
+    # the two pages never overwrite each other (brand pages are written after providers).
+    brand_slugs = {row["slug"] for row in load_brand_pages(config_text)}
     default_lastmod = (re.match(r"^(\d{4}-\d{2}-\d{2})", last_update).group(1) if re.match(r"^(\d{4}-\d{2}-\d{2})", last_update) else dt.date.today().isoformat())
     sitemap_rows = [(canonical(base), default_lastmod), (canonical(base, "compare.html"), default_lastmod), (canonical(base, "about.html"), default_lastmod), (canonical(base, "contact.html"), default_lastmod), (canonical(base, "privacy.html"), default_lastmod)]
     for provider in providers:
         provider_slug = safe_slug(provider["name"])
+        if provider_slug in brand_slugs:
+            provider_slug = provider_slug + "-verified"
         path = f"providers/{provider_slug}.html"
         matching = [o for o in offers if o.get("brand") == provider["name"]]
         provider_cards = []

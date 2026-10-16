@@ -77,35 +77,161 @@ def walk(obj):
             yield from walk(value)
 
 
-def parse_configured_offer_rows(raw: str, provider: dict, fetched_at: str) -> list[dict]:
+# Explicit field names a retailer may use for a current price and a comparison
+# price on the same product record. Never infer a discount from a price alone.
+PRICE_FIELDS = ("price", "salePrice", "salePrc", "currentPrice", "finalPrice", "specialPrice", "sales")
+COMPARE_FIELDS = ("compareAtPrice", "compare_at_price", "originalPrice", "original_price",
+                  "originalPrc", "listPrice", "regularPrice", "msrp", "wasPrice")
+NAME_FIELDS = ("name", "title", "productName", "itemName")
+HANDLE_FIELDS = ("handle", "urlKey")
+
+# JS pages that ship their data as an assignment, e.g.
+#   window.__VAR__ = ({...});
+#   window._SSR_PRELOAD_DATA_ = ({...});
+JS_ASSIGN_RE = re.compile(r"(?:window\.[A-Za-z_$][\w$]*|_SSR_PRELOAD_DATA_)\s*=\s*\(")
+
+# A Magento-style price container that prints the comparison price inside <del>
+# and the current price in the "sales" span, e.g. Vari's product tiles.
+MARKUP_PRICE_BLOCK_RE = re.compile(r'<div class="price"[^>]*>[\s\S]*?</div>\s*</div>')
+MARKUP_OLD_RE = re.compile(r'<del>[\s\S]*?<span class="value" content="([0-9.]+)"')
+MARKUP_NEW_RE = re.compile(r'<span class="sales">[\s\S]*?<span class="value" content="([0-9.]+)"')
+MARKUP_LINK_RE = re.compile(r'<a class="link" href="([^"]+)"[^>]*>([^<]{3,90})</a>')
+
+
+def balanced_object(text: str, start: int) -> str | None:
+    """Return the {...} slice beginning at start, honoring strings and escapes."""
+    depth = 0
+    in_string = False
+    escaped = False
+    for index in range(start, len(text)):
+        char = text[index]
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+            continue
+        if char == '"':
+            in_string = True
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                return text[start:index + 1]
+    return None
+
+
+def iter_json_objects(raw: str):
+    """Yield every JSON document the page exposes: script JSON plus JS assignments."""
     parser = ScriptParser()
     parser.feed(raw)
-    candidates = []
     for script in parser.scripts:
         value = script.strip()
         if not value or len(value) > MAX_BYTES:
             continue
         try:
-            decoded = json.loads(html.unescape(value))
+            yield json.loads(html.unescape(value))
         except (json.JSONDecodeError, TypeError):
             continue
+    for match in JS_ASSIGN_RE.finditer(raw):
+        start = raw.find("{", match.end())
+        if start < 0:
+            continue
+        blob = balanced_object(raw, start)
+        if not blob:
+            continue
+        try:
+            yield json.loads(html.unescape(blob))
+        except (json.JSONDecodeError, TypeError):
+            continue
+
+
+def amount_of(value):
+    """Number from a number, numeric string, or an object carrying amount/value."""
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        match = re.search(r"-?\d+(?:\.\d+)?", value.replace(",", ""))
+        return float(match.group()) if match else None
+    if isinstance(value, dict):
+        for key in ("amount", "value", "price"):
+            found = amount_of(value.get(key))
+            if found is not None:
+                return found
+    return None
+
+
+def currency_of(node: dict, page_currency: str) -> str:
+    for key in ("currency", "currencyCode", "priceCurrency"):
+        code = node.get(key)
+        if isinstance(code, str) and re.fullmatch(r"[A-Z]{3}", code.strip()):
+            return code.strip()
+    return page_currency
+
+
+def page_currency(raw: str) -> str:
+    """A currency code only when the page itself states one."""
+    for pattern in (r'"currency"\s*:\s*"([A-Z]{3})"',
+                    r'"currencyCode"\s*:\s*"([A-Z]{3})"',
+                    r'Shopify\.currency\.active\s*,\s*"([A-Z]{3})"'):
+        found = re.search(pattern, raw)
+        if found:
+            return found.group(1)
+    # FlexiSpot-style pages: the price block prints a $ fee-sign and the page's own
+    # store data states site "US".
+    if re.search(r'class="fee-sign"[^>]*>\s*(?:<!--\s*-->)?\$', raw) and '"site":"US"' in raw:
+        return "USD"
+    return ""
+
+
+def row(provider: dict, title: str, current: float, comparison: float, currency: str,
+        offer_url: str, fetched_at: str) -> dict:
+    return {
+        "title": str(title).strip(), "brand": provider["name"],
+        "price": f"{current:g}", "original_price": f"{comparison:g}",
+        "currency": currency, "offer_url": offer_url,
+        "source_url": provider["source"], "valid_until": "",
+        "fetched_at": fetched_at, "affiliate_url": provider["affiliate"],
+    }
+
+
+def parse_configured_offer_rows(raw: str, provider: dict, fetched_at: str) -> list[dict]:
+    currency = page_currency(raw)
+    candidates = []
+    for decoded in iter_json_objects(raw):
         for item in walk(decoded):
             # Accept only explicit retailer fields, never infer a discount from price alone.
-            name = item.get("name") or item.get("title")
-            price = item.get("price")
-            original = item.get("compare_at_price") or item.get("original_price") or item.get("listPrice")
-            currency = item.get("priceCurrency") or item.get("currency")
+            if not isinstance(item, dict):
+                continue
+            name = next((str(item[key]).strip() for key in NAME_FIELDS
+                         if isinstance(item.get(key), str) and item[key].strip()), "")
+            if not name:
+                continue
+            current = next((amount_of(item[key]) for key in PRICE_FIELDS
+                            if key in item and amount_of(item[key]) is not None), None)
+            comparison = next((amount_of(item[key]) for key in COMPARE_FIELDS
+                               if key in item and amount_of(item[key]) is not None), None)
+            if current is None or comparison is None:
+                continue
+            if current <= 0 or comparison <= current:
+                continue
+            code = currency_of(item, currency)
+            handle = next((str(item[key]).strip() for key in HANDLE_FIELDS
+                           if isinstance(item.get(key), str) and item[key].strip()), "")
             url = item.get("url") or item.get("product_url")
             if isinstance(url, dict):
                 url = url.get("@id")
-            if not (name and price and original and currency and url):
-                continue
-            try:
-                current_value = float(re.sub(r"[^0-9.]", "", str(price)))
-                original_value = float(re.sub(r"[^0-9.]", "", str(original)))
-            except ValueError:
-                continue
-            if current_value <= 0 or original_value <= current_value:
+            if not url and handle:
+                url = f"/products/{handle}"
+            if not url:
+                url = provider["source"]
+            absolute_url = urllib.parse.urljoin(provider["source"], str(url))
+            if urllib.parse.urlparse(absolute_url).hostname != urllib.parse.urlparse(provider["home"]).hostname:
                 continue
             valid_until = item.get("priceValidUntil") or item.get("valid_until") or ""
             if valid_until:
@@ -114,20 +240,85 @@ def parse_configured_offer_rows(raw: str, provider: dict, fetched_at: str) -> li
                         continue
                 except ValueError:
                     continue
-            absolute_url = urllib.parse.urljoin(provider["source"], str(url))
-            if urllib.parse.urlparse(absolute_url).hostname != urllib.parse.urlparse(provider["home"]).hostname:
-                continue
-            candidates.append({
-                "title": str(name).strip(), "brand": provider["name"],
-                "price": f"{current_value:g}", "original_price": f"{original_value:g}",
-                "currency": str(currency).upper(), "offer_url": absolute_url,
-                "source_url": provider["source"], "valid_until": valid_until,
-                "fetched_at": fetched_at, "affiliate_url": provider["affiliate"],
-            })
+            offer = row(provider, name, current, comparison, code, absolute_url, fetched_at)
+            offer["valid_until"] = valid_until
+            candidates.append(offer)
     unique = {}
-    for row in candidates:
-        key = (row["brand"], row["title"].casefold(), row["currency"])
-        unique[key] = row
+    for offer in candidates:
+        key = (offer["brand"], offer["title"].casefold(), offer["currency"],
+               offer["price"], offer["original_price"])
+        unique[key] = offer
+    return list(unique.values())
+
+
+def parse_ssr_preload_pairs(raw: str, provider: dict, fetched_at: str) -> list[dict]:
+    """FlexiSpot-style pages: one product node carrying a SKU list whose entries
+    state an explicit sale price and an explicit original price. Only a pair from
+    the same product record counts."""
+    currency = page_currency(raw)
+    candidates = []
+    for decoded in iter_json_objects(raw):
+        for node in walk(decoded):
+            if not isinstance(node, dict):
+                continue
+            skus = node.get("shopSkuList")
+            item = node.get("itemDetail") or {}
+            item = item.get("item") if isinstance(item, dict) else {}
+            if not isinstance(item, dict):
+                continue
+            name = next((str(item[key]).strip() for key in NAME_FIELDS
+                         if isinstance(item.get(key), str) and item[key].strip()), "")
+            if not (isinstance(skus, list) and name):
+                continue
+            pairs = []
+            for sku in skus:
+                if not isinstance(sku, dict):
+                    continue
+                current = amount_of(sku.get("salePrc"))
+                comparison = amount_of(sku.get("originalPrc"))
+                if current and comparison and comparison > current > 0:
+                    pairs.append((current, comparison))
+            if not pairs:
+                continue
+            current, comparison = min(pairs)
+            candidates.append(row(provider, name, current, comparison, currency,
+                                  provider["source"], fetched_at))
+    unique = {}
+    for offer in candidates:
+        key = (offer["brand"], offer["title"].casefold(), offer["currency"],
+               offer["price"], offer["original_price"])
+        unique[key] = offer
+    return list(unique.values())
+
+
+def parse_markup_price_pairs(raw: str, provider: dict, fetched_at: str) -> list[dict]:
+    """Vari-style product tiles: a price container that prints a struck-through
+    comparison price and a current sale price, with the product link right above."""
+    candidates = []
+    for block in MARKUP_PRICE_BLOCK_RE.finditer(raw):
+        old_match = MARKUP_OLD_RE.search(block.group(0))
+        new_match = MARKUP_NEW_RE.search(block.group(0))
+        if not (old_match and new_match):
+            continue
+        comparison = float(old_match.group(1))
+        current = float(new_match.group(1))
+        if not (current > 0 and comparison > current):
+            continue
+        links = MARKUP_LINK_RE.findall(raw[:block.start()][-3000:])
+        if not links:
+            continue
+        href, title = links[-1]
+        absolute_url = urllib.parse.urljoin(provider["source"], href)
+        if urllib.parse.urlparse(absolute_url).hostname != urllib.parse.urlparse(provider["home"]).hostname:
+            continue
+        currency = "USD" if "$" in block.group(0) else ""
+        candidates.append(row(provider, title.strip(), current, comparison, currency,
+                              absolute_url, fetched_at))
+    unique = {}
+    for offer in candidates:
+        key = (offer["brand"], offer["title"].casefold(), offer["currency"],
+               offer["price"], offer["original_price"])
+        unique[key] = offer
     return list(unique.values())
 
 
@@ -175,7 +366,9 @@ def scrape(config: dict | None = None) -> dict:
             elif urllib.parse.urlparse(final_url).path in {"", "/"} and urllib.parse.urlparse(provider["source"]).path not in {"", "/"}:
                 status["result"] = "skipped: sale URL redirected to homepage"
             else:
-                found = parse_configured_offer_rows(raw, provider, checked_at)
+                found = (parse_configured_offer_rows(raw, provider, checked_at)
+                         + parse_ssr_preload_pairs(raw, provider, checked_at)
+                         + parse_markup_price_pairs(raw, provider, checked_at))
                 offers.extend(found)
                 status["result"] = f"read; verified explicit markdown rows: {len(found)}"
                 status["final_url"] = final_url
