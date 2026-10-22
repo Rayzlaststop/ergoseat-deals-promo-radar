@@ -1,7 +1,7 @@
 ILANG
 ::TYPE{config|PROJECT:ergo-seat-deals|LANG:en-US}
 
-::STATE{@SITE, brand:ErgoSeat Deals, niche:ergonomic office chair deals, domain:deskchairdeals.com, base_url:https://deskchairdeals.com}
+::STATE{@SITE, brand:DeskChairDeals, niche:ergonomic office chair deals, domain:deskchairdeals.com, base_url:https://deskchairdeals.com}
 
 ::MODULE{PROVIDERS|title:Public official sale pages only}
 Herman Miller | https://store.hermanmiller.com | https://store.hermanmiller.com/sale | 

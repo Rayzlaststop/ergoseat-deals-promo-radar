@@ -120,7 +120,20 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/additional-cylinder",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Product type",
+          "Replacement gas cylinder for an X-Chair"
+        ],
+        [
+          "Height range",
+          "The page states it accommodates various sizes and heights; no dimension table is published for this part"
+        ]
+      ],
+      "spec_note": "The product page publishes no dimensions, weight or material for this part; only the sentence about accommodating various sizes and heights was read.",
+      "for_who": "An add-on for an existing X-Chair when the owner needs a different seat-height range from the cylinder that came with the chair.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-fs-360-armrests",
@@ -131,7 +144,28 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/fs-360-armrests",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Arm pad movement",
+          "360 degrees of rotation and slide"
+        ],
+        [
+          "Armrest height",
+          "Adjustable up and down"
+        ],
+        [
+          "Locking positions",
+          "Two: straight forward or inward at 45 degrees"
+        ],
+        [
+          "Compatibility",
+          "X-Tech, X1, X2, X3, X4 and XG-Wing"
+        ]
+      ],
+      "spec_note": "The page publishes no dimensions or weight for this part.",
+      "for_who": "For owners of the listed models who want arm pads that move with them instead of staying fixed.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-fs-wheels-set-of-5",
@@ -142,7 +176,32 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/fs-wheels",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Quantity",
+          "Set of 5 wheels"
+        ],
+        [
+          "Construction",
+          "100 percent rubberized blade-style polyurethane"
+        ],
+        [
+          "Bearings",
+          "Dual-bearing design under the stem"
+        ],
+        [
+          "Stem",
+          "Standard stem dimensions, listed as fitting most standard office chairs"
+        ],
+        [
+          "Surfaces",
+          "Carpet, concrete, tile, porcelain, marble"
+        ]
+      ],
+      "spec_note": "The page publishes no wheel diameter or weight for this part.",
+      "for_who": "For anyone replacing the casters on a standard office chair, including hard floors where ordinary casters are loud or slow.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-refurbished-x-tech-ultimate-executive-office-chair",
@@ -186,7 +245,24 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/under-desk-footrest",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Frame",
+          "Polished aluminum"
+        ],
+        [
+          "Tread",
+          "Rubberized non-skid tread"
+        ],
+        [
+          "Angle",
+          "Adjustable"
+        ]
+      ],
+      "spec_note": "The page publishes no dimensions or weight for this part.",
+      "for_who": "For a desk setup where the feet need support and the angle has to change through the day.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x-hmt-heat-massage-therapy-unit",
@@ -197,7 +273,32 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/xhmt-heat-and-massage-therapy-unit",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Fits into",
+          "Dynamic Variable Lumbar (DVL) support"
+        ],
+        [
+          "Heat",
+          "Up to 131 degrees Fahrenheit"
+        ],
+        [
+          "Vibration",
+          "Constant or variable pulse"
+        ],
+        [
+          "Intensity",
+          "Two settings, gentle or powerful"
+        ],
+        [
+          "Compatibility",
+          "X-Tech, X1, X2, X3, X4, X-Basic and XG-Wing"
+        ]
+      ],
+      "spec_note": "The page publishes no dimensions or weight for this unit.",
+      "for_who": "For owners of the listed chairs who want heat and vibration in the lumbar area rather than a separate massage device.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x-tech-executive",
@@ -208,7 +309,56 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/xtech-ultimate-executive-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Overall height",
+          "48.375in - 58.375in"
+        ],
+        [
+          "Overall width",
+          "28.5in"
+        ],
+        [
+          "Overall depth",
+          "28in"
+        ],
+        [
+          "Seat height",
+          "17.5in - 20.88in"
+        ],
+        [
+          "Seat width",
+          "21.75in (dimension table)"
+        ],
+        [
+          "Seat depth",
+          "16.5in - 19.25in"
+        ],
+        [
+          "Armrest height",
+          "6in - 8.75in"
+        ],
+        [
+          "Chair weight",
+          "59.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "Premium Fabric Duo: soft-touch vegan leather Brisa combined with water-resistant A.T.R."
+        ],
+        [
+          "Seat foam",
+          "Cooling Gel Memory Foam"
+        ]
+      ],
+      "spec_note": "The dimension table on the product page lists seat width 21.75in; the description on the same page calls it the largest seat width (22 inches) we offer. Both were read on 22 October 2026 and are recorded as printed, not reconciled.",
+      "for_who": "X-Chair's own description says the X-Tech is best suited for medium to large-framed people, because it carries the largest seat width and the highest weight capacity the brand offers, and that it was built with the busy professional in mind.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x1-task",
@@ -219,7 +369,56 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x1-flex-mesh-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Overall height",
+          "46.375in - 56.375in"
+        ],
+        [
+          "Overall width",
+          "26.75in"
+        ],
+        [
+          "Overall depth",
+          "27in"
+        ],
+        [
+          "Seat height",
+          "15.56in - 19.75in"
+        ],
+        [
+          "Seat width",
+          "19.5in"
+        ],
+        [
+          "Seat depth",
+          "16in - 18in"
+        ],
+        [
+          "Armrest height",
+          "7.125in - 10.625in"
+        ],
+        [
+          "Chair weight",
+          "50.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "Flex Mesh: a soft, adaptive, breathable woven nylon"
+        ],
+        [
+          "Seat",
+          "Mesh fabric seat"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair describes the X1 as the chair for anyone upgrading from a low-quality office chair and for minimalist shoppers who want basic ergonomic features in a classic office chair design.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x2-management",
@@ -230,7 +429,52 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x2-ksport-mesh-management-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Overall height",
+          "46.5in - 56.5in"
+        ],
+        [
+          "Overall width",
+          "25.25in"
+        ],
+        [
+          "Overall depth",
+          "28in"
+        ],
+        [
+          "Seat height",
+          "15.81in - 20in"
+        ],
+        [
+          "Seat width",
+          "19.5in standard, 21.75in extended"
+        ],
+        [
+          "Seat depth",
+          "16.25in - 18in"
+        ],
+        [
+          "Armrest height",
+          "6.75in - 9.5in"
+        ],
+        [
+          "Chair weight",
+          "52.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "K-Sport advanced fabric, a tighter weave than Flex Mesh"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair sells the X2 as a high-performance mesh office chair with maximum adjustability; the standard and extended seat widths make it the model to pick when seat width is the deciding factor.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x3-headrest",
@@ -241,7 +485,24 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x3-headrest",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Adjustment",
+          "Up and down, forward and back"
+        ],
+        [
+          "Purpose",
+          "Supports the curve of the neck"
+        ],
+        [
+          "Fits",
+          "The X3, as the product name states"
+        ]
+      ],
+      "spec_note": "The page publishes no dimensions or weight for this part.",
+      "for_who": "For X3 owners who want neck support above the backrest.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x3-management",
@@ -252,7 +513,56 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x3-atr-management-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Overall height",
+          "48.25in - 58.25in"
+        ],
+        [
+          "Overall width",
+          "29in"
+        ],
+        [
+          "Overall depth",
+          "26.75in"
+        ],
+        [
+          "Seat height",
+          "17.69in - 22in"
+        ],
+        [
+          "Seat width",
+          "20.75in standard, 21.75in extended"
+        ],
+        [
+          "Seat depth",
+          "16.75in - 19.25in"
+        ],
+        [
+          "Armrest height",
+          "5.875in - 8.875in"
+        ],
+        [
+          "Chair weight",
+          "55.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "A.T.R.: a multilayered nylon that is water, spill and stain resistant"
+        ],
+        [
+          "Seat",
+          "Cushioned foam seat with a water-fall edge"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair says the X3 is for people who prefer mesh but need an extra level of support, for professionals who work from home and share a workspace, and for anyone who runs hot and benefits from breathable fabric.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x4-executive",
@@ -263,7 +573,56 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x4-leather-executive-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Overall height",
+          "48.775in - 58.375in"
+        ],
+        [
+          "Overall width",
+          "29in"
+        ],
+        [
+          "Overall depth",
+          "27.25in"
+        ],
+        [
+          "Seat height",
+          "17.5in - 20.88in"
+        ],
+        [
+          "Seat width",
+          "20.25in standard"
+        ],
+        [
+          "Seat depth",
+          "17.75in - 19.75in"
+        ],
+        [
+          "Armrest height",
+          "5.875in - 8.875in"
+        ],
+        [
+          "Chair weight",
+          "56.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Upholstery",
+          "Top-grain Italian-made leather, bleach cleanable"
+        ],
+        [
+          "Seat",
+          "Cushioned foam seat with a water-fall edge"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair reserves the X4 for people who seek performance wrapped in the standards of luxury, and describes it as the all-leather chair in the range.",
+      "spec_read_at": "2026-10-22"
     },
     {
       "_slug": "x-chair-x4-headrest",
@@ -274,7 +633,24 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/x4-headrest",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00"
+      "last_read_at": "2026-10-16T16:38:18+00:00",
+      "specs": [
+        [
+          "Adjustment",
+          "Up and down, forward and back"
+        ],
+        [
+          "Purpose",
+          "Supports the curve of the neck"
+        ],
+        [
+          "Fits",
+          "The X4, as the product name states"
+        ]
+      ],
+      "spec_note": "The page publishes no dimensions or weight for this part.",
+      "for_who": "For X4 owners who want neck support above the backrest.",
+      "spec_read_at": "2026-10-22"
     }
   ]
 }

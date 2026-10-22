@@ -18,7 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 CONFIG = ROOT / ".ilang" / "site.ilang"
 OUTPUT = ROOT / "data" / "offers.json"
-UA = "ErgoSeatDealsBot/1.0"
+UA = "DeskChairDealsBot/1.0"
 MAX_BYTES = 2_500_000
 
 

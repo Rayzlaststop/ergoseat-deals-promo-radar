@@ -144,7 +144,9 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict, featur
         {"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in item.get("faq", [])
     ]}
     structured = {"@context": "https://schema.org", "@graph": [faq_schema, breadcrumb(brand, item["h1"], url, base)]}
-    return path, url, render_page("provider.html", brand, item["title"], body, url, item["description"], structured)
+    # The site name is part of every brand-page title, so a title never reads as a
+    # different publisher from the domain.
+    return path, url, render_page("provider.html", brand, f'{item["title"]} | {brand}', body, url, item["description"], structured)
 
 
 def load_keyword_deal_pages() -> list:
@@ -247,7 +249,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     config = load_config(config_path)
     output_dir = output_dir or OUT
     site_cfg = config["site"]
-    brand = site_cfg.get("brand", "ErgoSeat Deals").strip()
+    brand = site_cfg.get("brand", "DeskChairDeals").strip()
     niche = site_cfg.get("niche", "ergonomic office chair deals").strip()
     # Pages supplies this deployment's assigned URL; no pages.dev name is guessed.
     base = (os.environ.get("CF_PAGES_URL") or os.environ.get("SITE_BASE_URL") or site_cfg.get("base_url") or "").strip().rstrip("/")
@@ -365,8 +367,12 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         {"@type": "Question", "name": "Are every seller's coupons included?", "acceptedAnswer": {"@type": "Answer", "text": "No. The site lists only price reductions the automated public-page collector can verify. Confirm all terms and availability with the seller."}},
     ]}
     index_body = f'''<section class="hero"><p class="eyebrow">Independent price watch · United States</p><h1>Ergonomic chair deals, checked at the source.</h1><p>Only explicit current and comparison prices from public seller pages appear here. No guessed coupon codes or prices.</p><p class="updated">Latest data snapshot: {esc(last_update)}</p></section><section class="toolbar"><h2>Verified price reductions</h2><a class="button secondary" href="/compare">Compare current offers</a></section>{"".join(keyword_deal_card(p, canonical(base, "deals/" + safe_slug(p["slug"]) + ".html")) for p in keyword_pages)}{"".join(deal_card(o, canonical(base, "deals/" + offer_slug(o) + ".html")) for o in offers) or empty_message()}<section><h2>Official sellers monitored</h2><div class="provider-grid">{"".join(card_list)}</div></section><section class="faq"><h2>How this list works</h2><h3>How are offers verified?</h3><p>An offer is listed only when the official public page exposes the current and comparison prices for the same product.</p><h3>Are every seller's coupons included?</h3><p>No. The collector may miss offers that are hidden behind a cart, login, or unsupported page structure. Confirm terms and availability with the seller.</p></section><p class="disclosure">{esc(disclaimer)}</p>'''
-    home_schema = {"@context": "https://schema.org", "@graph": [home_itemlist, faq]}
-    (output_dir / "index.html").write_text(render_page("index.html", brand, f"{brand} | {niche}", index_body, canonical(base), "Verified ergonomic office chair price reductions from official sellers.", home_schema), encoding="utf-8")
+    home_schema = {"@context": "https://schema.org", "@graph": [
+        # One site name for the whole site: the brand string, the domain and the
+        # homepage title all say DeskChairDeals, and this node declares it once.
+        {"@type": "WebSite", "name": brand, "url": canonical(base), "publisher": {"@type": "Organization", "name": brand, "url": canonical(base)}},
+        home_itemlist, faq]}
+    (output_dir / "index.html").write_text(render_page("index.html", brand, f"{brand} | Ergonomic chair prices, checked at the source", index_body, canonical(base), "Verified ergonomic office chair price reductions from official sellers.", home_schema), encoding="utf-8")
 
     not_found_body = '<section class="hero compact"><p class="eyebrow">404 · Page not found</p><h1>This page doesn’t exist.</h1><p>We couldn’t find the page you requested.</p><p><a class="button" href="/">Return to verified chair deals</a></p></section>'
     (output_dir / "404.html").write_text(render_page("404.html", brand, "Page not found | " + brand, not_found_body, "", "The requested page could not be found."), encoding="utf-8")
@@ -393,7 +399,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         comparison_rows.append(f'<tr><td><a href="/deals/{esc(row["_slug"])}">{esc(row["title"])}</a></td><td>{esc(row.get("brand", ""))}</td><td>Check official page</td><td></td><td><a href="{esc(row.get("source_url") or row.get("offer_url") or "#")}" rel="nofollow noopener">Source</a></td></tr>')
     compare_body = '<section class="hero compact"><p class="eyebrow">Compare</p><h1>Current verified chair offers</h1><p>Only price reductions explicitly listed by the seller are included.</p></section><div class="table-wrap"><table><thead><tr><th>Product</th><th>Brand</th><th>Current</th><th>Comparison</th><th>Evidence</th></tr></thead><tbody>' + ("".join(comparison_rows) or '<tr><td colspan="5">No verified price reductions are available yet.</td></tr>') + '</tbody></table></div>'
     compare_list = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": o["title"]} for i, o in enumerate(offers, 1)]}
-    (output_dir / "compare.html").write_text(render_page("compare.html", brand, "Compare verified ergonomic chair offers", compare_body, canonical(base, "compare.html"), "Compare current verified chair offers.", compare_list), encoding="utf-8")
+    (output_dir / "compare.html").write_text(render_page("compare.html", brand, "Compare verified ergonomic chair offers | " + brand, compare_body, canonical(base, "compare.html"), "Compare current verified chair offers.", compare_list), encoding="utf-8")
 
     (output_dir / "deals").mkdir(exist_ok=True)
     written_deals = set()
@@ -456,6 +462,24 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
                 f'{esc(money(row["original_price"], row.get("currency", "USD")))} comparison price. '
                 f'That read was not repeated on {esc(today_label)}.</p>'
             )
+        spec_rows = "".join(
+            f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (row.get("specs") or [])
+        )
+        spec_block = ""
+        if spec_rows:
+            spec_block = (
+                f'<section><h2>Specifications printed on the official page</h2>'
+                f'<p class="muted">Read from the official product page on {esc(row.get("spec_read_at") or last_read)}. '
+                f'These figures do not move with a sale.</p>'
+                f'<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Value</th></tr></thead>'
+                f'<tbody>{spec_rows}</tbody></table></div>'
+                + (f'<p class="muted">{esc(row["spec_note"])}</p>' if row.get("spec_note") else "")
+                + "</section>"
+            )
+        who_block = (
+            f'<section><h2>Who this is for</h2><p>{esc(row["for_who"])}</p></section>'
+            if row.get("for_who") else ""
+        )
         detail = (
             f'<nav class="breadcrumbs"><a href="/">Home</a> › <a href="/providers/{esc(crumb_slug)}">{esc(row.get("brand", ""))}</a></nav>'
             f'<section class="hero compact"><p class="eyebrow">Address kept · not re-read today</p>'
@@ -464,7 +488,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'<p class="price-line">Price on the official {esc(row.get("brand", ""))} page as of today</p>'
             f'<p><a class="button" href="{esc(link)}" rel="nofollow noopener">Check the price on the official page</a></p>'
             f'{last_line}'
-            f'</section><p class="disclosure">{esc(disclaimer)}</p>'
+            f'</section>{spec_block}{who_block}<p class="disclosure">{esc(disclaimer)}</p>'
         )
         jsonld = {"@context": "https://schema.org", "@graph": [breadcrumb(brand, row["title"], target, base)]}
         (output_dir / path).write_text(
@@ -472,12 +496,12 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
                         f'Address kept for {row["title"]}; price to be confirmed on the official seller page.', jsonld),
             encoding="utf-8")
 
-    about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>ErgoSeat Deals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
-    (output_dir / "about.html").write_text(render_page("provider.html", brand, "About & disclosures", about_body, canonical(base, "about.html"), "About this independent directory and its disclosures.", breadcrumb(brand, "About & disclosures", canonical(base, "about.html"), base)), encoding="utf-8")
+    about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>DeskChairDeals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
+    (output_dir / "about.html").write_text(render_page("provider.html", brand, "About & disclosures | " + brand, about_body, canonical(base, "about.html"), "About this independent directory and its disclosures.", breadcrumb(brand, "About & disclosures", canonical(base, "about.html"), base)), encoding="utf-8")
     contact_body = '<section class="hero compact"><h1>Contact</h1><p>For questions about this site, its content, or a listed seller link, email us at <a href="mailto:contact@deskchairdeals.com">contact@deskchairdeals.com</a>.</p></section>'
-    (output_dir / "contact.html").write_text(render_page("provider.html", brand, "Contact | " + brand, contact_body, canonical(base, "contact.html"), "Contact ErgoSeat Deals by email.", breadcrumb(brand, "Contact", canonical(base, "contact.html"), base)), encoding="utf-8")
+    (output_dir / "contact.html").write_text(render_page("provider.html", brand, "Contact | " + brand, contact_body, canonical(base, "contact.html"), "Contact DeskChairDeals by email.", breadcrumb(brand, "Contact", canonical(base, "contact.html"), base)), encoding="utf-8")
     privacy_body = '<section class="hero compact"><h1>Privacy</h1><p>This static site does not require an account and does not intentionally collect personal information. The hosting provider and sellers linked from this site may process standard request data under their own policies.</p><h2>Third-party advertising</h2><p>This site will display third-party advertisements. When ads are served, advertising providers may use cookies or similar technologies and process information such as standard request, browser, or device data under their own privacy policies. This site itself does not currently set advertising or analytics cookies by default.</p></section>'
-    (output_dir / "privacy.html").write_text(render_page("provider.html", brand, "Privacy", privacy_body, canonical(base, "privacy.html"), "Privacy information for this static website.", breadcrumb(brand, "Privacy", canonical(base, "privacy.html"), base)), encoding="utf-8")
+    (output_dir / "privacy.html").write_text(render_page("provider.html", brand, "Privacy | " + brand, privacy_body, canonical(base, "privacy.html"), "Privacy information for this static website.", breadcrumb(brand, "Privacy", canonical(base, "privacy.html"), base)), encoding="utf-8")
 
     (output_dir / "robots.txt").write_text("User-agent: *\nAllow: /\nSitemap: " + canonical(base, "sitemap.xml") + "\n", encoding="utf-8")
     date_match = re.match(r"^(\d{4}-\d{2}-\d{2})", last_update)
