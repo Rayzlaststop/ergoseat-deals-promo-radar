@@ -34,7 +34,10 @@ def render(template: str, values: dict) -> str:
 
 
 def canonical(base: str, path: str = "") -> str:
-    return base.rstrip("/") + "/" + path.lstrip("/")
+    url = base.rstrip("/") + "/" + path.lstrip("/")
+    if url.endswith(".html"):
+        url = url[: -len(".html")]
+    return url
 
 
 def money(value: str, currency: str) -> str:
@@ -96,7 +99,7 @@ def load_brand_pages(text: str) -> list:
     return rows
 
 
-def render_brand_page(base: str, brand: str, disclaimer: str, item: dict):
+def render_brand_page(base: str, brand: str, disclaimer: str, item: dict, featured: dict | None = None):
     """One brand, one page. First screen answers the discount-code question, then a four-column source table."""
     path = f"providers/{item['slug']}.html"
     url = canonical(base, path)
@@ -118,9 +121,17 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict):
         f"<li>Before you check out, confirm the price shown on the seller's page.</li>"
         f'</ol></section>'
     )
+    # Optional pointer from a brand page to its single-keyword price check. Rendered
+    # only when the brand entry names a page, so other brand pages stay byte-identical.
+    featured_html = (
+        f'<p class="muted">Price check with capture time: '
+        f'<a href="/deals/{esc(safe_slug(featured["slug"]))}">{esc(featured["title"])}</a>'
+        f' · {esc(featured.get("captured_label", ""))}</p>'
+    ) if featured else ""
     body = (
         f'<section class="hero compact"><p class="eyebrow">Official source · reviewed {review}</p>'
         f'<h1>{esc(item["h1"])}</h1><p>{esc(item["answer"])}</p>'
+        f'{featured_html}'
         f'<p><a href="{esc(item["home"])}" rel="nofollow noopener">Visit the official store</a></p></section>'
         f'<section><h2>Current offers, quoted from the official pages</h2><div class="table-wrap"><table>'
         f'<thead><tr><th>Offer</th><th>How to get it</th><th>Official source page</th><th>Reviewed</th></tr></thead>'
@@ -134,6 +145,100 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict):
     ]}
     structured = {"@context": "https://schema.org", "@graph": [faq_schema, breadcrumb(brand, item["h1"], url, base)]}
     return path, url, render_page("provider.html", brand, item["title"], body, url, item["description"], structured)
+
+
+def load_keyword_deal_pages() -> list:
+    """Single-keyword deal pages, keyed by slug. One source for the page itself and
+    for every internal link that points at it."""
+    source = ROOT / "data" / "deal_pages.json"
+    if not source.exists():
+        return []
+    return json.loads(source.read_text(encoding="utf-8")).get("pages", [])
+
+
+def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir: Path) -> list:
+    """One keyword, one page. Content comes from data/deal_pages.json, which stores
+    only prices read from an official page on the recorded capture date. The first
+    screen states the answer, the price and the capture time before anything else.
+    Returns sitemap rows; writes no page that already exists."""
+    source = ROOT / "data" / "deal_pages.json"
+    if not source.exists():
+        return []
+    pages = load_keyword_deal_pages()
+    rows_out = []
+    for item in pages:
+        path = f"deals/{safe_slug(item['slug'])}.html"
+        url = canonical(base, path)
+        review = esc(item.get("review_date", ""))
+        captured = esc(item.get("captured_at", ""))
+        captured_label = esc(item.get("captured_label", ""))
+        table_rows = []
+        for row in item.get("rows", []):
+            current = money(row["price"], "USD")
+            if row.get("list"):
+                original = money(row["list"], "USD")
+                cut = round((float(row["list"]) - float(row["price"])) / float(row["list"]) * 100)
+                cut_cell = f'<span class="badge">{cut}% lower</span>'
+            else:
+                original, cut_cell = "Not published", ""
+            table_rows.append(
+                f'<tr><td><a href="{esc(row["url"])}" rel="nofollow noopener">{esc(row["product"])}</a></td>'
+                f'<td><strong>{esc(current)}</strong></td><td>{esc(original)}</td><td>{cut_cell}</td>'
+                f'<td>{esc(row.get("note", ""))}</td></tr>'
+            )
+        sections = "".join(
+            f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{esc(p)}</p>" for p in block.get("paras", [])) + "</section>"
+            for block in item.get("sections", [])
+        )
+        unconfirmed = "".join(f"<li>{esc(line)}</li>" for line in item.get("unconfirmed", []))
+        unconfirmed_html = (
+            f'<section><h2>{esc(item.get("unconfirmed_heading", "What this page does not confirm"))}</h2>'
+            f'<ul class="unconfirmed">{unconfirmed}</ul></section>' if unconfirmed else ""
+        )
+        faq_html = "".join(f'<h3>{esc(q["q"])}</h3><p>{esc(q["a"])}</p>' for q in item.get("faq", []))
+        link = item.get("internal_link") or {}
+        link_html = f'<p><a href="{esc(link["href"])}">{esc(link["text"])}</a></p>' if link.get("href") else ""
+        body = (
+            f'<nav class="breadcrumbs"><a href="/">Home</a> › <span>Deals</span></nav>'
+            f'<section class="hero compact"><p class="eyebrow">Official source · single capture {captured_label}</p>'
+            f'<h1>{esc(item["h1"])}</h1><p>{esc(item["answer"])}</p>'
+            f'<p>{esc(item["answer_second"])}</p>'
+            f'<p class="muted">{esc(item.get("answer_note", ""))}</p>'
+            f'<p><a class="button" href="{esc(item["hero_link"])}" rel="nofollow noopener">{esc(item.get("hero_link_text", "Open the official page"))}</a></p></section>'
+            f'<section><h2>{esc(item.get("table_heading", "Prices captured from the official store"))}</h2>'
+            f'<p>{esc(item.get("table_intro", ""))}</p><div class="table-wrap"><table>'
+            f'<thead><tr><th>Chair</th><th>Price now</th><th>Regular price</th><th>Cut</th><th>Variants and notes</th></tr></thead>'
+            f'<tbody>{"".join(table_rows)}</tbody></table></div>'
+            f'<p class="muted">Captured {captured} · Reviewed {review}</p></section>'
+            f'{sections}{unconfirmed_html}'
+            f'<section class="faq"><h2>Frequently asked questions</h2>{faq_html}</section>'
+            f'<p>{esc(item.get("closing", ""))}</p>{link_html}<p class="disclosure">{esc(disclaimer)}</p>'
+        )
+        faq_schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+            {"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in item.get("faq", [])
+        ]}
+        # One Product node per table row, so every Offer can carry the fields the
+        # seller page actually printed: image and availability. Fields that were
+        # not read stay absent; nothing is guessed. aggregateRating and review are
+        # never emitted, because no rating or review data is collected.
+        product_schemas = []
+        for row in item.get("rows", []):
+            offer_node = {"@type": "Offer", "price": row["price"], "priceCurrency": "USD", "url": row["url"]}
+            if row.get("image"):
+                offer_node["image"] = row["image"]
+            if row.get("availability"):
+                offer_node["availability"] = "https://schema.org/" + row["availability"]
+            product_node = {"@context": "https://schema.org", "@type": "Product", "name": row["product"], "description": item.get("description", ""), "url": url, "offers": offer_node}
+            if row.get("image"):
+                product_node["image"] = row["image"]
+            product_schemas.append(product_node)
+        graph = [faq_schema, breadcrumb(brand, item["h1"], url, base)]
+        graph = product_schemas + graph
+        page = render_page("deal.html", brand, item["title"], body, url, item["description"], {"@context": "https://schema.org", "@graph": graph})
+        (output_dir / path).parent.mkdir(parents=True, exist_ok=True)
+        (output_dir / path).write_text(page, encoding="utf-8")
+        rows_out.append((url, review))
+    return rows_out
 
 
 def main(config_path: Path | None = None, output_dir: Path | None = None):
@@ -173,6 +278,8 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # Brand content (status, rows, faq) is needed both here (to decide live vs
     # dropped redirects) and below (to render live brand pages), so load it once.
     brand_data = json.loads(BRAND_DATA.read_text(encoding="utf-8")).get("brands", {}) if BRAND_DATA.exists() else {}
+    keyword_pages = load_keyword_deal_pages()
+    keyword_by_slug = {page["slug"]: page for page in keyword_pages}
     default_lastmod = (re.match(r"^(\d{4}-\d{2}-\d{2})", last_update).group(1) if re.match(r"^(\d{4}-\d{2}-\d{2})", last_update) else dt.date.today().isoformat())
     sitemap_rows = [(canonical(base), default_lastmod), (canonical(base, "compare.html"), default_lastmod), (canonical(base, "about.html"), default_lastmod), (canonical(base, "contact.html"), default_lastmod), (canonical(base, "privacy.html"), default_lastmod)]
     for provider in providers:
@@ -184,15 +291,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
                 collector_slug = safe_slug(provider["name"])
                 if collector_slug in brand_slugs:
                     collector_slug = collector_slug + "-verified"
-                redirects.append((f"providers/{collector_slug}.html", f"providers/{brand_row['slug']}.html"))
+                redirects.append((f"providers/{collector_slug}", f"providers/{brand_row['slug']}"))
             elif item and item.get("status") == "dropped":
                 # No live page to publish: 301 the collector URL and the brand slot
                 # to the chosen target so the old empty shell is never served.
                 target = item.get("redirect_to") or "/"
                 collector_slug = safe_slug(provider["name"])
-                redirects.append((f"providers/{brand_row['slug']}.html", target))
+                redirects.append((f"providers/{brand_row['slug']}", target))
                 if collector_slug in brand_slugs:
-                    redirects.append((f"providers/{collector_slug}-verified.html", target))
+                    redirects.append((f"providers/{collector_slug}-verified", target))
             # Missing or neither-live-nor-dropped brand data: emit nothing.
             continue
         provider_slug = safe_slug(provider["name"])
@@ -207,7 +314,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         offer_schema = [{"@type": "Offer", "price": o["price"], "priceCurrency": o["currency"], "url": o.get("affiliate_url") or o["offer_url"]} for o in matching]
         structured = {"@context": "https://schema.org", "@type": "Service", "name": provider["name"] + " verified chair offers", "url": canonical(base, path), "provider": {"@type": "Organization", "name": provider["name"], "url": provider["home"]}, "offers": offer_schema} if offer_schema else breadcrumb(brand, provider["name"], canonical(base, path), base)
         (output_dir / path).write_text(render_page("provider.html", brand, provider["name"] + " chair deals", body, canonical(base, path), "Official ergonomic chair offer data from the seller.", structured), encoding="utf-8")
-        card_list.append(f'<a class="provider-link" href="/{esc(path)}"><strong>{esc(provider["name"])}</strong><span>{len(matching)} verified offer(s)</span></a>')
+        card_list.append(f'<a class="provider-link" href="/{esc(path[:-5] if path.endswith('.html') else path)}"><strong>{esc(provider["name"])}</strong><span>{len(matching)} verified offer(s)</span></a>')
         sitemap_rows.append((canonical(base, path), default_lastmod))
 
     for row in brand_rows:
@@ -217,11 +324,16 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             continue
         item = dict(item)
         item.update({"slug": row["slug"], "name": row["name"], "home": row["home"]})
-        path, url, page = render_brand_page(base, brand, disclaimer, item)
+        featured = keyword_by_slug.get(item.get("featured_deal")) if item.get("featured_deal") else None
+        path, url, page = render_brand_page(base, brand, disclaimer, item, featured)
         (output_dir / path).parent.mkdir(parents=True, exist_ok=True)
         (output_dir / path).write_text(page, encoding="utf-8")
         sitemap_rows.append((url, esc(item.get("review_date", default_lastmod))))
-        card_list.append(f'<a class="provider-link" href="/{esc(path)}"><strong>{esc(row["name"])}</strong><span>{len(item.get("rows", []))} sourced offer(s) · reviewed {esc(item.get("review_date", ""))}</span></a>')
+        card_list.append(f'<a class="provider-link" href="/{esc(path[:-5] if path.endswith('.html') else path)}"><strong>{esc(row["name"])}</strong><span>{len(item.get("rows", []))} sourced offer(s) · reviewed {esc(item.get("review_date", ""))}</span></a>')
+
+    # Standalone single-keyword deal pages. Additive by design: each entry renders
+    # one new address and adds it to the sitemap; no existing page is rewritten.
+    sitemap_rows.extend(render_keyword_deal_pages(base, brand, disclaimer, output_dir))
 
     home_itemlist = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
         {"@type": "ListItem", "position": index, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": o["title"]} for index, o in enumerate(offers, 1)
@@ -230,7 +342,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         {"@type": "Question", "name": "How are offers verified?", "acceptedAnswer": {"@type": "Answer", "text": "An offer is listed only when the public official source exposes a current price and a higher comparison price for the same product."}},
         {"@type": "Question", "name": "Are every seller's coupons included?", "acceptedAnswer": {"@type": "Answer", "text": "No. The site lists only price reductions the automated public-page collector can verify. Confirm all terms and availability with the seller."}},
     ]}
-    index_body = f'''<section class="hero"><p class="eyebrow">Independent price watch · United States</p><h1>Ergonomic chair deals, checked at the source.</h1><p>Only explicit current and comparison prices from public seller pages appear here. No guessed coupon codes or prices.</p><p class="updated">Latest data snapshot: {esc(last_update)}</p></section><section class="toolbar"><h2>Verified price reductions</h2><a class="button secondary" href="/compare.html">Compare current offers</a></section>{"".join(deal_card(o, canonical(base, "deals/" + offer_slug(o) + ".html")) for o in offers) or empty_message()}<section><h2>Official sellers monitored</h2><div class="provider-grid">{"".join(card_list)}</div></section><section class="faq"><h2>How this list works</h2><h3>How are offers verified?</h3><p>An offer is listed only when the official public page exposes the current and comparison prices for the same product.</p><h3>Are every seller's coupons included?</h3><p>No. The collector may miss offers that are hidden behind a cart, login, or unsupported page structure. Confirm terms and availability with the seller.</p></section><p class="disclosure">{esc(disclaimer)}</p>'''
+    index_body = f'''<section class="hero"><p class="eyebrow">Independent price watch · United States</p><h1>Ergonomic chair deals, checked at the source.</h1><p>Only explicit current and comparison prices from public seller pages appear here. No guessed coupon codes or prices.</p><p class="updated">Latest data snapshot: {esc(last_update)}</p></section><section class="toolbar"><h2>Verified price reductions</h2><a class="button secondary" href="/compare">Compare current offers</a></section>{"".join(keyword_deal_card(p, canonical(base, "deals/" + safe_slug(p["slug"]) + ".html")) for p in keyword_pages)}{"".join(deal_card(o, canonical(base, "deals/" + offer_slug(o) + ".html")) for o in offers) or empty_message()}<section><h2>Official sellers monitored</h2><div class="provider-grid">{"".join(card_list)}</div></section><section class="faq"><h2>How this list works</h2><h3>How are offers verified?</h3><p>An offer is listed only when the official public page exposes the current and comparison prices for the same product.</p><h3>Are every seller's coupons included?</h3><p>No. The collector may miss offers that are hidden behind a cart, login, or unsupported page structure. Confirm terms and availability with the seller.</p></section><p class="disclosure">{esc(disclaimer)}</p>'''
     home_schema = {"@context": "https://schema.org", "@graph": [home_itemlist, faq]}
     (output_dir / "index.html").write_text(render_page("index.html", brand, f"{brand} | {niche}", index_body, canonical(base), "Verified ergonomic office chair price reductions from official sellers.", home_schema), encoding="utf-8")
 
@@ -238,8 +350,20 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     (output_dir / "404.html").write_text(render_page("404.html", brand, "Page not found | " + brand, not_found_body, "", "The requested page could not be found."), encoding="utf-8")
 
     comparison_rows = []
+    # Keyword deal pages lead the table: each one carries a capture date, which is
+    # what the collector rows cannot show.
+    for page in keyword_pages:
+        if not page.get("rows"):
+            continue
+        first = page["rows"][0]
+        comparison_rows.append(
+            f'<tr><td><a href="/deals/{esc(safe_slug(page["slug"]))}">{esc(page["title"])}</a></td>'
+            f'<td>{esc(page.get("brand", ""))}</td><td>{esc(money(first["price"], "USD"))}</td>'
+            f'<td>{esc(money(first["list"], "USD")) if first.get("list") else ""}</td>'
+            f'<td><a href="{esc(page["hero_link"])}" rel="nofollow noopener">Source</a></td></tr>'
+        )
     for offer in offers:
-        product_path = "deals/" + offer_slug(offer) + ".html"
+        product_path = "deals/" + offer_slug(offer)
         comparison_rows.append(f'<tr><td><a href="/{esc(product_path)}">{esc(offer["title"])}</a></td><td>{esc(offer["brand"])}</td><td>{esc(money(offer["price"], offer["currency"]))}</td><td>{esc(money(offer["original_price"], offer["currency"]))}</td><td><a href="{esc(offer["source_url"])}" rel="nofollow noopener">Source</a></td></tr>')
     compare_body = '<section class="hero compact"><p class="eyebrow">Compare</p><h1>Current verified chair offers</h1><p>Only price reductions explicitly listed by the seller are included.</p></section><div class="table-wrap"><table><thead><tr><th>Product</th><th>Brand</th><th>Current</th><th>Comparison</th><th>Evidence</th></tr></thead><tbody>' + ("".join(comparison_rows) or '<tr><td colspan="5">No verified price reductions are available yet.</td></tr>') + '</tbody></table></div>'
     compare_list = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": o["title"]} for i, o in enumerate(offers, 1)]}
@@ -265,12 +389,20 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         structured = {"@context": "https://schema.org", "@type": "Product", "name": offer["title"], "brand": {"@type": "Brand", "name": offer["brand"]}, "offers": {"@type": "Offer", "url": link, "price": offer["price"], "priceCurrency": offer["currency"]}}
         if offer.get("valid_until"):
             structured["offers"]["priceValidUntil"] = offer["valid_until"]
+        # Only fields the collector actually read are emitted: image and availability
+        # stay absent when the source page did not expose them. aggregateRating and
+        # review are never emitted because no rating data is collected.
+        if offer.get("image"):
+            structured["image"] = offer["image"]
+            structured["offers"]["image"] = offer["image"]
+        if offer.get("availability"):
+            structured["offers"]["availability"] = "https://schema.org/" + offer["availability"]
         if offer.get("affiliate_url"):
             structured["offers"]["seller"] = {"@type": "Organization", "name": offer["brand"]}
         rel = "nofollow sponsored noopener" if offer.get("affiliate_url") else "nofollow noopener"
         crumb_row = brand_by_norm.get(normalize_name(offer["brand"]))
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
-        crumb = f'<a href="/providers/{crumb_slug}.html">{esc(offer["brand"])}</a>'
+        crumb = f'<a href="/providers/{crumb_slug}">{esc(offer["brand"])}</a>'
         detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section><p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, offer["title"], target, base)]}
         (output_dir / path).write_text(render_page("deal.html", brand, f'{offer["title"]} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
@@ -305,6 +437,24 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
 def deal_card(offer, url):
     current, original = money(offer["price"], offer["currency"]), money(offer["original_price"], offer["currency"])
     return f'<article class="deal-card"><p class="eyebrow">{esc(offer["brand"])}</p><h3><a href="{esc(url)}">{esc(offer["title"])}</a></h3><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Source</a></p></article>'
+
+
+def keyword_deal_card(page: dict, url: str) -> str:
+    """Listing card for a single-keyword deal page. Same shape as a deal card, but
+    the capture time is the point of the entry, so it is printed on the card."""
+    first = (page.get("rows") or [{}])[0]
+    price_html = ""
+    if first.get("price"):
+        price_html = f'<p class="price-line"><strong>{esc(money(first["price"], "USD"))}</strong>'
+        if first.get("list"):
+            price_html += f' <del>{esc(money(first["list"], "USD"))}</del>'
+        price_html += "</p>"
+    return (
+        f'<article class="deal-card"><p class="eyebrow">{esc(page.get("brand", ""))} · price check</p>'
+        f'<h3><a href="{esc(url)}">{esc(page["title"])}</a></h3>{price_html}'
+        f'<p class="muted">Captured {esc(page.get("captured_at", ""))} · {len(page.get("rows", []))} chairs listed · '
+        f'<a href="{esc(page["hero_link"])}" rel="nofollow noopener">Source</a></p></article>'
+    )
 
 
 def empty_message():

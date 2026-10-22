@@ -1,0 +1,615 @@
+{
+  "_note": "Standalone, single-keyword deal pages. Each row must come from an official seller page captured on captured_at. build.py renders one page per entry and adds it to the sitemap; no other page is touched.",
+  "pages": [
+    {
+      "slug": "sihoo-doro-c300-discount",
+      "brand": "Sihoo",
+      "keyword": "sihoo doro c300 discount",
+      "review_date": "2026-10-17",
+      "captured_at": "2026-10-17T08:50:00+00:00",
+      "captured_label": "17 October 2026, 08:50 UTC",
+      "title": "Sihoo Doro C300 Discount: Pro V2 $429.99, C300 $279.99",
+      "description": "Checked at sihoo.com on 17 October 2026: the Sihoo Doro C300 Pro V2 is $429.99 against a $499.99 list price, with code BOO20 taking a further $20 off. The Sihoo C300 is a different chair at $279.99.",
+      "h1": "Sihoo Doro C300 discount: the Pro V2 is $429.99, the C300 is $279.99",
+      "answer": "The Sihoo Doro C300 Pro V2 discount, checked on 17 October 2026, is $429.99 on sihoo.com against a $499.99 regular price: a $70 cut, plus a further $20 off with the code BOO20 shown on the same product page.",
+      "answer_second": "The Sihoo C300 is a different chair, listed at $279.99 against a $559.99 regular price on the same day. The two models differ in the seat, the back support and the price, so the table below keeps them on separate rows rather than treating them as one product.",
+      "answer_note": "Prices on this page were read from Sihoo's own US store on 17 October 2026 at 08:50 UTC. No reseller price, coupon-site percentage, or news-post figure is used.",
+      "hero_link": "https://www.sihoo.com/products/doro-c300-pro-v2",
+      "hero_link_text": "Open the Doro C300 Pro V2 page at sihoo.com",
+      "table_heading": "Sihoo chair prices on 17 October 2026",
+      "table_intro": "Every row below is a current price and a higher regular price published by Sihoo for the same chair on the same page. The cut column is arithmetic on those two numbers: (regular price minus current price) divided by regular price, rounded to the nearest whole percent.",
+      "rows": [
+        {
+          "product": "Sihoo Doro C300 Pro V2",
+          "price": "429.99",
+          "list": "499.99",
+          "note": "Black / Standard Version. Footrest $469.99, White / Standard $439.99, White / Footrest $479.99.",
+          "url": "https://www.sihoo.com/products/doro-c300-pro-v2",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/6_7fb99ba5-fe21-4fc7-8fc3-88888eaced99.webp?v=1776389401"
+        },
+        {
+          "product": "Sihoo C300",
+          "price": "279.99",
+          "list": "559.99",
+          "note": "Not the Doro C300 Pro V2. Black / Standard Version. Footrest $329.99, White / Standard $289.99, White / Footrest $339.99.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/C300-b.webp?v=1744277516"
+        },
+        {
+          "product": "Sihoo C300 Pro",
+          "price": "359.99",
+          "list": "789.99",
+          "note": "Black / Standard Version. Footrest $399.99, White / Standard $369.99, White / Footrest $409.99.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/ebb08df6c238d9c8a9cbbb6d195a7ac1.jpg?v=1760578394"
+        },
+        {
+          "product": "Sihoo Doro S300",
+          "price": "599.99",
+          "list": "999.99",
+          "note": "Black. White is $609.99.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/S300-B.webp?v=1753960507"
+        },
+        {
+          "product": "Sihoo M59AS",
+          "price": "239.99",
+          "list": "449.99",
+          "note": "Gray and black are the same price.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/33eb04dca434bcd0046beda759158838.webp?v=1760430984"
+        },
+        {
+          "product": "Sihoo M57",
+          "price": "239.99",
+          "list": "319.99",
+          "note": "Black, gray and white are the same price.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/B2_ab2f6195-8a31-4a6b-8f41-6c74b1f7ce33.webp?v=1744277596"
+        },
+        {
+          "product": "Sihoo M18",
+          "price": "169.99",
+          "list": "289.99",
+          "note": "Black, black with skate wheels, white and blue. Green and pink were marked sold out.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/1482.webp?v=1744277624"
+        },
+        {
+          "product": "Sihoo B100 Pro",
+          "price": "299.99",
+          "list": "",
+          "note": "No regular price was published on the page, so no cut is shown. Standard version was marked sold out; footrest version listed at $299.99.",
+          "url": "https://www.sihoo.com/pages/new-customer-discount",
+          "image": "https://cdn.shopify.com/s/files/1/0632/8192/2264/files/black-jt-b100-pro.webp?v=1775615359"
+        }
+      ],
+      "sections": [
+        {
+          "h2": "Why the coupon pages and this page disagree",
+          "paras": [
+            "Coupon aggregators answer the Sihoo Doro C300 discount question with one sitewide number, usually a range such as 6% to 50% off, plus a count of active codes. Those pages do not carry a date on the price itself and they do not distinguish one chair from another.",
+            "Sihoo's own store does the opposite: it prints a current price and a regular price per chair, and the size of the cut changes by model. On 17 October 2026 the measured cuts ran from 14% on the Doro C300 Pro V2 to 54% on the C300 Pro. A single sitewide percentage cannot describe that spread, which is why the table above lists each chair separately."
+          ]
+        },
+        {
+          "h2": "The code on the Doro C300 Pro V2 page",
+          "paras": [
+            "The product page carried a Halloween promotion on 17 October 2026: the line Extra $20 Off, a click-to-apply control, and the code BOO20. The code sits on top of the $429.99 sale price rather than replacing it.",
+            "Sihoo also publishes a second $20 code on a different page: NEW20, recorded on the new-customer page at sihoo.com/pages/new-customer-discount when the Sihoo brand page was checked on 16 October 2026. NEW20 and BOO20 are two separate codes with the same face value, and neither page says which of the two applies to a given order. Whether they can be stacked on one order is not stated anywhere on the site, so this page records that as unconfirmed instead of picking one for you.",
+            "The page did not state an end date for BOO20, and it did not state whether the code applies to the footrest and white variants at the same value. Those two points are recorded as unconfirmed below rather than assumed."
+          ]
+        }
+      ],
+      "unconfirmed_heading": "What this page does not confirm",
+      "unconfirmed": [
+        "The expiry date of code BOO20. No end date was printed on the product page on 17 October 2026.",
+        "Which of the two $20 codes, NEW20 or BOO20, applies to a single order, and whether they can be stacked. Neither page states it, and confirming it would require completing a checkout, which this page does not do.",
+        "Whether NEW20 is still active. On 17 October 2026 the new-customer page showed the marked-down prices but not the NEW20 wording, so the code is recorded from the 16 October 2026 read of that page.",
+        "Whether the $20 applies to the footrest, white, or other variant prices. Only the standard black listing was read.",
+        "Prices on Sihoo stores outside the United States. Only the US store was checked.",
+        "Tax, shipping cost and final order total. The page records listed prices only."
+      ],
+      "faq": [
+        {
+          "q": "Is there a Sihoo Doro C300 discount code right now?",
+          "a": "Yes. On 17 October 2026 the Doro C300 Pro V2 product page showed the code BOO20 with the line Extra $20 Off. The larger saving is the automatic markdown: $429.99 against a $499.99 regular price."
+        },
+        {
+          "q": "Is BOO20 the same code as NEW20?",
+          "a": "No. NEW20 is published on Sihoo's new-customer page and BOO20 on the Doro C300 Pro V2 product page, and both are worth $20. Sihoo does not say which one applies to a given order, and whether the two can be stacked is not stated anywhere, so that question stays open on this page."
+        },
+        {
+          "q": "How much does the Sihoo Doro C300 Pro V2 cost today?",
+          "a": "$429.99 for the black standard version, against a $499.99 regular price, as read on sihoo.com on 17 October 2026 at 08:50 UTC."
+        },
+        {
+          "q": "Is the Sihoo C300 the same chair as the Doro C300?",
+          "a": "No. Sihoo lists them as separate chairs with separate prices. The C300 was $279.99 against $559.99, while the Doro C300 Pro V2 was $429.99 against $499.99, on the same day."
+        },
+        {
+          "q": "Do the sitewide percentages on coupon sites apply to every Sihoo chair?",
+          "a": "No. Measured per chair on 17 October 2026, the cuts ranged from 14% to 54%. A sitewide headline percentage describes none of the individual listings exactly."
+        },
+        {
+          "q": "How current is this page?",
+          "a": "It records a single capture made on 17 October 2026 at 08:50 UTC. It is not a live feed, and Sihoo can change a price at any time."
+        }
+      ],
+      "closing": "Prices and availability on sihoo.com change without notice. Confirm the price on the seller page before you check out. Shipping, returns and warranty terms for this brand are collected on the Sihoo page.",
+      "internal_link": {
+        "href": "/providers/sihoo",
+        "text": "Sihoo shipping, returns and warranty terms"
+      }
+    },
+    {
+      "slug": "nouhaus-discount-code",
+      "brand": "Nouhaus",
+      "keyword": "nouhaus discount code",
+      "review_date": "2026-10-19",
+      "captured_at": "2026-10-19T06:29:00+00:00",
+      "captured_label": "19 October 2026, 06:29 UTC",
+      "title": "Nouhaus Discount Code: None Published, Ergo3D $299.99 on 19 October 2026",
+      "description": "Read on nouhaus.com on 19 October 2026: no discount code is published on the homepage, the chair collection or any product page read that day. The saving that is published is an automatic markdown — the Ergo3D is $299.99 against a $499.99 regular price.",
+      "h1": "Nouhaus discount code: none published; the Ergo3D is $299.99 against $499.99",
+      "answer": "No Nouhaus discount code is published on nouhaus.com as of 19 October 2026. The homepage, the office-chair collection and ten chair and stool product pages were read that day, and none of them printed a code. What the site publishes instead is automatic markdowns: the Ergo3D Ergonomic Office Chair is listed at $299.99 against a $499.99 regular price on the same page, a $200 cut measured on those two numbers. This conclusion covers only those twelve pages as read on that day: it does not cover the whole site, and it does not cover places that cannot be read from outside, such as email, chat or abandoned-cart offers.",
+      "answer_second": "Code claims about Nouhaus circulate on coupon sites instead. On 19 October 2026 those pages advertised percentages such as 10%, 15% and 20% off and code strings such as COLUMBUS2, but none of those strings appears anywhere on the official store pages read that day, and none was tested at a checkout, so this page records them as third-party claims rather than as offers.",
+      "answer_note": "Every price on this page was read from nouhaus.com on 19 October 2026 at 06:29 UTC. No coupon-site percentage, reseller price or news-post figure is used, and no code is listed unless the official store printed it.",
+      "hero_link": "https://www.nouhaus.com/products/ergo3d",
+      "hero_link_text": "Open the Ergo3D page at nouhaus.com",
+      "table_heading": "Nouhaus chair prices on 19 October 2026",
+      "table_intro": "Every row below is a sale price and a higher regular price published by Nouhaus for the same chair. The cut column is arithmetic on those two numbers: (regular price minus sale price) divided by regular price, rounded to the nearest whole percent. Where the collection page carries its own percentage badge that disagrees with those two prices, the badge is quoted in the notes column instead of being used for the calculation.",
+      "rows": [
+        {
+          "product": "Nouhaus Ergo3D Ergonomic Office Chair",
+          "price": "299.99",
+          "list": "499.99",
+          "note": "Bestseller, 268 reviews on the listing. In stock: the product page carried an Add to cart control. The collection badge reads Save 40%.",
+          "url": "https://www.nouhaus.com/products/ergo3d",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/1_1cbf8f0f-dbc8-4c2d-bbe9-9343de10e85b.jpg?v=1782705408",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Posture Ergonomic PU Leather Office Chair",
+          "price": "309.99",
+          "list": "469.99",
+          "note": "PU leather, 135 reviews. In stock: Add to cart present. Badge reads Save 34%.",
+          "url": "https://www.nouhaus.com/products/posture",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/preview_images/b5efedaf8ca34446987097af4b8f5e50.thumbnail.0000000000.jpg?v=1776999384",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Apertura Ergonomic Office Chair",
+          "price": "279.99",
+          "list": "499.99",
+          "note": "47 reviews. In stock: Add to cart present. Badge reads Save 44%, the largest badge on the collection page that day.",
+          "url": "https://www.nouhaus.com/products/nouhaus-apertura-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/d647fdc5-5f8d-4d63-ac2f-3fef086cafd3_2.jpg?v=1778811804",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Ergo Fluido X1 Ergonomic Office Chair",
+          "price": "299.99",
+          "list": "499.99",
+          "note": "51 reviews. In stock: Add to cart present. Badge reads Save 40%. The X1-versus-X2 module on the same product page shows From $329.99 for both chairs, which does not match the $299.99 listing price above.",
+          "url": "https://www.nouhaus.com/products/nouhaus-ergo-fluido-x1-premium-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/preview_images/cb3c9f5707c9407c8645be0592133d8d.thumbnail.0000000000.jpg?v=1774861389",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Ergo Strato X2 Ergonomic Office Chair",
+          "price": "329.99",
+          "list": "499.99",
+          "note": "52 reviews. In stock: Add to cart present. Badge reads Save 34%.",
+          "url": "https://www.nouhaus.com/products/nouhaus-ergo-strato-x2-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/preview_images/c732970eddaa4a76af7cffa7c8efdca4.thumbnail.0000000000.jpg?v=1774862202",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Ergo Morph Ergonomic Office Chair",
+          "price": "329.99",
+          "list": "499.99",
+          "note": "12 reviews. In stock: Add to cart present. Badge reads Save 34%.",
+          "url": "https://www.nouhaus.com/products/nouhaus-ergo-morph-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/b_change_the_backgroun_bf87ca1d-df2c-4d12-b52a-ac79e24695f1.jpg?v=1772422990",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus Ergo Poise Standing Desk Stool",
+          "price": "119.99",
+          "list": "199.99",
+          "note": "Backless standing-desk stool, 4 reviews. In stock: Add to cart present. Badge reads Save 40%.",
+          "url": "https://www.nouhaus.com/products/nouhaus-ergo-poise-standing-desk-stool-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/3_e8beeb2c-2bba-403d-8d52-3c7f54a80ee9.jpg?v=1769071133",
+          "availability": "InStock"
+        },
+        {
+          "product": "Nouhaus ErgoFit Ergonomic Mesh Office Chair",
+          "price": "169.99",
+          "list": "229.99",
+          "note": "26 reviews. Marked Sold out on the collection page and no Add to cart control on the product page. Badge reads Save 26%.",
+          "url": "https://www.nouhaus.com/products/nouhaus-egro-fit",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/4fe40f089696834c4906303a743d01c5.jpg?v=1773826576",
+          "availability": "SoldOut"
+        },
+        {
+          "product": "Nouhaus Ergo3DL Ergonomic Office Chair",
+          "price": "229.99",
+          "list": "399.99",
+          "note": "8 reviews. Marked Sold out on the collection page. That page's badge reads Save 29% while its own two prices give 43%, so the site's numbers do not agree on this chair.",
+          "url": "https://www.nouhaus.com/products/nouhaus-ergo3dl-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/gemini_0_9152134f.jpg?v=1774935395",
+          "availability": "SoldOut"
+        },
+        {
+          "product": "Nouhaus ErgoPro Ergonomic Office Chair",
+          "price": "499.99",
+          "list": "699.99",
+          "note": "4 reviews. Marked Sold out on the collection page. Badge reads Save 29%.",
+          "url": "https://www.nouhaus.com/products/nouhaus%C2%AE-ergopro-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0263/3426/5378/files/gemini_0_137379ba.jpg?v=1773044718",
+          "availability": "SoldOut"
+        }
+      ],
+      "sections": [
+        {
+          "h2": "Why the coupon pages and the official store disagree",
+          "paras": [
+            "Coupon sites answer the Nouhaus question with one sitewide percentage and a count of codes. The top results on 19 October 2026 advertised 15% off, 10% off and 20% off, and named strings such as COLUMBUS2. None of those pages dates the price of a specific chair, and none of the strings was printed on the official pages read for this page.",
+            "The official store does the opposite. It prints a sale price and a regular price per chair, and the size of the cut changes by model: on 19 October 2026 the measured cuts ran from 26% on the ErgoFit to 44% on the Apertura. A single sitewide percentage describes none of the individual listings exactly, which is why the table above lists each chair on its own row.",
+            "The same product pages were read on 16 October 2026 for the Nouhaus brand page, and the prices recorded there match the 19 October 2026 read: no code appeared then either, and the markdowns were unchanged."
+          ]
+        },
+        {
+          "h2": "What was checked for a code",
+          "paras": [
+            "The pages read for a code on 19 October 2026 were the homepage, the office-chair collection, and the product pages for the Ergo3D, Posture, Apertura, Ergo Fluido X1, Ergo Strato X2, Ergo Morph, Ergo Poise, ErgoFit, Ergo3DL and ErgoPro. None printed a coupon or promo code.",
+            "What the homepage does publish is a price-match arrangement, quoted as \"Found a better price elsewhere? We'll match it—contact us before checkout.\" That is arranged by contacting the store before the order rather than by entering a code, and it is recorded as a match offer rather than as a discount code.",
+            "Codes listed by third parties were not tested. Testing one would mean completing a checkout, which this page does not do, so those claims stay in the unconfirmed list below rather than being repeated as fact."
+          ]
+        }
+      ],
+      "unconfirmed_heading": "What this page does not confirm",
+      "unconfirmed": [
+        "Whether Nouhaus publishes any code that is not on the public pages read on 19 October 2026, for example in email, chat or after an abandoned cart.",
+        "Whether the codes advertised by coupon sites, such as COLUMBUS2 or the advertised 10%, 15% and 20% off, still work. None was tested at a checkout.",
+        "The end date of the markdowns. No expiry date was printed on the pages read on 19 October 2026, and not finding a date does not mean the markdown is permanent.",
+        "Whether every colourway costs the same. Only the default listing of each chair was read, and the Ergo Fluido X1 page itself shows From $329.99 in its comparison module against a $299.99 listing price, which points to variant pricing that was not read chair by chair.",
+        "Whether the three sold-out chairs, the Ergo3DL, ErgoFit and ErgoPro, return to stock, and at what price.",
+        "Prices on Nouhaus stores outside the United States. Only the US store was read.",
+        "Shipping, tax and the final order total. The homepage states \"Get free shipping on all orders within the U.S.\", but the conditions behind that line were not read on 19 October 2026."
+      ],
+      "faq": [
+        {
+          "q": "Is there a Nouhaus discount code right now?",
+          "a": "None was published on the Nouhaus pages read on 19 October 2026: the homepage, the office-chair collection and ten chair and stool product pages all came back without a code. The saving that is published is an automatic markdown, such as the Ergo3D at $299.99 against a $499.99 regular price."
+        },
+        {
+          "q": "How much is the Nouhaus Ergo3D?",
+          "a": "$299.99 against a $499.99 regular price, read from the Ergo3D product page on 19 October 2026. The same two prices were recorded on 16 October 2026."
+        },
+        {
+          "q": "Do the coupon-site codes like COLUMBUS2 work?",
+          "a": "Unconfirmed. Coupon sites advertised that code and percentages of 10% to 20% off on 19 October 2026, but no such string appears on the official Nouhaus pages read that day, and none was tested at a checkout, so this page does not present them as available."
+        },
+        {
+          "q": "Which Nouhaus chair has the biggest cut?",
+          "a": "Measured on the two prices Nouhaus published on 19 October 2026, the Apertura was $279.99 against $499.99, which is 44% off, followed by the Ergo3DL at $229.99 against $399.99, which is 43% on those two numbers. The collection page's own badge for the Ergo3DL reads Save 29%, so the site's two figures disagree on that chair."
+        },
+        {
+          "q": "Does Nouhaus offer a price match?",
+          "a": "Yes, as a contact-the-store arrangement rather than a code. The homepage badge reads \"Found a better price elsewhere? We'll match it—contact us before checkout.\" Read on 19 October 2026."
+        },
+        {
+          "q": "How current is this page?",
+          "a": "It records a single capture made on 19 October 2026 at 06:29 UTC. It is not a live feed, and Nouhaus can change a price at any time."
+        }
+      ],
+      "closing": "Prices and availability on nouhaus.com change without notice. Confirm the price on the seller page before you check out. Shipping, returns, warranty and price-match terms for this brand are collected on the Nouhaus page.",
+      "internal_link": {
+        "href": "/providers/nouhaus",
+        "text": "Nouhaus shipping, returns, warranty and price-match terms"
+      }
+    },
+    {
+      "slug": "hbada-discount-code",
+      "brand": "HBADA",
+      "keyword": "hbada discount code",
+      "review_date": "2026-10-19",
+      "captured_at": "2026-10-19T07:20:00+00:00",
+      "captured_label": "19 October 2026, 07:20 UTC",
+      "title": "HBADA Discount Code: NEMS5 and NEMS7 Printed on the Site, E3 Pro $486.99 on 19 October 2026",
+      "description": "Read on hbada.com on 19 October 2026: the National Ergonomics Month sale page publishes codes NEMS5, NEMS7, MORE6, MORE7 and PRIME5, valid Oct 14 through Oct 28 (11:59 PM PDT). The E3 Pro is $486.99 against a $659.00 regular price.",
+      "h1": "HBADA discount code: NEMS5, NEMS7 and the October sale prices as printed on 19 October 2026",
+      "answer": "HBADA prints discount codes on its official pages as of 19 October 2026. None of them was tested at a checkout, so this page records only that they are printed on the page, not that they work. The National Ergonomics Month sale page lists PRIME5 as an extra 5% off orders over $300 and cannot be combined with More6 / More7, the E3 Pro product page shows NEMS5 with the line Extra 5% off, and the X7 product page shows NEMS7 with the line Extra 7% off; the multi-item codes MORE6 (6% off 2 chairs) and MORE7 (7% off 3+ chairs) are printed on the sale page and the E3 Pro page. The sale terms read The Promotion is valid from Oct 14 through Oct 28 (11:59 PM PDT). The markdowns under those codes are automatic and sit in the price column: the E3 Pro 2026 Edition is $486.99 against a $659.00 regular price on its product page, a $172.01 cut measured on those two numbers. This page covers only the HBADA pages read on that day, listed below; it does not cover the whole site, and it does not cover places that cannot be read from outside, such as email, chat or abandoned-cart offers.",
+      "answer_second": "The codes themselves are not uniform across the site. The 5% offer appears with two different names on two different pages of the same store on the same day: PRIME5 on the sale page and NEMS5 on the E3 Pro product page, each worth an extra 5% off. Neither page states that they are the same offer, and neither states whether the two can be combined, so that stays in the unconfirmed list below rather than being resolved here.",
+      "answer_note": "Every price and code on this page was read from hbada.com on 19 October 2026 at 07:20 UTC. Each code is recorded as printed on the page that carried it; none was entered at a checkout, so none is recorded here as confirmed working. HBADA can change a price, a code or the sale window at any time.",
+      "hero_link": "https://hbada.com/pages/national-ergonomics-month-sale",
+      "hero_link_text": "Open the National Ergonomics Month sale page at hbada.com",
+      "table_heading": "HBADA prices and codes captured on 19 October 2026",
+      "table_intro": "Every row gives the current price and the regular price HBADA published for the same chair on the same day. The cut column is arithmetic on those two numbers: (regular price minus current price) divided by regular price, rounded to the nearest whole percent. Where HBADA printed its own percentage badge that disagrees with that arithmetic, the badge is quoted verbatim in the notes instead of being used for the calculation. Rows with no published regular price are marked Not published and no cut is calculated for them.",
+      "rows": [
+        {
+          "product": "HBADA E3 Pro Ergonomic Office Chair 2026 Edition, Black / Without Footrest",
+          "price": "486.99",
+          "list": "659.00",
+          "note": "Product page: Sale price $486.99, Regular price $659.00, SAVE $172.01, badge 26% OFF. Same page shows Extra 5% off with code NEMS5 and a Copy control. The With Footrest variant is listed at $538.99.",
+          "url": "https://hbada.com/products/hbada-e3-pro-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/E3Pro2026Blackwithfootrestergonomicofficechairfront.png?v=1789613865",
+          "availability": "InStock"
+        },
+        {
+          "product": "HBADA E3 Pro Ergonomic Office Chair 2026 Edition, Gray / Without Footrest",
+          "price": "486.99",
+          "list": "659.00",
+          "note": "Sale page lists the gray edition at the same two prices and the same 26% OFF badge as the black edition. Same product URL.",
+          "url": "https://hbada.com/products/hbada-e3-pro-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/E3Pro2026Blackwithfootrestergonomicofficechairfront.png?v=1789613865",
+          "availability": "InStock"
+        },
+        {
+          "product": "HBADA E3 Pro Ergonomic Office Chair 2026 Edition, With Footrest",
+          "price": "538.99",
+          "list": "",
+          "note": "Variant price on the E3 Pro product page. The page did not print a regular price for the footrest variant, so no cut is calculated. Not published.",
+          "url": "https://hbada.com/products/hbada-e3-pro-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/E3Pro2026Blackwithfootrestergonomicofficechairfront.png?v=1789613865"
+        },
+        {
+          "product": "HBADA E3 Pro Ergonomic Office Chair, Pink / With Footrest (4D adjustable armrests)",
+          "price": "399.00",
+          "list": "699.00",
+          "note": "Sale page listing: $399.00 against $699.00, badge 42% OFF. The 4D armrest wording and the pink colourway do not appear on the E3 Pro 2026 Edition page read the same day.",
+          "url": "https://hbada.com/pages/national-ergonomics-month-sale"
+        },
+        {
+          "product": "HBADA E3 Air Ergonomic Office Chair 2026 Edition, Black or Gray / Without Footrest",
+          "price": "359.00",
+          "list": "499.00",
+          "note": "Product page: Sale price $359.00, Regular price $499.00, SAVE $140. Sale page repeats it for both black and gray at 28% OFF.",
+          "url": "https://hbada.com/products/hbada-e3-air-ergonomic-office-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/E3AIR2026BlackwithfootrestErgonomicofficechairfront.png?v=1789613911",
+          "availability": "InStock"
+        },
+        {
+          "product": "HBADA E3 Air Ergonomic Office Chair 2026 Edition, With Footrest",
+          "price": "397.00",
+          "list": "549.00",
+          "note": "Sale page: $397.00 against $549.00 with the badge 27% OFF. Arithmetic on those two prices rounds to 28%, so the badge and the two numbers disagree on this chair.",
+          "url": "https://hbada.com/pages/national-ergonomics-month-sale",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/E3AIR2026BlackwithfootrestErgonomicofficechairfront.png?v=1789613911"
+        },
+        {
+          "product": "HBADA E3 Ultra Ergonomic Office Chair, Gray",
+          "price": "499.00",
+          "list": "809.00",
+          "note": "Sale page and the E3 Pro product page cross-sell both show $499.00 against $809.00, badge 38% OFF.",
+          "url": "https://hbada.com/products/hbada-e3-ergonomic-office-chair-futuristicwith-footrest-white",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/hbada_e3_ultra_ergonomic_chair_black_white-background_graph.webp?v=1789614983",
+          "availability": "InStock"
+        },
+        {
+          "product": "HBADA X7 Smart Ergonomic Office Chair with AI Lumbar Support, Gray",
+          "price": "1169.00",
+          "list": "1509.00",
+          "note": "Product page: Sale price $1,169.00, Regular price $1,509.00, SAVE $340. Badge on the sale page reads 22% OFF while the arithmetic on those two prices rounds to 23%. The page shows Extra 7% off with code NEMS7, and Buy X7 Gray/Black, get a free extra battery ($99 value). Two official pages do not agree on this chair: the E3 Pro product page cross-sell shows the same X7 listing at $999.00 against $1,399.00 on the same day, and this row uses the X7 product page's own two numbers rather than picking between them.",
+          "url": "https://hbada.com/products/hbada-x7-smart-ergonomic-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/X7-withfootrest-gray-11.png?v=1792143117",
+          "availability": "InStock"
+        },
+        {
+          "product": "HBADA X7 Smart Ergonomic Office Chair, Black",
+          "price": "1329.00",
+          "list": "",
+          "note": "Sale page lists $1,329.00 with the label $180 off but prints no regular price for the black edition; the $1,509.00 on that page belongs to the row labelled X7, not X7 Black. No cut is calculated. Not published.",
+          "url": "https://hbada.com/pages/national-ergonomics-month-sale",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/X7-withfootrest-gray-11.png?v=1792143117"
+        },
+        {
+          "product": "HBADA X7 Air Smart Ergonomic Office Chair",
+          "price": "999.00",
+          "list": "",
+          "note": "Variant listed on the X7 product page at $999.00 with no regular price printed there. The same $999.00 figure appears on the E3 Pro product page cross-sell paired with $1,399.00, so two official pages of the same store show this listing with two different pairings on the same day. Recorded as printed; no cut is calculated. Not published.",
+          "url": "https://hbada.com/products/hbada-x7-smart-ergonomic-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/HBADA_X7_AIR-1-1.png?v=1789614039"
+        },
+        {
+          "product": "HBADA X7 Prestige Smart Ergonomic Office Chair",
+          "price": "1699.00",
+          "list": "",
+          "note": "Variant price on the X7 product page model list. No regular price printed for it that day. Not published.",
+          "url": "https://hbada.com/products/hbada-x7-smart-ergonomic-chair",
+          "image": "https://cdn.shopify.com/s/files/1/0552/3626/4128/files/X7_P-1006.png?v=1791280033"
+        }
+      ],
+      "sections": [
+        {
+          "h2": "The codes, page by page, as printed on 19 October 2026",
+          "paras": [
+            "PRIME5 appears on the sale page with the wording Apply this code at checkout to enjoy an extra 5% off orders over $300, combined with the product discount. Cannot be combined with multi-item discounts (More6 / More7). The same page also describes a Sitewide 5% OFF, Auto-Applied, Orders Over $300.",
+            "NEMS5 appears on the E3 Pro 2026 Edition product page as Extra 5% off with a Copy control next to it. NEMS7 appears on the X7 product page as Extra 7% off with a Copy control next to it. The two codes sit on two different product pages of the same store on the same day, and neither page mentions the other.",
+            "MORE6 and MORE7 appear on the sale page as 6% OFF 2 Pieces and 7% OFF 3+ Pieces, and on the E3 Pro page as Buy More & Save More, Extra 6% OFF on 2 chairs with MORE6, or 7% OFF on 3+ chairs with MORE7. The sale page also advertises up to 6% for Military, Healthcare Workers, Teachers and Students after ID.me verification, and a $99 extra battery free with any X7 Gray or Black.",
+            "The E3 Air product page read on the same day showed its sale price and SAVE line but no code badge in the read, so no code is recorded for that page here. A code that is not printed on a page is not a code this page will quote."
+          ]
+        },
+        {
+          "h2": "Where the store's own numbers disagree",
+          "paras": [
+            "The X7 is the clearest case. The sale page badge reads 22% OFF while the two prices printed on the X7 product page, $1,169.00 and $1,509.00, give 340 divided by 1509, which rounds to 23%. Both figures come from the same store on the same day.",
+            "The E3 Air with footrest shows the same pattern at a smaller scale: the badge reads 27% OFF against prices of $397.00 and $549.00, while the arithmetic on those two numbers rounds to 28%.",
+            "The X7 carries two different prices on two official pages of the same store on the same day. The X7 product page shows $1,169.00 against a $1,509.00 regular price, and the E3 Pro product page cross-sell shows the same X7 listing at $999.00 against $1,399.00. This page uses the X7 product page's two numbers for the table and records the cross-sell pair in the notes column instead of choosing one figure as the current price.",
+            "The X7 carries two different prices on two official pages of the same store on the same day. The X7 product page shows $1,169.00 against a $1,509.00 regular price, and the E3 Pro product page cross-sell shows the same X7 listing at $999.00 against $1,399.00. This page uses the X7 product page's two numbers for the table and records the cross-sell pair in the notes column instead of choosing one figure as the current price.",
+            "The 5% offer carries two names. The sale page calls it PRIME5 and the E3 Pro product page calls it NEMS5, both described as an extra 5% off. No page read that day states whether the two strings are the same offer, whether both work, or whether they can be combined with NEMS7 or with MORE6 and MORE7. Nothing on this page resolves that.",
+            "The same product pages were read on 16 October 2026 for the HBADA brand page, where the codes recorded were More6, More7 and PRIME5. The names NEMS5 and NEMS7 were not part of that read, so the code list on the store has changed since then, or was incomplete then; this page records only what was printed on 19 October 2026."
+          ]
+        }
+      ],
+      "unconfirmed_heading": "What this page does not confirm",
+      "unconfirmed": [
+        "Whether PRIME5 (sale page) and NEMS5 (E3 Pro product page) are the same 5% offer under two names. Neither page states it, and no checkout was run to test either string.",
+        "Whether NEMS5 and NEMS7 can be combined with each other or stacked on the same order. The only stacking rule printed is the sale page line that the $300 5% offer cannot be combined with More6 / More7; nothing was printed about NEMS7 stacking.",
+        "Whether NEMS7 belongs to the X7 page only. It was printed on the X7 product page and nowhere else in the pages read, and whether it works on other chairs was not tested.",
+        "Which chairs NEMS5 applies to. It was printed on the E3 Pro page only, and the E3 Air page read the same day showed no code badge, so its coverage is unknown.",
+        "Whether prices and codes revert after the sale window. The terms read The Promotion is valid from Oct 14 through Oct 28 (11:59 PM PDT), and what the prices become on 29 October is not published.",
+        "The regular prices of the X7 Black, X7 Air and X7 Prestige listings. Only a sale-page $180 off label and two variant list prices were published, so no cut is calculated for those three rows.",
+        "Shipping, tax, ID.me eligibility and the final order total. The pages read state 2-5 business day free delivery, a 30-day in-home trial and up to 6% for verified ID.me groups, but the conditions behind those lines were not read."
+      ],
+      "faq": [
+        {
+          "q": "Is there a HBADA discount code right now?",
+          "a": "Yes, several are printed on hbada.com as of 19 October 2026: PRIME5 on the National Ergonomics Month sale page (extra 5% off orders over $300), NEMS5 on the E3 Pro product page (extra 5% off), NEMS7 on the X7 product page (extra 7% off), plus MORE6 for 6% off 2 chairs and MORE7 for 7% off 3 or more chairs. The sale terms read valid from Oct 14 through Oct 28 (11:59 PM PDT)."
+        },
+        {
+          "q": "Are PRIME5 and NEMS5 the same code?",
+          "a": "Unconfirmed. Both are described as an extra 5% off, but PRIME5 is printed on the sale page and NEMS5 on the E3 Pro product page, and no page read on 19 October 2026 states whether they are the same offer or whether both work. Neither was tested at a checkout."
+        },
+        {
+          "q": "Can the codes be combined?",
+          "a": "Only one stacking rule was printed: the sale page says the $300 5% offer Cannot be combined with multi-item discounts (More6 / More7). Whether NEMS7 stacks with anything, and whether the 5% offer can stack with itself under its two names, was not stated on any page read."
+        },
+        {
+          "q": "How much is the HBADA E3 Pro?",
+          "a": "$486.99 against a $659.00 regular price on the E3 Pro 2026 Edition product page, read on 19 October 2026, with the line SAVE $172.01. The With Footrest variant on the same page is listed at $538.99 without a printed regular price."
+        },
+        {
+          "q": "Which HBADA chair has the biggest published cut?",
+          "a": "Measured on the two prices HBADA published on 19 October 2026, the pink E3 Pro with footrest at $399.00 against $699.00 is 42% off, followed by the E3 Air at $359.00 against $499.00 at 28%. The X7 Black, X7 Air and X7 Prestige have no published regular price, so they are left out of the comparison."
+        },
+        {
+          "q": "How current is this page?",
+          "a": "It records a single capture made on 19 October 2026 at 07:20 UTC from the HBADA pages listed on it. It is not a live feed, and HBADA can change a price or a code at any time."
+        }
+      ],
+      "closing": "Prices and availability on hbada.com change without notice. Confirm the price and the code on the seller page before you check out. Shipping, returns, warranty and ID.me terms for this brand are collected on the HBADA page.",
+      "internal_link": {
+        "href": "/providers/hbada",
+        "text": "HBADA shipping, returns, warranty and ID.me terms"
+      }
+    },
+    {
+      "slug": "flexispot-discount-code",
+      "brand": "FlexiSpot",
+      "keyword": "flexispot discount code",
+      "review_date": "2026-10-22",
+      "captured_at": "2026-10-22T10:20:00+00:00",
+      "captured_label": "22 October 2026, 10:20 UTC",
+      "title": "FlexiSpot Discount Code: No Checkout Code Printed, C7 Chair $299.99 on 22 October 2026",
+      "description": "Read on flexispot.com on 22 October 2026: no checkout code is printed on the official pages. The C7 chair page shows automatic markdowns from $299.99 against a $429.99 regular price, plus two claimable quantity coupons (10% off 6 items, 5% off 3 items).",
+      "h1": "FlexiSpot discount code: no checkout code printed on the official pages as of 22 October 2026",
+      "answer": "No checkout code is printed on the FlexiSpot pages read on 22 October 2026. The C7 chair product page carries a coupon widget labelled Claim 10% Coupon > with two claimable quantity coupons, 10% off6 Item(s) and 5% off3 Item(s), and the price cuts in the table below are automatic markdowns that need no code: the Premium Ergonomic Office Chair (C7) is $299.99 against a $429.99 regular price, a 30% cut on those two numbers. A read of the same page on 16 October 2026 recorded the code strings C7FA3OFF and CHAIR6OFF; neither string was in the page when it was read on 22 October 2026, and no code on this page was tested at a checkout. This page covers only the FlexiSpot pages read on that day, listed below; it does not cover the whole site, and it does not cover places that cannot be read from outside, such as email, chat or abandoned-cart offers.",
+      "answer_second": "Two savings channels are printed on the official pages today and neither needs a code string. The coupon widget on the C7 product page shows the two quantity tags above; clicking either raised a Coupon received successful toast, and the page prints no code. The official page at flexispot.com/deals/limited-coupons-for-e7-c7-family is titled Limited Coupons on E7&C7 Ergonomic Workspace | FlexiSpot and reads Explore eligible E7 Family Premium Standing Desks and C7 Family Ergonomic Chairs with tiered savings; its product cards show current and regular prices with markdown badges such as -$100, -$50 and -$300, again with no code string printed. A subscribe block on that page reads Subscribe & Get $30 Off, and the site footer links four ID-verified programs: Medical Discount, Student & Graduate Discount, Military Discount and Teacher Discount.",
+      "answer_note": "Every price and offer on this page was read from flexispot.com on 22 October 2026. The six chair prices come from the official C7 product page as read by this site's collector at 01:00 UTC; the base C7 row was re-read in a browser at 10:15 UTC the same day and showed the same two numbers. No code was entered at a checkout, so nothing on this page is recorded as confirmed working. FlexiSpot can change a price, a coupon or a sale window at any time.",
+      "hero_link": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "hero_link_text": "Open the official C7 chair page at flexispot.com",
+      "table_heading": "FlexiSpot C7 chair prices captured on 22 October 2026",
+      "table_intro": "Every row gives the current price and the regular price FlexiSpot published for the same chair variant on the same page on the same day. The cut column is arithmetic on those two numbers: (regular price minus current price) divided by regular price, rounded to the nearest whole percent. No percentage badge from the site was used in the calculation. All six variants are selected on one product page, so every row links to the same official URL; the variant titles are quoted as listed there. No code is needed for any price in this table.",
+      "rows": [
+        {
+          "product": "Premium Ergonomic Office Chair (C7)",
+          "price": "299.99",
+          "list": "429.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page. Current price $299.99 against the regular price $429.99 printed on the same page, a 30% cut on those two numbers. Read by this site's collector at 01:00 UTC and re-read in a browser at 10:15 UTC on 22 October 2026; both reads showed the same two numbers. The page shows Add to Cart at $299.99 for this variant."
+        },
+        {
+          "product": "Premium Ergonomic Office Chair (C7) - variant C7 Mesh",
+          "price": "319.99",
+          "list": "449.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page, variant title C7 Mesh as listed there. Current price $319.99 against the regular price $449.99 printed on the same page. Read by this site's collector at 01:00 UTC on 22 October 2026; not re-read in a second pass."
+        },
+        {
+          "product": "Premium Ergonomic Office Chair (C7) - variant C7MB-foam",
+          "price": "429.99",
+          "list": "559.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page, variant title C7MB-foam as listed there. Current price $429.99 against the regular price $559.99 printed on the same page. Read by this site's collector at 01:00 UTC on 22 October 2026; not re-read in a second pass."
+        },
+        {
+          "product": "Premium Ergonomic Office Chair (C7) - variant C7MB-foam-FT",
+          "price": "469.99",
+          "list": "599.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page, variant title C7MB-foam-FT as listed there. Current price $469.99 against the regular price $599.99 printed on the same page. Read by this site's collector at 01:00 UTC on 22 October 2026; not re-read in a second pass."
+        },
+        {
+          "product": "Premium Ergonomic Office Chair (C7) - variant C7MB-M1",
+          "price": "449.99",
+          "list": "579.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page, variant title C7MB-M1 as listed there. Current price $449.99 against the regular price $579.99 printed on the same page. Read by this site's collector at 01:00 UTC on 22 October 2026; not re-read in a second pass."
+        },
+        {
+          "product": "Premium Ergonomic Office Chair (C7) - variant C7MB-M2",
+          "price": "489.99",
+          "list": "619.99",
+          "url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+          "note": "Official C7 product page, variant title C7MB-M2 as listed there. Current price $489.99 against the regular price $619.99 printed on the same page. Read by this site's collector at 01:00 UTC on 22 October 2026; not re-read in a second pass."
+        }
+      ],
+      "sections": [
+        {
+          "h2": "The coupon widget on the C7 product page, read on 22 October 2026",
+          "paras": [
+            "The price block on the C7 product page carries a widget labelled Claim 10% Coupon >. Expanding it shows two tags: 10% off6 Item(s) and 5% off3 Item(s). Clicking either tag raised a Coupon received successful toast on the page, and a Service is busy. Please try again later toast also appeared during the same read. No code string is printed anywhere in the widget, in the page source, or in the rendered page.",
+            "A read of the same product page on 16 October 2026 recorded two code strings on that page: Code: C7FA3OFF with 5% off and 3 Item(s), and Code: CHAIR6OFF with 10% off and 6 Item(s). Neither string was present in the page source or in the rendered page when the page was read on 22 October 2026. This page therefore records the quantity coupons as claimable tags without a printed code, and does not record the 16 October codes as working today."
+          ]
+        },
+        {
+          "h2": "The E7 & C7 coupon page, the subscribe offer and the ID-verified programs",
+          "paras": [
+            "The official page at flexispot.com/deals/limited-coupons-for-e7-c7-family is titled Limited Coupons on E7&C7 Ergonomic Workspace | FlexiSpot and reads Explore eligible E7 Family Premium Standing Desks and C7 Family Ergonomic Chairs with tiered savings. Its product cards show current and regular prices with markdown badges, for example -$100 on the E7 Pro at $399.99 against $499.99 and -$300 on the Fusion Stria at $1,099.99 against $1,399.99. No code string is printed on that page.",
+            "The same page carries a subscribe block reading Subscribe & Get $30 Off with the line Stay ahead of every FlexiSpot sale - sign up for early event alerts and members-only deals. The site footer links four ID-verified programs: Medical Discount, Student & Graduate Discount, Military Discount and Teacher Discount. Their discount sizes and terms were not read on 22 October 2026."
+          ]
+        },
+        {
+          "h2": "How this page was read",
+          "paras": [
+            "Nothing on this page was tested at a checkout. The prices were read from public pages, the coupon tags were clicked in a browser without signing in, and the result of an actual order is not something this page can see."
+          ]
+        }
+      ],
+      "unconfirmed_heading": "What this page does not confirm",
+      "unconfirmed": [
+        "Whether C7FA3OFF or CHAIR6OFF still works: both strings were recorded on the C7 product page on 16 October 2026, neither was printed in the page on 22 October 2026, and neither was tested at a checkout.",
+        "Whether the claimable quantity coupons apply a code at checkout or bind to an account: the widget shows a claim action and a success toast, but no code string is printed on the page.",
+        "The terms behind Subscribe & Get $30 Off: the block was read on the E7 & C7 coupon page, but no minimum order or expiry was printed in today's read. A 16 October 2026 read recorded a popup reading Subscribe to enjoy your extra sitewide $ 30 OFF on orders $ 500+.; that popup was not re-read on 22 October 2026.",
+        "The discount sizes and verification steps for the Medical, Student & Graduate, Military and Teacher programs: only the footer links were read on 22 October 2026.",
+        "Whether all six variant prices apply to every color and frame combination: only the variant titles listed in the table were read.",
+        "Chair shipping estimates: the product page showed Estimated shipping by: Late October 2026 for two accessory items; no shipping date for the chair itself was read.",
+        "Whether the Fall Sale banner on the homepage links to the same prices as the C7 product page: the banner is a link and its target was not read on 22 October 2026."
+      ],
+      "faq": [
+        {
+          "q": "Is there a FlexiSpot discount code on 22 October 2026?",
+          "a": "No checkout code is printed on the FlexiSpot pages read on 22 October 2026. The C7 product page shows a coupon widget with two claimable quantity coupons, 10% off6 Item(s) and 5% off3 Item(s), and the sale prices in the table are automatic markdowns that need no code."
+        },
+        {
+          "q": "What is the cheapest C7 chair price read today?",
+          "a": "The Premium Ergonomic Office Chair (C7) was read at $299.99 against a $429.99 regular price on 22 October 2026, a 30% cut on those two numbers. That row was re-read in a browser at 10:15 UTC the same day and matched."
+        },
+        {
+          "q": "Do I need a code to get the sale price?",
+          "a": "No. The prices in the table are the published current prices on the official product page; no code was entered and none is required to see them."
+        },
+        {
+          "q": "What were C7FA3OFF and CHAIR6OFF?",
+          "a": "They are the code strings a 16 October 2026 read of the same C7 product page recorded: C7FA3OFF for 5% off three to five chairs and CHAIR6OFF for 10% off six to ten chairs. Neither string was printed in the page when it was read on 22 October 2026, and neither was tested at a checkout."
+        },
+        {
+          "q": "How does the $30 off work?",
+          "a": "The E7 & C7 coupon page prints Subscribe & Get $30 Off with the line Stay ahead of every FlexiSpot sale - sign up for early event alerts and members-only deals. The terms behind that offer, including any minimum order, were not printed in today's read."
+        },
+        {
+          "q": "Does FlexiSpot offer student or military discounts?",
+          "a": "The site footer links four ID-verified programs: Medical Discount, Student & Graduate Discount, Military Discount and Teacher Discount. The discount sizes and verification steps were not read on 22 October 2026."
+        }
+      ],
+      "closing": "Prices and offers on this page were read from flexispot.com on 22 October 2026 and can change at any time. Confirm the final price and any terms at the official page before buying.",
+      "internal_link": {
+        "href": "/providers/flexispot",
+        "text": "FlexiSpot shipping, returns, warranty and sale terms"
+      }
+    }
+  ]
+}
