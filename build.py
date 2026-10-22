@@ -66,6 +66,17 @@ def offer_slug(offer: dict) -> str:
     return safe_slug(offer.get("brand", "") + "-" + offer.get("title", ""))
 
 
+def display_title(value) -> str:
+    """Seller product names arrive machine-concatenated: the variant suffix is glued
+    on with a stray hyphen, so one page reads 'Management- Standard Width' and another
+    'Executive - Standard Width'. Both are the same product name with the same typo,
+    so one rule fixes the whole batch at render time. The source data keeps the string
+    exactly as the seller printed it; only the display form is normalised, and a slug
+    never changes because of this."""
+    text = re.sub(r"\s*-\s+", " · ", str(value or "").strip())
+    return re.sub(r"\s{2,}", " ", text)
+
+
 def values(brand, title, body, url, description, jsonld=""):
     return {"BRAND": esc(brand), "TITLE": esc(title), "DESCRIPTION": esc(description), "CANONICAL": esc(url), "BODY": body, "JSONLD": jsonld, "FOOT": "This site will display third-party ads, and some links may be affiliate links that earn us a commission if you make a purchase."}
 
@@ -350,7 +361,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         status = next((s.get("result", "not yet checked") for s in data.get("sources", []) if s.get("provider") == provider["name"]), "not yet checked")
         kept_cards = [
             f'<article class="deal-card"><p class="eyebrow">{esc(r.get("brand", ""))}</p>'
-            f'<h3><a href="/deals/{esc(r["_slug"])}">{esc(r["title"])}</a></h3>'
+            f'<h3><a href="/deals/{esc(r["_slug"])}">{esc(display_title(r["title"]))}</a></h3>'
             f'<p class="muted">Address kept · not re-read today · price on the official page</p></article>'
             for r in retained_rows if normalize_name(r.get("brand", "")) == normalize_name(provider["name"])
         ]
@@ -382,7 +393,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     sitemap_rows.extend(render_keyword_deal_pages(base, brand, disclaimer, output_dir))
 
     home_itemlist = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
-        {"@type": "ListItem", "position": index, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": o["title"]} for index, o in enumerate(offers, 1)
+        {"@type": "ListItem", "position": index, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": display_title(o["title"])} for index, o in enumerate(offers, 1)
     ]}
     faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": "How are offers verified?", "acceptedAnswer": {"@type": "Answer", "text": "An offer is listed only when the public official source exposes a current price and a higher comparison price for the same product."}},
@@ -414,13 +425,13 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         )
     for offer in offers:
         product_path = "deals/" + offer_slug(offer)
-        comparison_rows.append(f'<tr><td><a href="/{esc(product_path)}">{esc(offer["title"])}</a></td><td>{esc(offer["brand"])}</td><td>{esc(money(offer["price"], offer["currency"]))}</td><td>{esc(money(offer["original_price"], offer["currency"]))}</td><td><a href="{esc(offer["source_url"])}" rel="nofollow noopener">Source</a></td></tr>')
+        comparison_rows.append(f'<tr><td><a href="/{esc(product_path)}">{esc(display_title(offer["title"]))}</a></td><td>{esc(offer["brand"])}</td><td>{esc(money(offer["price"], offer["currency"]))}</td><td>{esc(money(offer["original_price"], offer["currency"]))}</td><td><a href="{esc(offer["source_url"])}" rel="nofollow noopener">Source</a></td></tr>')
     # Retained rows stay in the table with no price of their own: the cell sends the
     # reader to the official page rather than quoting a stale number as today's.
     for row in retained_rows:
-        comparison_rows.append(f'<tr><td><a href="/deals/{esc(row["_slug"])}">{esc(row["title"])}</a></td><td>{esc(row.get("brand", ""))}</td><td>Check official page</td><td></td><td><a href="{esc(row.get("source_url") or row.get("offer_url") or "#")}" rel="nofollow noopener">Source</a></td></tr>')
+        comparison_rows.append(f'<tr><td><a href="/deals/{esc(row["_slug"])}">{esc(display_title(row["title"]))}</a></td><td>{esc(row.get("brand", ""))}</td><td>Check official page</td><td></td><td><a href="{esc(row.get("source_url") or row.get("offer_url") or "#")}" rel="nofollow noopener">Source</a></td></tr>')
     compare_body = '<section class="hero compact"><p class="eyebrow">Compare</p><h1>Current verified chair offers</h1><p>Only price reductions explicitly listed by the seller are included.</p></section><div class="table-wrap"><table><thead><tr><th>Product</th><th>Brand</th><th>Current</th><th>Comparison</th><th>Evidence</th></tr></thead><tbody>' + ("".join(comparison_rows) or '<tr><td colspan="5">No verified price reductions are available yet.</td></tr>') + '</tbody></table></div>'
-    compare_list = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": o["title"]} for i, o in enumerate(offers, 1)]}
+    compare_list = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": display_title(o["title"])} for i, o in enumerate(offers, 1)]}
     (output_dir / "compare.html").write_text(render_page("compare.html", brand, "Compare verified ergonomic chair offers | " + brand, compare_body, canonical(base, "compare.html"), "Compare current verified chair offers.", compare_list), encoding="utf-8")
 
     (output_dir / "deals").mkdir(exist_ok=True)
@@ -440,7 +451,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         discount = round((float(offer["original_price"]) - float(offer["price"])) / float(offer["original_price"]) * 100)
         month = dt.datetime.fromisoformat(offer["fetched_at"].replace("Z", "+00:00")).strftime("%B %Y")
         link = offer.get("affiliate_url") or offer["offer_url"]
-        structured = {"@context": "https://schema.org", "@type": "Product", "name": offer["title"], "brand": {"@type": "Brand", "name": offer["brand"]}, "offers": {"@type": "Offer", "url": link, "price": offer["price"], "priceCurrency": offer["currency"]}}
+        structured = {"@context": "https://schema.org", "@type": "Product", "name": display_title(offer["title"]), "brand": {"@type": "Brand", "name": offer["brand"]}, "offers": {"@type": "Offer", "url": link, "price": offer["price"], "priceCurrency": offer["currency"]}}
         if offer.get("valid_until"):
             structured["offers"]["priceValidUntil"] = offer["valid_until"]
         # Only fields the collector actually read are emitted: image and availability
@@ -489,9 +500,9 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             extra_blocks += f'<section><h2>Who this is for</h2><p>{esc(detail_row["for_who"])}</p></section>'
         if detail_row.get("judgment"):
             extra_blocks += f'<section><h2>What this page adds</h2><p>{esc(detail_row["judgment"])}</p></section>'
-        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}<p class="disclosure">{esc(disclaimer)}</p>'
-        jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, offer["title"], target, base)]}
-        (output_dir / path).write_text(render_page("deal.html", brand, f'{offer["title"]} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
+        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(display_title(offer["title"]))}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}<p class="disclosure">{esc(disclaimer)}</p>'
+        jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, display_title(offer["title"]), target, base)]}
+        (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
 
     # Retained offer pages: today's collector did not re-read this row. The page keeps
     # its published address and shows no price of its own; the price line sends the
@@ -537,17 +548,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         detail = (
             f'<nav class="breadcrumbs"><a href="/">Home</a> › <a href="/providers/{esc(crumb_slug)}">{esc(row.get("brand", ""))}</a></nav>'
             f'<section class="hero compact"><p class="eyebrow">Address kept · not re-read today</p>'
-            f'<h1>{esc(row["title"])}</h1>'
+            f'<h1>{esc(display_title(row["title"]))}</h1>'
             f'<p>This page keeps the address that was published for this product. The seller\'s page was not re-read on {esc(today_label)}, so no current price is shown here.</p>'
             f'<p class="price-line">Price on the official {esc(row.get("brand", ""))} page as of today</p>'
             f'<p><a class="button" href="{esc(link)}" rel="nofollow noopener">Check the price on the official page</a></p>'
             f'{last_line}'
             f'</section>{spec_block}{who_block}<p class="disclosure">{esc(disclaimer)}</p>'
         )
-        jsonld = {"@context": "https://schema.org", "@graph": [breadcrumb(brand, row["title"], target, base)]}
+        jsonld = {"@context": "https://schema.org", "@graph": [breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(
-            render_page("deal.html", brand, f'{row["title"]} · price check on the official page', detail, target,
-                        f'Address kept for {row["title"]}; price to be confirmed on the official seller page.', jsonld),
+            render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
+                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld),
             encoding="utf-8")
 
     about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>DeskChairDeals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
@@ -615,7 +626,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
 
 def deal_card(offer, url):
     current, original = money(offer["price"], offer["currency"]), money(offer["original_price"], offer["currency"])
-    return f'<article class="deal-card"><p class="eyebrow">{esc(offer["brand"])}</p><h3><a href="{esc(url)}">{esc(offer["title"])}</a></h3><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Source</a></p></article>'
+    return f'<article class="deal-card"><p class="eyebrow">{esc(offer["brand"])}</p><h3><a href="{esc(url)}">{esc(display_title(offer["title"]))}</a></h3><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Source</a></p></article>'
 
 
 def keyword_deal_card(page: dict, url: str) -> str:
