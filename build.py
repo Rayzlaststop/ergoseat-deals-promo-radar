@@ -267,6 +267,10 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     archive_file = ROOT / "data" / "offer_archive.json"
     archive = json.loads(archive_file.read_text(encoding="utf-8")) if archive_file.exists() else {"rows": []}
     archived_rows = archive.get("rows", [])
+    # Per-offer enrichment: specs, the seller's own audience line and one judgment,
+    # all read from the seller's product page. Missing entries simply do not render.
+    details_file = ROOT / "data" / "offer_details.json"
+    offer_details = json.loads(details_file.read_text(encoding="utf-8")).get("pages", {}) if details_file.exists() else {}
     current_slugs = {offer_slug(o) for o in offers}
     retained_rows = [r for r in archived_rows if r.get("_slug") not in current_slugs]
     # The previous sitemap is read before the output directory is cleared, so the
@@ -435,7 +439,26 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         crumb_row = brand_by_norm.get(normalize_name(offer["brand"]))
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
         crumb = f'<a href="/providers/{crumb_slug}">{esc(offer["brand"])}</a>'
-        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section><p class="disclosure">{esc(disclaimer)}</p>'
+        detail_row = offer_details.get(offer_slug(offer)) or {}
+        extra_rows = "".join(
+            f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (detail_row.get("specs") or [])
+        )
+        extra_blocks = ""
+        if extra_rows:
+            extra_blocks += (
+                f'<section><h2>Specifications printed on the official page</h2>'
+                f'<p class="muted">Read from the seller\'s product page on {esc(detail_row.get("read_at", ""))}. '
+                f'These figures do not move with a sale.</p>'
+                f'<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Value</th></tr></thead>'
+                f'<tbody>{extra_rows}</tbody></table></div>'
+                + (f'<p class="muted">{esc(detail_row["spec_note"])}</p>' if detail_row.get("spec_note") else "")
+                + "</section>"
+            )
+        if detail_row.get("for_who"):
+            extra_blocks += f'<section><h2>Who this is for</h2><p>{esc(detail_row["for_who"])}</p></section>'
+        if detail_row.get("judgment"):
+            extra_blocks += f'<section><h2>What this page adds</h2><p>{esc(detail_row["judgment"])}</p></section>'
+        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(offer["title"])}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}<p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, offer["title"], target, base)]}
         (output_dir / path).write_text(render_page("deal.html", brand, f'{offer["title"]} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
 

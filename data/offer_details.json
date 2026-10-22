@@ -1,0 +1,45 @@
+{
+  "_note": "Per-offer enrichment for the generated /deals/<slug> pages. Only facts read from the seller's own product page on read_at go in here: specs, the seller's own audience line, and one judgment built as arithmetic on printed numbers. A page without an entry still renders; the daily routine fills two entries a day until the backlog is done.",
+  "pages": {
+    "flexispot-premium-ergonomic-office-chair-c7": {
+      "read_at": "2026-10-22T12:20:00+00:00",
+      "specs": [
+        ["Seat options", "Foam cushion with 0.2in latex layer, or DuPont Bounce Technology mesh"],
+        ["Seat width", "20.1in"],
+        ["Seat depth adjustment", "17.3in - 20.5in"],
+        ["Seat height adjustment", "16.5in - 20.1in"],
+        ["Max weight capacity", "Mesh version 350lb, foam version 300lb"],
+        ["Recommended height", "5'5\" - 6'11\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Headrest adjustment", "4D"],
+        ["Armrest adjustment", "3D"],
+        ["Back recline", "90 to 130 degrees"],
+        ["Base", "Nylon"],
+        ["Warranty", "10 years"]
+      ],
+      "spec_note": "The spec table on the product page prints C7 and C7 Max in two columns; every figure above is from the C7 column. The page also prints Save an average of 30% as a site-wide line; that claim is not used in any calculation on this page.",
+      "for_who": "The spec table prints a recommended height of 5'5\" to 6'11\", which is the seller's own statement of who the C7 is sized for.",
+      "judgment": "The 30% cut on this row is the deepest of the six C7 variants read on 22 October 2026, and $299.99 is the lowest price printed on that page. The coupon pages ranking for FlexiSpot discount codes quote code strings with no dated price; this row is the only place on the search results read that day where a C7 number is tied to a read time."
+    },
+    "flexispot-c7-mesh": {
+      "read_at": "2026-10-22T11:50:24+00:00",
+      "specs": [
+        ["Seat options", "DuPont Bounce Technology mesh, or foam cushion with 0.2in latex layer"],
+        ["Seat width", "20.1in"],
+        ["Seat depth adjustment", "17.3in - 20.5in"],
+        ["Seat height adjustment", "16.5in - 20.1in"],
+        ["Max weight capacity", "Mesh version 350lb, foam version 300lb"],
+        ["Recommended height", "5'5\" - 6'11\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Headrest adjustment", "4D"],
+        ["Armrest adjustment", "3D"],
+        ["Back recline", "90 to 130 degrees"],
+        ["Base", "Nylon"],
+        ["Warranty", "10 years"]
+      ],
+      "spec_note": "The spec table on the product page prints C7 and C7 Max in two columns; every figure above is from the C7 column, and the mesh capacity row is the one that applies to this variant. The page prints no separate spec table for the mesh variant alone.",
+      "for_who": "The spec table prints a recommended height of 5'5\" to 6'11\"; within that range the mesh version is the one the page rates at 350lb rather than 300lb.",
+      "judgment": "The mesh version is $20.00 more than the foam version on the same page today and carries 50lb more rated capacity (350lb against 300lb). That trade-off is arithmetic on the two printed prices and the two printed capacities; no page read that day states it, and the coupon pages do not separate the two variants at all."
+    }
+  }
+}
