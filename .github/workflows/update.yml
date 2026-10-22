@@ -1,5 +1,8 @@
 name: Refresh official offer data
 
+# Single publisher rule (set 2026-10-22): this workflow only collects, commits and
+# pushes. It never deploys. Deployment runs from one machine only, after pulling to
+# the latest commit, so two publishers can no longer overwrite each other.
 on:
   schedule:
     - cron: "17 */6 * * *"
@@ -11,8 +14,6 @@ permissions:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    env:
-      HAS_CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,19 +36,3 @@ jobs:
             git commit -m "Refresh verified official chair offers"
             git push
           fi
-      # Publishing step. The live Cloudflare Pages project is a direct-upload
-      # project (API source = null), so it is only updated by an explicit
-      # wrangler deploy. This step runs that deploy, but stays silent until the
-      # repository owner adds the CLOUDFLARE_API_TOKEN secret; without it the
-      # workflow still collects and commits, it just does not publish.
-      - name: Publish to Cloudflare Pages when the deploy secret exists
-        if: ${{ env.HAS_CLOUDFLARE_TOKEN == 'true' }}
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: bcb87a6e013281834d6988338f6dec74
-        run: |
-          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
-            echo "CLOUDFLARE_API_TOKEN secret is not set; collecting only, not publishing."
-            exit 0
-          fi
-          npx --yes wrangler@4 pages deploy site --project-name ergoseat-deals
