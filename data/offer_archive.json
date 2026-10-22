@@ -1,5 +1,5 @@
 {
-  "_note": "Retention ledger: every offer page this site has ever published. build.py renders a page for any archived row today's collector did not re-read, with the price line pointing at the official page; rows are never deleted, so the sitemap only grows.",
+  "_note": "Retention ledger: every offer page this site has ever published. build.py renders a page for any archived row today's collector did not re-read, with the price line pointing at the official page. Rows are never deleted; when two addresses described one product they were merged into a single record whose canonical_slug is the address that is served, and every entry in former_slugs 301s to it. Enrichment fields (specs, spec_note, for_who, judgment, spec_read_at) belong to the canonical address and survive every collector refresh.",
   "rows": [
     {
       "_slug": "flexispot-c7-mesh",
@@ -212,7 +212,62 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/refurbished-xtech-ultimate-executive-office-chair",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-22T11:50:24+00:00"
+      "last_read_at": "2026-10-22T11:50:24+00:00",
+      "canonical_slug": "x-chair-refurbished-x-tech-ultimate-executive-office-chair",
+      "former_slugs": [
+        "x-chair-x-tech-executive"
+      ],
+      "specs": [
+        [
+          "Overall height",
+          "48.375in - 58.375in"
+        ],
+        [
+          "Overall width",
+          "28.5in"
+        ],
+        [
+          "Overall depth",
+          "28in"
+        ],
+        [
+          "Seat height",
+          "17.5in - 20.88in"
+        ],
+        [
+          "Seat width",
+          "21.75in (dimension table)"
+        ],
+        [
+          "Seat depth",
+          "16.5in - 19.25in"
+        ],
+        [
+          "Armrest height",
+          "6in - 8.75in"
+        ],
+        [
+          "Chair weight",
+          "59.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "Premium Fabric Duo: soft-touch vegan leather Brisa combined with water-resistant A.T.R."
+        ],
+        [
+          "Seat foam",
+          "Cooling Gel Memory Foam"
+        ]
+      ],
+      "spec_note": "The dimension table on the product page lists seat width 21.75in; the description on the same page calls it the largest seat width (22 inches) we offer. Both were read on 22 October 2026 and are recorded as printed, not reconciled.",
+      "for_who": "X-Chair's own description says the X-Tech is best suited for medium to large-framed people, because it carries the largest seat width and the highest weight capacity the brand offers, and that it was built with the busy professional in mind.",
+      "judgment": "The refurbished X-Tech is $277.00 below the new X-Tech read on 16 October ($1107.00 against $1384.00). Both pages compare against the same $1845.00 list price, so this gap is measured against one number rather than two.",
+      "spec_read_at": "2026-10-22",
+      "_merge_note": "Merged on 22 October 2026 from the retired address /deals/x-chair-x-tech-executive, which read $1384.00 against $1845.00 on 16 October 2026. The refurbished address is canonical because it carries today's price and is the address in the Search Console list."
     },
     {
       "_slug": "x-chair-refurbished-x3-management-standard-width",
@@ -223,7 +278,62 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/refurbished-x3-atr-management-office-chair-standard-width",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-22T11:50:24+00:00"
+      "last_read_at": "2026-10-22T11:50:24+00:00",
+      "canonical_slug": "x-chair-refurbished-x3-management-standard-width",
+      "former_slugs": [
+        "x-chair-x3-management"
+      ],
+      "specs": [
+        [
+          "Overall height",
+          "48.25in - 58.25in"
+        ],
+        [
+          "Overall width",
+          "29in"
+        ],
+        [
+          "Overall depth",
+          "26.75in"
+        ],
+        [
+          "Seat height",
+          "17.69in - 22in"
+        ],
+        [
+          "Seat width",
+          "20.75in standard, 21.75in extended"
+        ],
+        [
+          "Seat depth",
+          "16.75in - 19.25in"
+        ],
+        [
+          "Armrest height",
+          "5.875in - 8.875in"
+        ],
+        [
+          "Chair weight",
+          "55.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Fabric",
+          "A.T.R.: a multilayered nylon that is water, spill and stain resistant"
+        ],
+        [
+          "Seat",
+          "Cushioned foam seat with a water-fall edge"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair says the X3 is for people who prefer mesh but need an extra level of support, for professionals who work from home and share a workspace, and for anyone who runs hot and benefits from breathable fabric.",
+      "judgment": "The refurbished X3 is $147.00 below the new X3 read on 16 October ($587.00 against $734.00). The two pages print different comparison prices — $1094.00 on the refurbished page, $979.00 on the new-chair page — so the two percentage cuts are not measured against the same list price, and this page only subtracts the two prices it read.",
+      "spec_read_at": "2026-10-22",
+      "_merge_note": "Merged on 22 October 2026 from the retired address /deals/x-chair-x3-management, which read $734.00 against $979.00 on 16 October 2026. The refurbished address is canonical because it carries today's price and is the address in the Search Console list."
     },
     {
       "_slug": "x-chair-refurbished-x4-executive-standard-width",
@@ -234,7 +344,62 @@
       "currency": "USD",
       "offer_url": "https://www.xchair.com/products/refurbished-x4-leather-executive-office-chair-standard-width",
       "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-22T11:50:24+00:00"
+      "last_read_at": "2026-10-22T11:50:24+00:00",
+      "canonical_slug": "x-chair-refurbished-x4-executive-standard-width",
+      "former_slugs": [
+        "x-chair-x4-executive"
+      ],
+      "specs": [
+        [
+          "Overall height",
+          "48.775in - 58.375in"
+        ],
+        [
+          "Overall width",
+          "29in"
+        ],
+        [
+          "Overall depth",
+          "27.25in"
+        ],
+        [
+          "Seat height",
+          "17.5in - 20.88in"
+        ],
+        [
+          "Seat width",
+          "20.25in standard"
+        ],
+        [
+          "Seat depth",
+          "17.75in - 19.75in"
+        ],
+        [
+          "Armrest height",
+          "5.875in - 8.875in"
+        ],
+        [
+          "Chair weight",
+          "56.5lb"
+        ],
+        [
+          "Weight capacity",
+          "275lb"
+        ],
+        [
+          "Upholstery",
+          "Top-grain Italian-made leather, bleach cleanable"
+        ],
+        [
+          "Seat",
+          "Cushioned foam seat with a water-fall edge"
+        ]
+      ],
+      "spec_note": "",
+      "for_who": "X-Chair reserves the X4 for people who seek performance wrapped in the standards of luxury, and describes it as the all-leather chair in the range.",
+      "judgment": "The refurbished X4 is $180.00 below the new X4 read on 16 October ($719.00 against $899.00). Its comparison price is also $150.00 higher than the new chair's ($1349.00 against $1199.00), so the refurbished page's deeper percentage cut comes partly from a higher list price, not only from a lower current price.",
+      "spec_read_at": "2026-10-22",
+      "_merge_note": "Merged on 22 October 2026 from the retired address /deals/x-chair-x4-executive, which read $899.00 against $1199.00 on 16 October 2026. The refurbished address is canonical because it carries today's price and is the address in the Search Console list."
     },
     {
       "_slug": "x-chair-under-desk-footrest",
@@ -298,66 +463,6 @@
       ],
       "spec_note": "The page publishes no dimensions or weight for this unit.",
       "for_who": "For owners of the listed chairs who want heat and vibration in the lumbar area rather than a separate massage device.",
-      "spec_read_at": "2026-10-22"
-    },
-    {
-      "_slug": "x-chair-x-tech-executive",
-      "brand": "X-Chair",
-      "title": "X-Tech Executive",
-      "price": "1384",
-      "original_price": "1845",
-      "currency": "USD",
-      "offer_url": "https://www.xchair.com/products/xtech-ultimate-executive-office-chair",
-      "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00",
-      "specs": [
-        [
-          "Overall height",
-          "48.375in - 58.375in"
-        ],
-        [
-          "Overall width",
-          "28.5in"
-        ],
-        [
-          "Overall depth",
-          "28in"
-        ],
-        [
-          "Seat height",
-          "17.5in - 20.88in"
-        ],
-        [
-          "Seat width",
-          "21.75in (dimension table)"
-        ],
-        [
-          "Seat depth",
-          "16.5in - 19.25in"
-        ],
-        [
-          "Armrest height",
-          "6in - 8.75in"
-        ],
-        [
-          "Chair weight",
-          "59.5lb"
-        ],
-        [
-          "Weight capacity",
-          "275lb"
-        ],
-        [
-          "Fabric",
-          "Premium Fabric Duo: soft-touch vegan leather Brisa combined with water-resistant A.T.R."
-        ],
-        [
-          "Seat foam",
-          "Cooling Gel Memory Foam"
-        ]
-      ],
-      "spec_note": "The dimension table on the product page lists seat width 21.75in; the description on the same page calls it the largest seat width (22 inches) we offer. Both were read on 22 October 2026 and are recorded as printed, not reconciled.",
-      "for_who": "X-Chair's own description says the X-Tech is best suited for medium to large-framed people, because it carries the largest seat width and the highest weight capacity the brand offers, and that it was built with the busy professional in mind.",
       "spec_read_at": "2026-10-22"
     },
     {
@@ -502,126 +607,6 @@
       ],
       "spec_note": "The page publishes no dimensions or weight for this part.",
       "for_who": "For X3 owners who want neck support above the backrest.",
-      "spec_read_at": "2026-10-22"
-    },
-    {
-      "_slug": "x-chair-x3-management",
-      "brand": "X-Chair",
-      "title": "X3 Management",
-      "price": "734",
-      "original_price": "979",
-      "currency": "USD",
-      "offer_url": "https://www.xchair.com/products/x3-atr-management-office-chair",
-      "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00",
-      "specs": [
-        [
-          "Overall height",
-          "48.25in - 58.25in"
-        ],
-        [
-          "Overall width",
-          "29in"
-        ],
-        [
-          "Overall depth",
-          "26.75in"
-        ],
-        [
-          "Seat height",
-          "17.69in - 22in"
-        ],
-        [
-          "Seat width",
-          "20.75in standard, 21.75in extended"
-        ],
-        [
-          "Seat depth",
-          "16.75in - 19.25in"
-        ],
-        [
-          "Armrest height",
-          "5.875in - 8.875in"
-        ],
-        [
-          "Chair weight",
-          "55.5lb"
-        ],
-        [
-          "Weight capacity",
-          "275lb"
-        ],
-        [
-          "Fabric",
-          "A.T.R.: a multilayered nylon that is water, spill and stain resistant"
-        ],
-        [
-          "Seat",
-          "Cushioned foam seat with a water-fall edge"
-        ]
-      ],
-      "spec_note": "",
-      "for_who": "X-Chair says the X3 is for people who prefer mesh but need an extra level of support, for professionals who work from home and share a workspace, and for anyone who runs hot and benefits from breathable fabric.",
-      "spec_read_at": "2026-10-22"
-    },
-    {
-      "_slug": "x-chair-x4-executive",
-      "brand": "X-Chair",
-      "title": "X4 Executive",
-      "price": "899",
-      "original_price": "1199",
-      "currency": "USD",
-      "offer_url": "https://www.xchair.com/products/x4-leather-executive-office-chair",
-      "source_url": "https://www.xchair.com/collections/sale",
-      "last_read_at": "2026-10-16T16:38:18+00:00",
-      "specs": [
-        [
-          "Overall height",
-          "48.775in - 58.375in"
-        ],
-        [
-          "Overall width",
-          "29in"
-        ],
-        [
-          "Overall depth",
-          "27.25in"
-        ],
-        [
-          "Seat height",
-          "17.5in - 20.88in"
-        ],
-        [
-          "Seat width",
-          "20.25in standard"
-        ],
-        [
-          "Seat depth",
-          "17.75in - 19.75in"
-        ],
-        [
-          "Armrest height",
-          "5.875in - 8.875in"
-        ],
-        [
-          "Chair weight",
-          "56.5lb"
-        ],
-        [
-          "Weight capacity",
-          "275lb"
-        ],
-        [
-          "Upholstery",
-          "Top-grain Italian-made leather, bleach cleanable"
-        ],
-        [
-          "Seat",
-          "Cushioned foam seat with a water-fall edge"
-        ]
-      ],
-      "spec_note": "",
-      "for_who": "X-Chair reserves the X4 for people who seek performance wrapped in the standards of luxury, and describes it as the all-leather chair in the range.",
       "spec_read_at": "2026-10-22"
     },
     {

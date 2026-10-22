@@ -271,8 +271,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # all read from the seller's product page. Missing entries simply do not render.
     details_file = ROOT / "data" / "offer_details.json"
     offer_details = json.loads(details_file.read_text(encoding="utf-8")).get("pages", {}) if details_file.exists() else {}
+    archived_by_slug = {r["_slug"]: r for r in archived_rows if r.get("_slug")}
     current_slugs = {offer_slug(o) for o in offers}
-    retained_rows = [r for r in archived_rows if r.get("_slug") not in current_slugs]
+    # A ledger row names the one address that should be served for its product in
+    # canonical_slug. Rows whose canonical address is a live offer are rendered as
+    # that offer page, not as a second retained page.
+    retained_rows = [
+        r for r in archived_rows
+        if r.get("_slug") not in current_slugs and (r.get("canonical_slug") or r.get("_slug")) not in current_slugs
+    ]
     # The previous sitemap is read before the output directory is cleared, so the
     # build can refuse to drop a URL that was already published.
     previous_urls = set()
@@ -296,6 +303,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     brand_by_norm = {normalize_name(row["name"]): row for row in brand_rows}
     brand_slugs = {row["slug"] for row in brand_rows}
     redirects = []
+    # One address per product. When a ledger row names a canonical slug, every
+    # retired address of that product 301s to it: no second page is published and
+    # no address is left to 404. Both the extensionless and the .html form of a
+    # retired address are redirected, because both forms were published before.
+    for row in archived_rows:
+        canon = row.get("canonical_slug") or row.get("_slug")
+        for former in row.get("former_slugs") or []:
+            if not former or former == canon:
+                continue
+            redirects.append((f"deals/{former}", f"deals/{canon}"))
+            redirects.append((f"deals/{former}.html", f"deals/{canon}"))
     # Brand content (status, rows, faq) is needed both here (to decide live vs
     # dropped redirects) and below (to render live brand pages), so load it once.
     brand_data = json.loads(BRAND_DATA.read_text(encoding="utf-8")).get("brands", {}) if BRAND_DATA.exists() else {}
@@ -440,6 +458,19 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
         crumb = f'<a href="/providers/{crumb_slug}">{esc(offer["brand"])}</a>'
         detail_row = offer_details.get(offer_slug(offer)) or {}
+        if not detail_row:
+            # A merged ledger row carries the enrichment for its canonical address,
+            # so a product keeps its specs and audience line on the live page
+            # without the same figures being stored twice.
+            ledger_row = archived_by_slug.get(offer_slug(offer)) or {}
+            if ledger_row.get("specs") or ledger_row.get("for_who"):
+                detail_row = {
+                    "specs": ledger_row.get("specs") or [],
+                    "spec_note": ledger_row.get("spec_note", ""),
+                    "for_who": ledger_row.get("for_who", ""),
+                    "judgment": ledger_row.get("judgment", ""),
+                    "read_at": ledger_row.get("spec_read_at") or (ledger_row.get("last_read_at") or "")[:10],
+                }
         extra_rows = "".join(
             f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (detail_row.get("specs") or [])
         )
@@ -540,25 +571,30 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     sitemap_rows = unique_rows
     urls = "\n".join(f"  <url><loc>{esc(u)}</loc><lastmod>{lm}</lastmod></url>" for u, lm in sitemap_rows)
     (output_dir / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n", encoding="utf-8")
-    # Sitemap only grows. A URL that was already published must still be listed:
-    # losing an address costs more than missing one price. ALLOW_SITEMAP_SHRINK=1 is
-    # the only override, for a deliberate, reviewed removal.
+    # No address may disappear without a 301 to a page that is still published.
+    # A legal merge (two addresses for one product folded into the canonical one)
+    # passes because the retired address redirects; a genuine lost page still fails,
+    # because nothing points its old address at a live page.
     published = {u for u, _ in sitemap_rows}
     missing = sorted(previous_urls - published)
-    if missing and os.environ.get("ALLOW_SITEMAP_SHRINK") != "1":
+    redirect_targets = {canonical(base, old): canonical(base, new) for old, new in redirects}
+    unresolved = [u for u in missing if redirect_targets.get(u) not in published]
+    if unresolved:
         raise RuntimeError(
-            "Refusing to drop published URLs from the sitemap "
-            "(set ALLOW_SITEMAP_SHRINK=1 only for a reviewed removal): " + ", ".join(missing)
+            "Refusing to drop published URLs that have no 301 to a live page "
+            "(add a redirect or restore the page): " + ", ".join(unresolved)
         )
     # One brand one address: retired collector URLs 301 to the surviving brand page.
     if redirects:
         (output_dir / "_redirects").write_text("".join(f"/{old} /{new.lstrip('/')} 301\n" for old, new in redirects), encoding="utf-8")
     # Keep the retention ledger current: today's rows are merged in, nothing is
-    # removed. Tomorrow's build renders a page for any row today's run misses.
+    # removed. An existing record keeps the fields the collector does not produce —
+    # canonical_slug, former_slugs, specs, for_who, judgment — so enrichment written
+    # once survives every later refresh.
     ledger = {r["_slug"]: r for r in archived_rows if r.get("_slug")}
     for offer in offers:
         slug_value = offer_slug(offer)
-        ledger[slug_value] = {
+        fresh = {
             "_slug": slug_value,
             "brand": offer["brand"],
             "title": offer["title"],
@@ -569,6 +605,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             "source_url": offer.get("source_url", offer["offer_url"]),
             "last_read_at": offer.get("fetched_at", ""),
         }
+        ledger[slug_value] = {**ledger.get(slug_value, {}), **fresh}
     archive_file.write_text(
         json.dumps({"_note": archive.get("_note", ""), "rows": sorted(ledger.values(), key=lambda r: (r.get("brand", ""), r.get("title", "")) )}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
