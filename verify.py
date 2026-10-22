@@ -39,9 +39,14 @@ def main() -> None:
         if not changed_page.exists():
             raise AssertionError("builder did not generate a page from the changed .ilang provider")
         page = changed_page.read_text(encoding="utf-8")
-        if "Branch Preview" not in page or "https://fixture.example/providers/branch-preview.html" not in page:
+        # Canonical URLs are extensionless sitewide; the .html form only survives as a
+        # 301 redirect, so the generated page must carry the bare address.
+        if "Branch Preview" not in page or 'href="https://fixture.example/providers/branch-preview"' not in page:
             raise AssertionError("generated page is missing the changed config value or canonical URL")
-        if (out / "providers" / "branch.html").exists():
+        # providers/branch.html legitimately exists as the sourced brand page; what must
+        # not exist is the collector page generated from the unmodified config row.
+        branch_page = out / "providers" / "branch.html"
+        if branch_page.exists() and "Branch chair deals" in branch_page.read_text(encoding="utf-8"):
             raise AssertionError("builder unexpectedly used the unmodified provider name")
 
     print("PASS: scraper and builder both read .ilang/site.ilang; config edits change generated page and canonical URL.")

@@ -1,0 +1,280 @@
+{
+  "_note": "Retention ledger: every offer page this site has ever published. build.py renders a page for any archived row today's collector did not re-read, with the price line pointing at the official page; rows are never deleted, so the sitemap only grows.",
+  "rows": [
+    {
+      "_slug": "flexispot-c7-mesh",
+      "brand": "Flexispot",
+      "title": "C7 Mesh",
+      "price": "319.99",
+      "original_price": "449.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "flexispot-c7mb-m1",
+      "brand": "Flexispot",
+      "title": "C7MB-M1",
+      "price": "449.99",
+      "original_price": "579.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "flexispot-c7mb-m2",
+      "brand": "Flexispot",
+      "title": "C7MB-M2",
+      "price": "489.99",
+      "original_price": "619.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "flexispot-c7mb-foam",
+      "brand": "Flexispot",
+      "title": "C7MB-foam",
+      "price": "429.99",
+      "original_price": "559.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "flexispot-c7mb-foam-ft",
+      "brand": "Flexispot",
+      "title": "C7MB-foam-FT",
+      "price": "469.99",
+      "original_price": "599.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "flexispot-premium-ergonomic-office-chair-c7",
+      "brand": "Flexispot",
+      "title": "Premium Ergonomic Office Chair (C7)",
+      "price": "299.99",
+      "original_price": "429.99",
+      "currency": "USD",
+      "offer_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "source_url": "https://www.flexispot.com/flexispot-best-ergonomic-office-chair-c7",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "vari-dual-monitor-arm",
+      "brand": "Vari",
+      "title": "Dual-Monitor Arm",
+      "price": "224.25",
+      "original_price": "299",
+      "currency": "USD",
+      "offer_url": "https://www.vari.com/dual-monitor-arm/MA-DUAL.html?dwvar_MA-DUAL_color=silver",
+      "source_url": "https://www.vari.com/deals/sale/",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "vari-essential-electric-standing-desk-48x24",
+      "brand": "Vari",
+      "title": "Essential Electric Standing Desk 48x24",
+      "price": "295.99",
+      "original_price": "369.99",
+      "currency": "USD",
+      "offer_url": "https://www.vari.com/essential-electric-standing-desk-split-top-48x24/FD-ESTSTESD4824.html?dwvar_FD-ESTSTESD4824_color=hazel-wood",
+      "source_url": "https://www.vari.com/deals/sale/",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "vari-essential-task-chair",
+      "brand": "Vari",
+      "title": "Essential Task Chair",
+      "price": "229.49",
+      "original_price": "269.99",
+      "currency": "USD",
+      "offer_url": "https://www.vari.com/essential-task-chair/ST-ESTTSKCHR.html?dwvar_ST-ESTTSKCHR_color=black",
+      "source_url": "https://www.vari.com/deals/sale/",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "vari-monitor-arm-laptop-stand",
+      "brand": "Vari",
+      "title": "Monitor Arm + Laptop Stand",
+      "price": "174.3",
+      "original_price": "249",
+      "currency": "USD",
+      "offer_url": "https://www.vari.com/monitor-arm-laptop-stand/MA-LPTP.html?dwvar_MA-LPTP_color=silver",
+      "source_url": "https://www.vari.com/deals/sale/",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "x-chair-additional-cylinder",
+      "brand": "X-Chair",
+      "title": "Additional Cylinder",
+      "price": "15",
+      "original_price": "29",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/additional-cylinder",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-fs-360-armrests",
+      "brand": "X-Chair",
+      "title": "FS 360 Armrests",
+      "price": "82",
+      "original_price": "164",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/fs-360-armrests",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-fs-wheels-set-of-5",
+      "brand": "X-Chair",
+      "title": "FS Wheels (Set of 5)",
+      "price": "27",
+      "original_price": "54",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/fs-wheels",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-refurbished-x-tech-ultimate-executive-office-chair",
+      "brand": "X-Chair",
+      "title": "Refurbished X-Tech Ultimate Executive Office Chair",
+      "price": "1107",
+      "original_price": "1845",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/refurbished-xtech-ultimate-executive-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "x-chair-refurbished-x3-management-standard-width",
+      "brand": "X-Chair",
+      "title": "Refurbished X3 Management- Standard Width",
+      "price": "587",
+      "original_price": "1094",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/refurbished-x3-atr-management-office-chair-standard-width",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "x-chair-refurbished-x4-executive-standard-width",
+      "brand": "X-Chair",
+      "title": "Refurbished X4 Executive - Standard Width",
+      "price": "719",
+      "original_price": "1349",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/refurbished-x4-leather-executive-office-chair-standard-width",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-22T01:00:08+00:00"
+    },
+    {
+      "_slug": "x-chair-under-desk-footrest",
+      "brand": "X-Chair",
+      "title": "Under Desk Footrest",
+      "price": "20",
+      "original_price": "59",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/under-desk-footrest",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x-hmt-heat-massage-therapy-unit",
+      "brand": "X-Chair",
+      "title": "X-HMT® Heat & Massage Therapy Unit",
+      "price": "50",
+      "original_price": "100",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/xhmt-heat-and-massage-therapy-unit",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x-tech-executive",
+      "brand": "X-Chair",
+      "title": "X-Tech Executive",
+      "price": "1384",
+      "original_price": "1845",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/xtech-ultimate-executive-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x1-task",
+      "brand": "X-Chair",
+      "title": "X1 Task",
+      "price": "547",
+      "original_price": "729",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x1-flex-mesh-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x2-management",
+      "brand": "X-Chair",
+      "title": "X2 Management",
+      "price": "659",
+      "original_price": "879",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x2-ksport-mesh-management-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x3-headrest",
+      "brand": "X-Chair",
+      "title": "X3 Headrest",
+      "price": "58",
+      "original_price": "115",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x3-headrest",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x3-management",
+      "brand": "X-Chair",
+      "title": "X3 Management",
+      "price": "734",
+      "original_price": "979",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x3-atr-management-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x4-executive",
+      "brand": "X-Chair",
+      "title": "X4 Executive",
+      "price": "899",
+      "original_price": "1199",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x4-leather-executive-office-chair",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    },
+    {
+      "_slug": "x-chair-x4-headrest",
+      "brand": "X-Chair",
+      "title": "X4 Headrest",
+      "price": "75",
+      "original_price": "150",
+      "currency": "USD",
+      "offer_url": "https://www.xchair.com/products/x4-headrest",
+      "source_url": "https://www.xchair.com/collections/sale",
+      "last_read_at": "2026-10-16T16:38:18+00:00"
+    }
+  ]
+}
