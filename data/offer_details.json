@@ -1,6 +1,52 @@
 {
   "_note": "Per-offer enrichment for the generated /deals/<slug> pages. Only facts read from the seller's own product page on read_at go in here: specs, the seller's own audience line, and one judgment built as arithmetic on printed numbers. A page without an entry still renders; the daily routine fills two entries a day until the backlog is done.",
   "pages": {
+    "flexispot-c7mb-foam": {
+      "read_at": "2026-10-23T02:10:00+00:00",
+      "specs": [
+        ["Variant listing on the page", "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: No Footrest"],
+        ["Seat", "Foam cushion with 0.2in latex layer"],
+        ["Seat width", "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"],
+        ["Seat depth adjustment", "15.7in - 17.3in"],
+        ["Seat height adjustment", "18.5in - 20.9in"],
+        ["Max weight capacity", "Foam version 300lb; the same row prints the mesh version at 350lb"],
+        ["Recommended height", "5'7\" - 6'9\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Headrest adjustment", "3D"],
+        ["Armrest adjustment", "5D"],
+        ["Back recline", "93 to 135 degrees"],
+        ["Base", "Nylon"],
+        ["Footrest", "Optional on this chair; this variant is the No Footrest listing"],
+        ["Warranty", "10 years"],
+        ["Overall chair dimensions", "Not published on this page; only the seat measurements above are printed"]
+      ],
+      "spec_note": "The product page carries two spec tables that compare the C7 and the C7 Max in two columns. Both tables place this variant in the C7 Max column, and every figure above is from that column. The two tables agree on each C7 Max figure except seat width, which one prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Foam, Frame/Surface Color: All Black, Footrest: No Footrest.",
+      "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for.",
+      "judgment": "The Style: C7 Max step adds exactly $130.00 to both prices printed on the same page today: this row reads $429.99 against a $559.99 regular price, while the base C7 foam row on the same page reads $299.99 against $429.99, and both differences are $130.00. The dollar markdown is the same $130.00 on both rows, while the cut on those two numbers reads 23% here against 30% on the base C7 row."
+    },
+    "flexispot-c7mb-foam-ft": {
+      "read_at": "2026-10-23T02:10:00+00:00",
+      "specs": [
+        ["Variant listing on the page", "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: With Footrest"],
+        ["Seat", "Foam cushion with 0.2in latex layer"],
+        ["Seat width", "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"],
+        ["Seat depth adjustment", "15.7in - 17.3in"],
+        ["Seat height adjustment", "18.5in - 20.9in"],
+        ["Max weight capacity", "Foam version 300lb; the same row prints the mesh version at 350lb"],
+        ["Recommended height", "5'7\" - 6'9\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Headrest adjustment", "3D"],
+        ["Armrest adjustment", "5D"],
+        ["Back recline", "93 to 135 degrees"],
+        ["Base", "Nylon"],
+        ["Footrest", "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair"],
+        ["Warranty", "10 years"],
+        ["Overall chair dimensions", "Not published on this page; only the seat measurements above are printed"]
+      ],
+      "spec_note": "Same two spec tables as the other C7 Max listings on this page: both tables place this variant in the C7 Max column, every figure above is from that column, and the two tables disagree only on seat width (20.1in in one, 20in in the other), which is recorded as printed. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Foam, Frame/Surface Color: All Black, Footrest: With Footrest.",
+      "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for.",
+      "judgment": "The footrest adds $40.00 to both numbers printed for this chair on the same page today: this row reads $469.99 against a $599.99 regular price, while the same C7 Max foam chair without the footrest reads $429.99 against $559.99, and both differences are $40.00. The dollar markdown stays $130.00 on both rows, so the rounded cut moves from 23% without the footrest to 22% with it."
+    },
     "flexispot-premium-ergonomic-office-chair-c7": {
       "read_at": "2026-10-22T12:20:00+00:00",
       "specs": [
