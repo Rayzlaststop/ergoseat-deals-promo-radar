@@ -89,12 +89,39 @@ def main() -> int:
     if build.returncode != 0:
         log("=== daily refresh aborted: build failed; nothing deployed ===")
         return build.returncode
+    # The snapshot the build just read is part of what gets published, so it is
+    # committed and pushed before deploying. Two reasons, one order: the deploy gate
+    # below requires a clean tree, and a clean tree is what makes "production source
+    # == HEAD" mean the live bytes were built from this commit rather than from
+    # whatever happened to be lying in the working copy.
+    snapshot = run_step(
+        "snapshot",
+        "git add data/offers.json data/offer_archive.json && "
+        "(git diff --cached --quiet || git commit -m \"Refresh verified official chair offers\")",
+        shell=True,
+        timeout=120,
+    )
+    if snapshot.returncode != 0:
+        log("=== daily refresh aborted: could not commit the snapshot; nothing deployed ===")
+        return snapshot.returncode
+    publish = run_step("push", "git pull --rebase origin main && git push origin main", shell=True, timeout=300)
+    if publish.returncode != 0:
+        log("=== daily refresh aborted: push failed; nothing deployed ===")
+        return publish.returncode
+    # Deploy gate. --commit-dirty=true is gone on purpose: with a dirty tree the
+    # deployment label still reads HEAD, so "source == HEAD" would prove only which
+    # commit was labelled, not which bytes went live. A dirty tree now stops the run.
+    dirty = run_step("clean-check", ["git", "status", "--porcelain"], timeout=60)
+    leftover = (dirty.stdout or "").strip()
+    if dirty.returncode != 0 or leftover:
+        log(f"=== daily refresh aborted: working tree is not clean; nothing deployed === {leftover[:300]}")
+        return 1
     # --yes on npx: without it a cache miss makes npx ask "Ok to proceed?" and the
     # scheduled run waits on a prompt nobody can answer. That is what stalled the
     # deploy on 21, 22 and 23 October: the log stopped at "STEP deploy: start".
     deploy = run_step(
         "deploy",
-        "npx --yes wrangler@4 pages deploy site --project-name ergoseat-deals --commit-dirty=true",
+        "npx --yes wrangler@4 pages deploy site --project-name ergoseat-deals",
         shell=True,
         timeout=600,
     )
