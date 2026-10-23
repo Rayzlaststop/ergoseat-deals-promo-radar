@@ -14,6 +14,7 @@ Every run appends to logs/refresh.log.
 from __future__ import annotations
 
 import datetime as dt
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -36,8 +37,22 @@ def log(message: str) -> None:
         handle.write(line + "\n")
 
 
-def run_step(name: str, command: list[str] | str, shell: bool = False) -> subprocess.CompletedProcess:
+def child_env() -> dict:
+    """Environment for every step. CI keeps npx non-interactive; wrangler reads its
+    token from CLOUDFLARE_API_TOKEN, which the scheduled run only has because it is
+    a user-level variable. Both are logged so a future failure is diagnosable."""
+    env = dict(os.environ)
+    env["CI"] = "1"
+    env["WRANGLER_SEND_METRICS"] = "false"
+    return env
+
+
+def run_step(name: str, command: list[str] | str, shell: bool = False, timeout: int = 900) -> subprocess.CompletedProcess:
     log(f"STEP {name}: start")
+    # stdin is closed on purpose. The scheduled run has no console, so anything that
+    # waits for a keystroke - npx asking permission to install a package, wrangler
+    # asking for a login - would block until the next day's run. Closing stdin turns
+    # that silent hang into an immediate, logged error.
     result = subprocess.run(
         command,
         cwd=ROOT,
@@ -46,7 +61,9 @@ def run_step(name: str, command: list[str] | str, shell: bool = False) -> subpro
         text=True,
         encoding="utf-8",
         errors="replace",
-        timeout=900,
+        timeout=timeout,
+        stdin=subprocess.DEVNULL,
+        env=child_env(),
     )
     tail = (result.stdout or "").strip().splitlines()
     log(f"STEP {name}: exit={result.returncode} last_out={tail[-1][:200] if tail else '(no output)'}")
@@ -72,13 +89,43 @@ def main() -> int:
     if build.returncode != 0:
         log("=== daily refresh aborted: build failed; nothing deployed ===")
         return build.returncode
-    deploy = run_step("deploy", "npx wrangler pages deploy site", shell=True)
+    # --yes on npx: without it a cache miss makes npx ask "Ok to proceed?" and the
+    # scheduled run waits on a prompt nobody can answer. That is what stalled the
+    # deploy on 21, 22 and 23 October: the log stopped at "STEP deploy: start".
+    deploy = run_step(
+        "deploy",
+        "npx --yes wrangler@4 pages deploy site --project-name ergoseat-deals --commit-dirty=true",
+        shell=True,
+        timeout=600,
+    )
     if deploy.returncode != 0:
         log("=== daily refresh failed at deploy; new snapshot is local only ===")
         return deploy.returncode
     out = deploy.stdout or ""
     marker = [line for line in out.splitlines() if "Deployment complete" in line]
     log(f"DEPLOY RESULT: {marker[0].strip()[:160] if marker else 'unknown'}")
+    # A deploy that prints "Deployment complete" is not proof that the live site is
+    # this commit: production can be left on an older deployment. Read it back.
+    head = run_step("head", ["git", "rev-parse", "--short", "HEAD"], timeout=60)
+    head_sha = (head.stdout or "").strip().splitlines()
+    expected = head_sha[-1].strip() if head_sha else ""
+    listing = run_step(
+        "verify",
+        "npx --yes wrangler@4 pages deployment list --project-name ergoseat-deals",
+        shell=True,
+        timeout=180,
+    )
+    live = ""
+    for line in (listing.stdout or "").splitlines():
+        if "Production" in line:
+            cells = [cell.strip() for cell in line.replace("│", "|").split("|") if cell.strip()]
+            if len(cells) >= 4:
+                live = cells[3]
+            break
+    if not expected or live != expected:
+        log(f"=== daily refresh failed verification: production source={live or '(not read)'} head={expected or '(not read)'} ===")
+        return 1
+    log(f"VERIFIED: production deployment source {live} == HEAD {expected}")
     log("=== daily refresh done ===")
     return 0
 
