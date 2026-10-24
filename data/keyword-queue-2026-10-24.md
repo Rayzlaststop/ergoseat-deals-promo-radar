@@ -62,3 +62,13 @@ Their head terms are a different shape from this family's. A product page compet
 model or the chair name, not on "coupon code", so the volume is measured per page, one page
 at a time, with the same rule as above: the form measured is the form used. Do not carry
 this family's word forms over to them.
+
+## Ship gate for the four pages
+
+All four incremental slots must be filled from the brand's own terms: who cannot use it,
+whether it stacks, which models are excluded, and the end date. An empty slot is treated as
+"this page cannot be written" and the page does not ship that day. The earlier minimum of
+three filled slots is superseded for this family.
+
+The person writing the page does not get to grant the exception. A page that is not shipped
+costs a day; a page with a blank slot costs the family.

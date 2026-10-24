@@ -32,3 +32,4 @@
 ::RULE{family:Every page carries at least one fact that holds only in that brand's own terms and cannot be found on a sister page; without it the family is doorways and Google drops the batch|scope:permanent}
 ::RULE{index:Request indexing only for canonical addresses that are not yet indexed, highest search volume first, and never for a .html address|scope:permanent}
 ::RULE{index:When the daily indexing quota is hit, stop and resume the next day instead of retrying|scope:permanent}
+::RULE{family:All four incremental slots of a coupon page are filled from official terms; an empty slot counts as "cannot write this page" and the page does not ship, and no exception is granted by the person writing it|scope:permanent}
