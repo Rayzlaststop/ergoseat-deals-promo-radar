@@ -86,6 +86,54 @@
       "spec_note": "The spec table on the product page prints C7 and C7 Max in two columns; every figure above is from the C7 column, and the mesh capacity row is the one that applies to this variant. The page prints no separate spec table for the mesh variant alone.",
       "for_who": "The spec table prints a recommended height of 5'5\" to 6'11\"; within that range the mesh version is the one the page rates at 350lb rather than 300lb.",
       "judgment": "The mesh version is $20.00 more than the foam version on the same page today and carries 50lb more rated capacity (350lb against 300lb). That trade-off is arithmetic on the two printed prices and the two printed capacities; no page read that day states it, and the coupon pages do not separate the two variants at all."
+    },
+    "flexispot-c7mb-m1": {
+      "read_at": "2026-10-24T02:06:20+00:00",
+      "specs": [
+        ["Variant listing on the page", "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: No Footrest (skuCode C7MB-M1-DIY)"],
+        ["Seat", "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"],
+        ["Seat width", "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"],
+        ["Seat depth adjustment", "15.7in - 17.3in"],
+        ["Seat height adjustment", "18.5in - 20.9in"],
+        ["Max weight capacity", "Mesh version 350lb; the same row prints the foam version at 300lb"],
+        ["Recommended height", "5'7\" - 6'9\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Lumbar support", "Adjustable self-adaptive dynamic"],
+        ["Headrest adjustment", "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"],
+        ["Armrest adjustment", "5D"],
+        ["Back recline", "93 to 135 degrees"],
+        ["Base", "Nylon"],
+        ["Footrest", "Optional on this chair per the spec table; this variant is the No Footrest listing"],
+        ["Warranty", "10 years"],
+        ["Overall chair dimensions", "Not published on this page for the C7 Max; only the seat measurements above are printed"]
+      ],
+      "spec_note": "The product page carries spec tables that compare the C7 and the C7 Max in two columns, printed in two different table styles. Every one of them places this variant in the C7 Max column, and every figure above is from that column. The tables disagree on seat width, which one style prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The headrest row prints 3D in one table style and 2.36in, 135 degrees in the other, and both are recorded. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Mesh, Frame/Surface Color: All Black, Footrest: No Footrest.",
+      "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for; the mesh version is the one the same page rates at 350lb rather than 300lb.",
+      "judgment": "The mesh step on the C7 Max costs exactly $150.00 in the page's own price model: the variant data for this row prints a sale price of $449.99 against a $579.99 regular price on a base of $299.99 against $429.99, and both differences are $150.00 ($449.99 - $299.99 = $150.00; $579.99 - $429.99 = $150.00). The same two subtractions on the foam C7 Max row on the same page come to $130.00, so choosing mesh over foam is a $20.00 step up on both numbers ($150.00 - $130.00 = $20.00), and the printed capacity for that mesh version is 350lb against the foam version's 300lb."
+    },
+    "flexispot-c7mb-m2": {
+      "read_at": "2026-10-24T02:06:20+00:00",
+      "specs": [
+        ["Variant listing on the page", "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: With Footrest (skuCode C7MB-M2-DIY)"],
+        ["Seat", "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"],
+        ["Seat width", "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"],
+        ["Seat depth adjustment", "15.7in - 17.3in"],
+        ["Seat height adjustment", "18.5in - 20.9in"],
+        ["Max weight capacity", "Mesh version 350lb; the same row prints the foam version at 300lb"],
+        ["Recommended height", "5'7\" - 6'9\""],
+        ["Backrest height adjustment", "5-position"],
+        ["Lumbar support", "Adjustable self-adaptive dynamic"],
+        ["Headrest adjustment", "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"],
+        ["Armrest adjustment", "5D"],
+        ["Back recline", "93 to 135 degrees"],
+        ["Base", "Nylon"],
+        ["Footrest", "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair, and the variant data prices it at +$40.00 on both the sale and the regular price"],
+        ["Warranty", "10 years"],
+        ["Overall chair dimensions", "Not published on this page for the C7 Max; only the seat measurements above are printed"]
+      ],
+      "spec_note": "The product page carries spec tables that compare the C7 and the C7 Max in two columns, printed in two different table styles. Every one of them places this variant in the C7 Max column, and every figure above is from that column. The tables disagree on seat width, which one style prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The headrest row prints 3D in one table style and 2.36in, 135 degrees in the other, and both are recorded. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Mesh, Frame/Surface Color: All Black, Footrest: With Footrest.",
+      "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for; the mesh version is the one the same page rates at 350lb rather than 300lb.",
+      "judgment": "The footrest is a flat $40.00 on both printed numbers and moves the percentage without touching the dollar saving: this row reads $489.99 against a $619.99 regular price while the same C7 Max mesh chair without the footrest reads $449.99 against $579.99, so both differences are $40.00 ($489.99 - $449.99 = $40.00; $619.99 - $579.99 = $40.00) and the markdown stays exactly $130.00 on both rows ($619.99 - $489.99 = $130.00; $579.99 - $449.99 = $130.00). That moves the rounded cut from 22% to 21% ($130.00 / $619.99 = 20.97%, against $130.00 / $579.99 = 22.41%)."
     }
   }
 }
