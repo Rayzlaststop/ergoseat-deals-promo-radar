@@ -174,6 +174,12 @@
           "status": "No longer printed, checked 24 October 2026",
           "note": "Recorded on sihoo.com/pages/new-customer-discount on 16 and 17 October 2026. The same page on 24 October 2026 showed the marked-down prices without the NEW20 wording."
         }
+      ],
+      "related": [
+        {
+          "href": "/compare",
+          "text": "Every verified chair price on this site, in one table"
+        }
       ]
     },
     {
@@ -343,7 +349,13 @@
       "internal_link": {
         "href": "/providers/nouhaus",
         "text": "Nouhaus shipping, returns, warranty and price-match terms"
-      }
+      },
+      "related": [
+        {
+          "href": "/compare",
+          "text": "Every verified chair price on this site, in one table"
+        }
+      ]
     },
     {
       "slug": "hbada-discount-code",
@@ -518,7 +530,13 @@
       "internal_link": {
         "href": "/providers/hbada",
         "text": "HBADA shipping, returns, warranty and ID.me terms"
-      }
+      },
+      "related": [
+        {
+          "href": "/compare",
+          "text": "Every verified chair price on this site, in one table"
+        }
+      ]
     },
     {
       "slug": "flexispot-discount-code",
@@ -643,7 +661,13 @@
       "internal_link": {
         "href": "/providers/flexispot",
         "text": "FlexiSpot shipping, returns, warranty and sale terms"
-      }
+      },
+      "related": [
+        {
+          "href": "/deals/flexispot-premium-ergonomic-office-chair-c7",
+          "text": "Flexispot Premium Ergonomic Office Chair (C7): the chair the quantity codes apply to"
+        }
+      ]
     },
     {
       "slug": "vari-discount-code",
