@@ -16,3 +16,9 @@
 ::RULE{publish:Deploy only from a clean working tree - git status --porcelain must be empty, otherwise stop|scope:permanent}
 ::RULE{order:Pad every page on the backlog; which one is padded first does not change the outcome, so never build tooling to rank them|scope:permanent}
 ::RULE{scheduled:The daily task runs unattended - every step gets stdin closed, npx --yes, a timeout, and a logged exit code, so a prompt can never stall it silently|scope:permanent}
+::RULE{collision:Judge whether a keyword needs its own page by the domains shared in the top ten results, never by how many rows a brand page already carries from one official page|scope:permanent}
+::RULE{merge:When a keyword folds into an existing page, the title and the first screen must carry the new intent; bolting a section onto a page that still answers only the old question leaves two pages fighting inside one|scope:permanent}
+::RULE{coupon:A coupon page outlives its code - the URL never changes, the live code block is replaced, and the dead code moves into the expired table with what it was worth|scope:permanent}
+::RULE{coupon:Never rest a coupon page's increment on a short-lived code; thresholds, exclusions, stacking and the cart rule are the part that stays readable|scope:permanent}
+::RULE{coupon:A tiered offer is stated as an effective rate per threshold plus the one-dollar step at each cliff; quoting the four amounts is a copy of the terms, not an answer|scope:permanent}
+::RULE{coupon:A date or amount taken from a page's own promo record says so on the page; nothing is printed as if the seller had written it in text|scope:permanent}

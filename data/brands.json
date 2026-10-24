@@ -812,7 +812,8 @@
           "a": "The returns policy describes a 30-day risk-free window: return the product in its original packaging within 30 days of the date of purchase for a full refund if it qualifies as an Eligible Product, and Vari covers the return shipping cost for Eligible Products."
         }
       ],
-      "closing": "Everything above was read from vari.com on 2026-10-16. The coupon code and its tier amounts are the brand's own published terms, and the sale page states that pricing and availability are subject to change."
+      "closing": "Everything above was read from vari.com on 2026-10-16. The coupon code and its tier amounts are the brand's own published terms, and the sale page states that pricing and availability are subject to change.",
+      "featured_deal": "vari-discount-code"
     },
     "sihoo": {
       "status": "live",

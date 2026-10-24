@@ -202,6 +202,58 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
                 f'<td><strong>{esc(current)}</strong></td><td>{esc(original)}</td><td>{cut_cell}</td>'
                 f'<td>{esc(row.get("note", ""))}</td></tr>'
             )
+        # Two table shapes share this renderer. A price page lists one row per product
+        # read on the seller page. A coupon page lists one row per threshold, because
+        # the discount is a function of the order total and not of any single product.
+        # Both are plain data in data/deal_pages.json.
+        spec = item.get("table")
+        if spec:
+            head_cells = "".join(f"<th>{esc(col)}</th>" for col in spec["columns"])
+            body_cells = "".join(
+                "<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>" for row in spec["rows"]
+            )
+            table_html = (
+                f'<div class="table-wrap"><table><thead><tr>{head_cells}</tr></thead>'
+                f'<tbody>{body_cells}</tbody></table></div>'
+            )
+        else:
+            table_html = (
+                f'<div class="table-wrap"><table><thead><tr><th>Chair</th><th>Price now</th>'
+                f'<th>Regular price</th><th>Cut</th><th>Variants and notes</th></tr></thead>'
+                f'<tbody>{"".join(table_rows)}</tbody></table></div>'
+            )
+        # The live code gets one block above everything else, because that is the
+        # question the page was built to answer. Its terms are the part that survives
+        # the code: when the code dies this block is rewritten and the terms stay.
+        code = item.get("code") or {}
+        code_html = ""
+        if code:
+            terms = "".join(f"<li>{esc(line)}</li>" for line in code.get("terms", []))
+            code_html = (
+                f'<section><h2>{esc(code.get("heading", "The code"))}</h2>'
+                f'<p><span class="badge">{esc(code["code"])}</span> {esc(code.get("summary", ""))}</p>'
+                + (f"<ul>{terms}</ul>" if terms else "")
+                + (f'<p class="muted">{esc(code["ends"])}</p>' if code.get("ends") else "")
+                + (f'<p class="muted">{esc(code["source_note"])}</p>' if code.get("source_note") else "")
+                + "</section>"
+            )
+        # A coupon page outlives its code. A code that stops working moves here instead
+        # of the page being rewritten around it or deleted: the address, the crawl
+        # history and the ranking stay, and the reader is told what it used to be worth.
+        expired_rows = item.get("expired") or []
+        expired_html = ""
+        if expired_rows:
+            expired_cells = "".join(
+                f'<tr><td><strong>{esc(row["code"])}</strong></td><td>{esc(row.get("value", ""))}</td>'
+                f'<td>{esc(row.get("status", ""))}</td><td>{esc(row.get("note", ""))}</td></tr>'
+                for row in expired_rows
+            )
+            expired_html = (
+                f'<section><h2>{esc(item.get("expired_heading", "Codes that no longer work"))}</h2>'
+                f'<p>{esc(item.get("expired_intro", ""))}</p><div class="table-wrap"><table>'
+                f'<thead><tr><th>Code</th><th>Was worth</th><th>Status</th><th>What changed</th></tr></thead>'
+                f'<tbody>{expired_cells}</tbody></table></div></section>'
+            )
         sections = "".join(
             f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{esc(p)}</p>" for p in block.get("paras", [])) + "</section>"
             for block in item.get("sections", [])
@@ -221,12 +273,11 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             f'<p>{esc(item["answer_second"])}</p>'
             f'<p class="muted">{esc(item.get("answer_note", ""))}</p>'
             f'<p><a class="button" href="{esc(item["hero_link"])}" rel="nofollow noopener">{esc(item.get("hero_link_text", "Open the official page"))}</a></p></section>'
+            f'{code_html}'
             f'<section><h2>{esc(item.get("table_heading", "Prices captured from the official store"))}</h2>'
-            f'<p>{esc(item.get("table_intro", ""))}</p><div class="table-wrap"><table>'
-            f'<thead><tr><th>Chair</th><th>Price now</th><th>Regular price</th><th>Cut</th><th>Variants and notes</th></tr></thead>'
-            f'<tbody>{"".join(table_rows)}</tbody></table></div>'
+            f'<p>{esc(item.get("table_intro", ""))}</p>{table_html}'
             f'<p class="muted">Captured {captured} · Reviewed {review}</p></section>'
-            f'{sections}{unconfirmed_html}'
+            f'{sections}{expired_html}{unconfirmed_html}'
             f'<section class="faq"><h2>Frequently asked questions</h2>{faq_html}</section>'
             f'<p>{esc(item.get("closing", ""))}</p>{link_html}<p class="disclosure">{esc(disclaimer)}</p>'
         )

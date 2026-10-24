@@ -48,14 +48,23 @@ def main() -> int:
         heading = item.get("unconfirmed_heading", "What this page does not confirm")
         body, li = section_list(html, heading)
         want_li = len(item.get("unconfirmed", []))
-        rows = len(re.findall(r"<tr>", html)) - 1
+        # A page carries one price-or-tier table plus, once codes rotate, a table of
+        # codes that no longer work. Every table has exactly one header row, so the
+        # expected total is the data rows plus one per table actually rendered.
+        if item.get("table"):
+            table_rows = len(item["table"]["rows"])
+        else:
+            table_rows = len(item.get("rows", []))
+        expired = len(item.get("expired") or [])
+        want_tr = table_rows + 1 + (expired + 1 if expired else 0)
+        rows = len(re.findall(r"<tr>", html))
         faq_q = len(re.findall(r"<h3>", html))
         checks = {
             "title": bool(title),
             "h1": bool(h1),
             "unconfirmed_section_present": li >= 0,
             "unconfirmed_items": (li == want_li) if want_li else True,
-            "table_rows": rows == len(item.get("rows", [])),
+            "table_rows": rows == want_tr,
             "faq_count": faq_q == len(item.get("faq", [])),
             "no_cjk": not CJK.search(html),
             "capture_line": item.get("captured_at", "") in html,
