@@ -27,3 +27,4 @@
 ::RULE{claim:A date, price or term is reported as printed only when it is printed in the page text; a value taken from the page's promotion data is described as taken from it|scope:permanent}
 ::RULE{claim:An absent restriction is not a permission - no one-per-customer limit printed does not mean two orders each qualify; write that as unverified rather than as allowed|scope:permanent}
 ::RULE{links:A coupon page links to the brand's product page and to its provider page, and the product page links back, so the price cluster and the coupon cluster are one net instead of two islands|scope:permanent}
+::RULE{links:A coupon page pointing at /compare is a placeholder - once that brand has a product page, the link moves to it, so /compare is the floor and not the destination|scope:permanent}

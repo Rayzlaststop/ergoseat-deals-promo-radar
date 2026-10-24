@@ -40,3 +40,25 @@ All four are high-competition and the top-of-page bids run from about $20 to $41
 means affiliate sites are paying for them. These four pages are occupancy and index
 accumulation for the next 28 days. The judgement on them is the index count first, not
 clicks, and a page that is not indexed is a page that was not built.
+
+## Next batch after the eighteen: seven product pages
+
+The coupon pages that fall back to /compare are exactly the brands with no product page on
+this site today:
+
+1. sihoo
+2. hbada
+3. nouhaus
+4. uplift
+5. branch
+6. herman-miller
+7. haworth
+
+Those seven product pages are the next batch, and they are what closes the net: on the day
+each one exists, the /compare link on that brand's coupon page moves to it. /compare stays
+the floor, not the destination.
+
+Their head terms are a different shape from this family's. A product page competes on the
+model or the chair name, not on "coupon code", so the volume is measured per page, one page
+at a time, with the same rule as above: the form measured is the form used. Do not carry
+this family's word forms over to them.
