@@ -9,9 +9,9 @@
       "captured_at": "2026-10-24T08:05:00+00:00",
       "captured_label": "24 October 2026, 08:05 UTC",
       "title": "Sihoo Discount Code BOO20: Extra $20 Off, and Doro C300 Prices",
-      "description": "Checked at sihoo.com on 24 October 2026: the Doro C300 Pro V2 page shows code BOO20 as an extra $20 off on top of $429.99, and the promo record behind it ends 2 November 2026. The Sihoo C300 is a different chair at $279.99.",
+      "description": "Checked at sihoo.com on 24 October 2026: the Doro C300 Pro V2 page shows code BOO20 as an extra $20 off on top of $429.99, and the page's promotion data ends it on 2 November 2026. The Sihoo C300 is a different chair at $279.99.",
       "h1": "Sihoo discount code BOO20: an extra $20 off, on top of the Doro C300 markdown",
-      "answer": "The Sihoo code running on 24 October 2026 is BOO20. It is served by the sihoo.com storefront as a Halloween Treat worth an extra $20.00 off, and the promo record that carries it ends 2 November 2026 at 00:00 store time. It is the smaller half of the saving: the same pages already list the Doro C300 Pro V2 at $429.99 against a $499.99 regular price, a $70.00 cut that needs no code at all.",
+      "answer": "The Sihoo code running on 24 October 2026 is BOO20. It is served by the sihoo.com storefront as a Halloween Treat worth an extra $20.00 off, and the page's promotion data gives it an end of 2 November 2026 at 00:00 store time. It is the smaller half of the saving: the same pages already list the Doro C300 Pro V2 at $429.99 against a $499.99 regular price, a $70.00 cut that needs no code at all.",
       "answer_second": "The Sihoo C300 is a different chair, listed at $279.99 against $559.99 on the new-customer page the same day, and the C300 Pro at $359.99 against $789.99. The models differ in the seat, the back support and the price, so the table below keeps them on separate rows rather than treating them as one product.",
       "answer_note": "Prices and the code on this page were read from Sihoo's own US store on 24 October 2026 at 08:05 UTC. No reseller price, coupon-site percentage, or news-post figure is used.",
       "hero_link": "https://www.sihoo.com/products/doro-c300-pro-v2",
@@ -96,7 +96,8 @@
           "h2": "What the $20 does to each price",
           "paras": [
             "On the Doro C300 Pro V2 the code takes the $429.99 listing to $409.99, which is 18% off the $499.99 regular price instead of 14%. On the C300 at $279.99 it would be $259.99 against $559.99, which is 54% instead of 50%. Those are arithmetic on the listed prices, not prices read after checkout.",
-            "The order matters: $20.00 is a flat amount, so it is worth more on a cheap chair than an expensive one. On the $169.99 M18 it is 12% of the price; on the $599.99 Doro S300 it is 3%. A code page that quotes one percentage for the whole store cannot be right about either end."
+            "The order matters: $20.00 is a flat amount, so it is worth more on a cheap chair than an expensive one. On the $169.99 M18 it is 12% of the price; on the $599.99 Doro S300 it is 3%. A code page that quotes one percentage for the whole store cannot be right about either end.",
+            "On the $279.99 C300 the $20.00 is 7.1%, while two C300s in one order still take $20.00, which is 3.6% of the $559.98 pair — the saving per chair halves — and because no one-per-customer limit is set, two separate orders would take $20.00 each."
           ]
         },
         {
@@ -110,7 +111,7 @@
       "unconfirmed_heading": "What this page does not confirm",
       "unconfirmed": [
         "Whether BOO20 stacks with any other Sihoo code. No code is printed beside it now, and no Sihoo page states the rule.",
-        "The time zone of the 2 November 2026 end time, and whether the code is withdrawn earlier than the record says.",
+        "The time zone of the 2 November 2026 end time, and whether the code is withdrawn earlier than that date.",
         "Whether the $20.00 appears in the cart without typing the code. The record calls the discount automatic; that was not tested at checkout.",
         "Whether the $20.00 applies to the footrest, white, or other variant prices. Only the standard black listing was read.",
         "Prices on Sihoo stores outside the United States. Only the US store was checked.",
@@ -123,15 +124,15 @@
         },
         {
           "q": "How much is the Sihoo code worth?",
-          "a": "$20.00, as a flat amount limited to one item per order. It is not a percentage, so it is worth 12% on the $169.99 M18 and 3% on the $599.99 Doro S300."
+          "a": "$20.00, as a flat amount limited to one item per order. It is not a percentage, so it is worth 12% on the $169.99 M18, 7.1% on the $279.99 C300, and 3% on the $599.99 Doro S300."
         },
         {
           "q": "When does the Sihoo code end?",
-          "a": "The page prints no date. The promo record behind the page ends it on 2 November 2026 at 00:00 store time, and no time zone is printed."
+          "a": "The page prints no date. Its promotion data ends the code on 2 November 2026 at 00:00 store time, and no time zone is printed."
         },
         {
           "q": "Can I use the code on two chairs in one order?",
-          "a": "No. The record limits the discount to one item, so a two-chair order still takes $20.00. The second chair only gets the automatic markdown."
+          "a": "No. The discount is limited to one item, so a two-chair order still takes $20.00. The second chair only gets the automatic markdown."
         },
         {
           "q": "Is the Sihoo C300 the same chair as the Doro C300?",
@@ -153,13 +154,13 @@
         "summary": "Extra $20.00 off, shown on the Doro C300 Pro V2 product page as a Halloween Treat.",
         "terms": [
           "The wording on the page is a Halloween Treat banner reading Extra $20 Off, with the code shown as BOO20.",
-          "The promo record behind that page gives it a start of 16 October 2026 00:00 and an end of 2 November 2026 00:00. The page prints no date and no time zone, so those two dates come from the record rather than from a line a shopper can read.",
-          "It is stored as a fixed $20.00 line-item discount limited to one item per order, and it is flagged to combine with order-level discounts. Two chairs in one order still take $20.00, not $40.00.",
-          "No login is required and the record carries no one-per-customer limit.",
-          "The record marks the discount as automatic. Whether the $20.00 appears in the cart without typing BOO20 was not tested, because that needs a checkout.",
-          "The record is served by the storefront rather than printed on one product page: it appears on the Pro V2 page and in the site template, which is why this page does not claim it is exclusive to that chair."
+          "Dates taken from the page's promotion data: it runs from 16 October 2026 00:00 to 2 November 2026 00:00. The page text prints no date and no time zone.",
+          "It is a fixed $20.00 discount limited to one item per order, and it combines with order-level discounts. Two chairs in one order still take $20.00, not $40.00.",
+          "No login is required and no one-per-customer limit is set.",
+          "The discount is set to apply automatically. Whether the $20.00 appears in the cart without typing BOO20 was not tested, because that needs a checkout.",
+          "It is served by the storefront rather than printed on one product page: it shows on the Pro V2 page and in the site template, which is why this page does not claim it is exclusive to that chair."
         ],
-        "ends": "Ends 2 November 2026 00:00 store time, per the promo record. This page is re-read before that date; when the code stops working it is replaced or emptied here and moved to the list further down.",
+        "ends": "Ends 2 November 2026 00:00 store time, taken from the page's promotion data. This page is re-read before that date; when the code stops working it is replaced here and moved to the list further down.",
         "source_note": "Read at sihoo.com on 24 October 2026 at 08:05 UTC.",
         "ends_at": "2026-11-02"
       },

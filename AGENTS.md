@@ -22,3 +22,6 @@
 ::RULE{coupon:Never rest a coupon page's increment on a short-lived code; thresholds, exclusions, stacking and the cart rule are the part that stays readable|scope:permanent}
 ::RULE{coupon:A tiered offer is stated as an effective rate per threshold plus the one-dollar step at each cliff; quoting the four amounts is a copy of the terms, not an answer|scope:permanent}
 ::RULE{coupon:A date or amount taken from a page's own promo record says so on the page; nothing is printed as if the seller had written it in text|scope:permanent}
+::RULE{keyword:Search volume is measured per word form - "discount code", "coupon code" and "promo code" are three different queries and can differ ninefold for one brand; never apply one form to a whole brand list|scope:permanent}
+::RULE{keyword:The highest-volume form goes in the title and the first screen of that page; the other forms are carried in the body as synonyms|scope:permanent}
+::RULE{claim:A date, price or term is reported as printed only when it is printed in the page text; a value taken from the page's promotion data is described as taken from it|scope:permanent}
