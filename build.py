@@ -258,6 +258,17 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{esc(p)}</p>" for p in block.get("paras", [])) + "</section>"
             for block in item.get("sections", [])
         )
+        # A coupon page and the price pages of the same brand are one subject seen from
+        # two sides. Each coupon page names the product page and the brand page it
+        # belongs to, and build links the product pages back, so the two clusters are a
+        # net instead of two islands collecting weight separately.
+        related = item.get("related") or []
+        related_html = ""
+        if related:
+            related_items = "".join(
+                f'<li><a href="{esc(rel["href"])}">{esc(rel["text"])}</a></li>' for rel in related
+            )
+            related_html = f"<section><h2>Where this fits on this site</h2><ul>{related_items}</ul></section>"
         unconfirmed = "".join(f"<li>{esc(line)}</li>" for line in item.get("unconfirmed", []))
         unconfirmed_html = (
             f'<section><h2>{esc(item.get("unconfirmed_heading", "What this page does not confirm"))}</h2>'
@@ -277,7 +288,7 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             f'<section><h2>{esc(item.get("table_heading", "Prices captured from the official store"))}</h2>'
             f'<p>{esc(item.get("table_intro", ""))}</p>{table_html}'
             f'<p class="muted">Captured {captured} · Reviewed {review}</p></section>'
-            f'{sections}{expired_html}{unconfirmed_html}'
+            f'{sections}{related_html}{expired_html}{unconfirmed_html}'
             f'<section class="faq"><h2>Frequently asked questions</h2>{faq_html}</section>'
             f'<p>{esc(item.get("closing", ""))}</p>{link_html}<p class="disclosure">{esc(disclaimer)}</p>'
         )
@@ -487,6 +498,14 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
 
     (output_dir / "deals").mkdir(exist_ok=True)
     written_deals = set()
+    # The reverse of the coupon page's own links: a product page that a coupon page
+    # names points back at it, so the link runs both ways instead of one.
+    coupon_for_product = {}
+    for page in keyword_pages:
+        for rel in page.get("related", []):
+            href = rel.get("href", "")
+            if href.startswith("/deals/"):
+                coupon_for_product[href[len("/deals/"):]] = page
     # One page per verified offer, independent of which listing page survives:
     # every homepage and compare-table card must resolve to a real page.
     for offer in offers:
@@ -549,7 +568,13 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             extra_blocks += f'<section><h2>Who this is for</h2><p>{esc(detail_row["for_who"])}</p></section>'
         if detail_row.get("judgment"):
             extra_blocks += f'<section><h2>What this page adds</h2><p>{esc(detail_row["judgment"])}</p></section>'
-        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(display_title(offer["title"]))}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}<p class="disclosure">{esc(disclaimer)}</p>'
+        coupon_page = coupon_for_product.get(offer_slug(offer))
+        coupon_block = (
+            f'<section><h2>Coupon code and tiers for this brand</h2>'
+            f'<p><a href="/deals/{esc(safe_slug(coupon_page["slug"]))}">{esc(coupon_page["title"])}</a></p></section>'
+            if coupon_page else ""
+        )
+        detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(display_title(offer["title"]))}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, display_title(offer["title"]), target, base)]}
         (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
 
@@ -594,6 +619,12 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'<section><h2>Who this is for</h2><p>{esc(row["for_who"])}</p></section>'
             if row.get("for_who") else ""
         )
+        coupon_page = coupon_for_product.get(row["_slug"])
+        coupon_block = (
+            f'<section><h2>Coupon code and tiers for this brand</h2>'
+            f'<p><a href="/deals/{esc(safe_slug(coupon_page["slug"]))}">{esc(coupon_page["title"])}</a></p></section>'
+            if coupon_page else ""
+        )
         detail = (
             f'<nav class="breadcrumbs"><a href="/">Home</a> › <a href="/providers/{esc(crumb_slug)}">{esc(row.get("brand", ""))}</a></nav>'
             f'<section class="hero compact"><p class="eyebrow">Address kept · not re-read today</p>'
@@ -602,7 +633,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'<p class="price-line">Price on the official {esc(row.get("brand", ""))} page as of today</p>'
             f'<p><a class="button" href="{esc(link)}" rel="nofollow noopener">Check the price on the official page</a></p>'
             f'{last_line}'
-            f'</section>{spec_block}{who_block}<p class="disclosure">{esc(disclaimer)}</p>'
+            f'</section>{spec_block}{who_block}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         )
         jsonld = {"@context": "https://schema.org", "@graph": [breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(

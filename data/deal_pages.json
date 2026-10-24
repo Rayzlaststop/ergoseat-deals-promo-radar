@@ -97,7 +97,7 @@
           "paras": [
             "On the Doro C300 Pro V2 the code takes the $429.99 listing to $409.99, which is 18% off the $499.99 regular price instead of 14%. On the C300 at $279.99 it would be $259.99 against $559.99, which is 54% instead of 50%. Those are arithmetic on the listed prices, not prices read after checkout.",
             "The order matters: $20.00 is a flat amount, so it is worth more on a cheap chair than an expensive one. On the $169.99 M18 it is 12% of the price; on the $599.99 Doro S300 it is 3%. A code page that quotes one percentage for the whole store cannot be right about either end.",
-            "On the $279.99 C300 the $20.00 is 7.1%, while two C300s in one order still take $20.00, which is 3.6% of the $559.98 pair — the saving per chair halves — and because no one-per-customer limit is set, two separate orders would take $20.00 each."
+            "On the $279.99 C300 the $20.00 is 7.1%, while two C300s in one order still take $20.00, which is 3.6% of the $559.98 pair, so the saving per chair halves. The promotion data prints no one-per-customer limit, but an absent limit is not a permission: whether two separate orders would each take $20.00 was not verified at checkout."
           ]
         },
         {
@@ -112,6 +112,7 @@
       "unconfirmed": [
         "Whether BOO20 stacks with any other Sihoo code. No code is printed beside it now, and no Sihoo page states the rule.",
         "The time zone of the 2 November 2026 end time, and whether the code is withdrawn earlier than that date.",
+        "Whether two separate orders would each take the $20.00. No one-per-customer limit is printed, but that absence is not a permission; verifying it needs two carts walked to the checkout page.",
         "Whether the $20.00 appears in the cart without typing the code. The record calls the discount automatic; that was not tested at checkout.",
         "Whether the $20.00 applies to the footrest, white, or other variant prices. Only the standard black listing was read.",
         "Prices on Sihoo stores outside the United States. Only the US store was checked.",
@@ -156,7 +157,7 @@
           "The wording on the page is a Halloween Treat banner reading Extra $20 Off, with the code shown as BOO20.",
           "Dates taken from the page's promotion data: it runs from 16 October 2026 00:00 to 2 November 2026 00:00. The page text prints no date and no time zone.",
           "It is a fixed $20.00 discount limited to one item per order, and it combines with order-level discounts. Two chairs in one order still take $20.00, not $40.00.",
-          "No login is required and no one-per-customer limit is set.",
+          "The promotion data shows no login requirement and no one-per-customer limit.",
           "The discount is set to apply automatically. Whether the $20.00 appears in the cart without typing BOO20 was not tested, because that needs a checkout.",
           "It is served by the storefront rather than printed on one product page: it shows on the Pro V2 page and in the site template, which is why this page does not claim it is exclusive to that chair."
         ],
@@ -783,7 +784,7 @@
         },
         {
           "q": "Can I split the order to get more off?",
-          "a": "No. Two $1,000.00 orders would take $225.00 each, $450.00 in total, against $500.00 for one $2,000.00 order. Whether the code can be reused on a second order is not stated on the page."
+          "a": "No. Two $1,000.00 orders at that tier would be $225.00 each, $450.00 in total, against $500.00 for one $2,000.00 order, so the single order wins on the published tiers. Whether the code can be used on a second order at all is not stated on the page."
         },
         {
           "q": "When does the Vari code expire?",
@@ -794,7 +795,17 @@
       "internal_link": {
         "href": "/providers/vari",
         "text": "Vari shipping, returns and warranty terms"
-      }
+      },
+      "related": [
+        {
+          "href": "/deals/vari-dual-monitor-arm",
+          "text": "Vari Dual-Monitor Arm: the current price and the regular price on the same page"
+        },
+        {
+          "href": "/providers/vari",
+          "text": "Vari shipping, returns and warranty terms"
+        }
+      ]
     }
   ]
 }
