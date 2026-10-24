@@ -4,21 +4,66 @@
     "flexispot-c7mb-foam": {
       "read_at": "2026-10-23T02:10:00+00:00",
       "specs": [
-        ["Variant listing on the page", "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: No Footrest"],
-        ["Seat", "Foam cushion with 0.2in latex layer"],
-        ["Seat width", "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"],
-        ["Seat depth adjustment", "15.7in - 17.3in"],
-        ["Seat height adjustment", "18.5in - 20.9in"],
-        ["Max weight capacity", "Foam version 300lb; the same row prints the mesh version at 350lb"],
-        ["Recommended height", "5'7\" - 6'9\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Headrest adjustment", "3D"],
-        ["Armrest adjustment", "5D"],
-        ["Back recline", "93 to 135 degrees"],
-        ["Base", "Nylon"],
-        ["Footrest", "Optional on this chair; this variant is the No Footrest listing"],
-        ["Warranty", "10 years"],
-        ["Overall chair dimensions", "Not published on this page; only the seat measurements above are printed"]
+        [
+          "Variant listing on the page",
+          "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: No Footrest"
+        ],
+        [
+          "Seat",
+          "Foam cushion with 0.2in latex layer"
+        ],
+        [
+          "Seat width",
+          "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"
+        ],
+        [
+          "Seat depth adjustment",
+          "15.7in - 17.3in"
+        ],
+        [
+          "Seat height adjustment",
+          "18.5in - 20.9in"
+        ],
+        [
+          "Max weight capacity",
+          "Foam version 300lb; the same row prints the mesh version at 350lb"
+        ],
+        [
+          "Recommended height",
+          "5'7\" - 6'9\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Headrest adjustment",
+          "3D"
+        ],
+        [
+          "Armrest adjustment",
+          "5D"
+        ],
+        [
+          "Back recline",
+          "93 to 135 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Footrest",
+          "Optional on this chair; this variant is the No Footrest listing"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ],
+        [
+          "Overall chair dimensions",
+          "Not published on this page; only the seat measurements above are printed"
+        ]
       ],
       "spec_note": "The product page carries two spec tables that compare the C7 and the C7 Max in two columns. Both tables place this variant in the C7 Max column, and every figure above is from that column. The two tables agree on each C7 Max figure except seat width, which one prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Foam, Frame/Surface Color: All Black, Footrest: No Footrest.",
       "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for.",
@@ -27,21 +72,66 @@
     "flexispot-c7mb-foam-ft": {
       "read_at": "2026-10-23T02:10:00+00:00",
       "specs": [
-        ["Variant listing on the page", "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: With Footrest"],
-        ["Seat", "Foam cushion with 0.2in latex layer"],
-        ["Seat width", "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"],
-        ["Seat depth adjustment", "15.7in - 17.3in"],
-        ["Seat height adjustment", "18.5in - 20.9in"],
-        ["Max weight capacity", "Foam version 300lb; the same row prints the mesh version at 350lb"],
-        ["Recommended height", "5'7\" - 6'9\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Headrest adjustment", "3D"],
-        ["Armrest adjustment", "5D"],
-        ["Back recline", "93 to 135 degrees"],
-        ["Base", "Nylon"],
-        ["Footrest", "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair"],
-        ["Warranty", "10 years"],
-        ["Overall chair dimensions", "Not published on this page; only the seat measurements above are printed"]
+        [
+          "Variant listing on the page",
+          "Style: C7 Max; Seat Material: Foam; Frame/Surface Color: All Black; Footrest: With Footrest"
+        ],
+        [
+          "Seat",
+          "Foam cushion with 0.2in latex layer"
+        ],
+        [
+          "Seat width",
+          "20.1in (first spec table); the page's second spec table prints 20in for the C7 Max column"
+        ],
+        [
+          "Seat depth adjustment",
+          "15.7in - 17.3in"
+        ],
+        [
+          "Seat height adjustment",
+          "18.5in - 20.9in"
+        ],
+        [
+          "Max weight capacity",
+          "Foam version 300lb; the same row prints the mesh version at 350lb"
+        ],
+        [
+          "Recommended height",
+          "5'7\" - 6'9\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Headrest adjustment",
+          "3D"
+        ],
+        [
+          "Armrest adjustment",
+          "5D"
+        ],
+        [
+          "Back recline",
+          "93 to 135 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Footrest",
+          "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ],
+        [
+          "Overall chair dimensions",
+          "Not published on this page; only the seat measurements above are printed"
+        ]
       ],
       "spec_note": "Same two spec tables as the other C7 Max listings on this page: both tables place this variant in the C7 Max column, every figure above is from that column, and the two tables disagree only on seat width (20.1in in one, 20in in the other), which is recorded as printed. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Foam, Frame/Surface Color: All Black, Footrest: With Footrest.",
       "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for.",
@@ -50,18 +140,54 @@
     "flexispot-premium-ergonomic-office-chair-c7": {
       "read_at": "2026-10-22T12:20:00+00:00",
       "specs": [
-        ["Seat options", "Foam cushion with 0.2in latex layer, or DuPont Bounce Technology mesh"],
-        ["Seat width", "20.1in"],
-        ["Seat depth adjustment", "17.3in - 20.5in"],
-        ["Seat height adjustment", "16.5in - 20.1in"],
-        ["Max weight capacity", "Mesh version 350lb, foam version 300lb"],
-        ["Recommended height", "5'5\" - 6'11\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Headrest adjustment", "4D"],
-        ["Armrest adjustment", "3D"],
-        ["Back recline", "90 to 130 degrees"],
-        ["Base", "Nylon"],
-        ["Warranty", "10 years"]
+        [
+          "Seat options",
+          "Foam cushion with 0.2in latex layer, or DuPont Bounce Technology mesh"
+        ],
+        [
+          "Seat width",
+          "20.1in"
+        ],
+        [
+          "Seat depth adjustment",
+          "17.3in - 20.5in"
+        ],
+        [
+          "Seat height adjustment",
+          "16.5in - 20.1in"
+        ],
+        [
+          "Max weight capacity",
+          "Mesh version 350lb, foam version 300lb"
+        ],
+        [
+          "Recommended height",
+          "5'5\" - 6'11\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Headrest adjustment",
+          "4D"
+        ],
+        [
+          "Armrest adjustment",
+          "3D"
+        ],
+        [
+          "Back recline",
+          "90 to 130 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ]
       ],
       "spec_note": "The spec table on the product page prints C7 and C7 Max in two columns; every figure above is from the C7 column. The page also prints Save an average of 30% as a site-wide line; that claim is not used in any calculation on this page.",
       "for_who": "The spec table prints a recommended height of 5'5\" to 6'11\", which is the seller's own statement of who the C7 is sized for.",
@@ -70,18 +196,54 @@
     "flexispot-c7-mesh": {
       "read_at": "2026-10-22T11:50:24+00:00",
       "specs": [
-        ["Seat options", "DuPont Bounce Technology mesh, or foam cushion with 0.2in latex layer"],
-        ["Seat width", "20.1in"],
-        ["Seat depth adjustment", "17.3in - 20.5in"],
-        ["Seat height adjustment", "16.5in - 20.1in"],
-        ["Max weight capacity", "Mesh version 350lb, foam version 300lb"],
-        ["Recommended height", "5'5\" - 6'11\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Headrest adjustment", "4D"],
-        ["Armrest adjustment", "3D"],
-        ["Back recline", "90 to 130 degrees"],
-        ["Base", "Nylon"],
-        ["Warranty", "10 years"]
+        [
+          "Seat options",
+          "DuPont Bounce Technology mesh, or foam cushion with 0.2in latex layer"
+        ],
+        [
+          "Seat width",
+          "20.1in"
+        ],
+        [
+          "Seat depth adjustment",
+          "17.3in - 20.5in"
+        ],
+        [
+          "Seat height adjustment",
+          "16.5in - 20.1in"
+        ],
+        [
+          "Max weight capacity",
+          "Mesh version 350lb, foam version 300lb"
+        ],
+        [
+          "Recommended height",
+          "5'5\" - 6'11\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Headrest adjustment",
+          "4D"
+        ],
+        [
+          "Armrest adjustment",
+          "3D"
+        ],
+        [
+          "Back recline",
+          "90 to 130 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ]
       ],
       "spec_note": "The spec table on the product page prints C7 and C7 Max in two columns; every figure above is from the C7 column, and the mesh capacity row is the one that applies to this variant. The page prints no separate spec table for the mesh variant alone.",
       "for_who": "The spec table prints a recommended height of 5'5\" to 6'11\"; within that range the mesh version is the one the page rates at 350lb rather than 300lb.",
@@ -90,22 +252,70 @@
     "flexispot-c7mb-m1": {
       "read_at": "2026-10-24T02:06:20+00:00",
       "specs": [
-        ["Variant listing on the page", "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: No Footrest (skuCode C7MB-M1-DIY)"],
-        ["Seat", "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"],
-        ["Seat width", "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"],
-        ["Seat depth adjustment", "15.7in - 17.3in"],
-        ["Seat height adjustment", "18.5in - 20.9in"],
-        ["Max weight capacity", "Mesh version 350lb; the same row prints the foam version at 300lb"],
-        ["Recommended height", "5'7\" - 6'9\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Lumbar support", "Adjustable self-adaptive dynamic"],
-        ["Headrest adjustment", "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"],
-        ["Armrest adjustment", "5D"],
-        ["Back recline", "93 to 135 degrees"],
-        ["Base", "Nylon"],
-        ["Footrest", "Optional on this chair per the spec table; this variant is the No Footrest listing"],
-        ["Warranty", "10 years"],
-        ["Overall chair dimensions", "Not published on this page for the C7 Max; only the seat measurements above are printed"]
+        [
+          "Variant listing on the page",
+          "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: No Footrest (skuCode C7MB-M1-DIY)"
+        ],
+        [
+          "Seat",
+          "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"
+        ],
+        [
+          "Seat width",
+          "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"
+        ],
+        [
+          "Seat depth adjustment",
+          "15.7in - 17.3in"
+        ],
+        [
+          "Seat height adjustment",
+          "18.5in - 20.9in"
+        ],
+        [
+          "Max weight capacity",
+          "Mesh version 350lb; the same row prints the foam version at 300lb"
+        ],
+        [
+          "Recommended height",
+          "5'7\" - 6'9\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Lumbar support",
+          "Adjustable self-adaptive dynamic"
+        ],
+        [
+          "Headrest adjustment",
+          "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"
+        ],
+        [
+          "Armrest adjustment",
+          "5D"
+        ],
+        [
+          "Back recline",
+          "93 to 135 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Footrest",
+          "Optional on this chair per the spec table; this variant is the No Footrest listing"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ],
+        [
+          "Overall chair dimensions",
+          "Not published on this page for the C7 Max; only the seat measurements above are printed"
+        ]
       ],
       "spec_note": "The product page carries spec tables that compare the C7 and the C7 Max in two columns, printed in two different table styles. Every one of them places this variant in the C7 Max column, and every figure above is from that column. The tables disagree on seat width, which one style prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The headrest row prints 3D in one table style and 2.36in, 135 degrees in the other, and both are recorded. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Mesh, Frame/Surface Color: All Black, Footrest: No Footrest.",
       "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for; the mesh version is the one the same page rates at 350lb rather than 300lb.",
@@ -114,26 +324,250 @@
     "flexispot-c7mb-m2": {
       "read_at": "2026-10-24T02:06:20+00:00",
       "specs": [
-        ["Variant listing on the page", "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: With Footrest (skuCode C7MB-M2-DIY)"],
-        ["Seat", "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"],
-        ["Seat width", "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"],
-        ["Seat depth adjustment", "15.7in - 17.3in"],
-        ["Seat height adjustment", "18.5in - 20.9in"],
-        ["Max weight capacity", "Mesh version 350lb; the same row prints the foam version at 300lb"],
-        ["Recommended height", "5'7\" - 6'9\""],
-        ["Backrest height adjustment", "5-position"],
-        ["Lumbar support", "Adjustable self-adaptive dynamic"],
-        ["Headrest adjustment", "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"],
-        ["Armrest adjustment", "5D"],
-        ["Back recline", "93 to 135 degrees"],
-        ["Base", "Nylon"],
-        ["Footrest", "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair, and the variant data prices it at +$40.00 on both the sale and the regular price"],
-        ["Warranty", "10 years"],
-        ["Overall chair dimensions", "Not published on this page for the C7 Max; only the seat measurements above are printed"]
+        [
+          "Variant listing on the page",
+          "Style: C7 Max; Seat Material: Mesh; Frame/Surface Color: All Black; Footrest: With Footrest (skuCode C7MB-M2-DIY)"
+        ],
+        [
+          "Seat",
+          "DuPont Bounce Technology mesh; the C7 Max seat options printed on the page are a foam cushion with a 0.2in latex layer and DuPont Bounce Technology mesh, and this variant is the mesh listing"
+        ],
+        [
+          "Seat width",
+          "20.1in in the page's first spec table; the page's second spec table prints 20in for the C7 Max column"
+        ],
+        [
+          "Seat depth adjustment",
+          "15.7in - 17.3in"
+        ],
+        [
+          "Seat height adjustment",
+          "18.5in - 20.9in"
+        ],
+        [
+          "Max weight capacity",
+          "Mesh version 350lb; the same row prints the foam version at 300lb"
+        ],
+        [
+          "Recommended height",
+          "5'7\" - 6'9\""
+        ],
+        [
+          "Backrest height adjustment",
+          "5-position"
+        ],
+        [
+          "Lumbar support",
+          "Adjustable self-adaptive dynamic"
+        ],
+        [
+          "Headrest adjustment",
+          "3D in the page's second spec table style; the other table style prints the same row as 2.36in, 135 degrees"
+        ],
+        [
+          "Armrest adjustment",
+          "5D"
+        ],
+        [
+          "Back recline",
+          "93 to 135 degrees"
+        ],
+        [
+          "Base",
+          "Nylon"
+        ],
+        [
+          "Footrest",
+          "This variant is the page's With Footrest listing; the spec table prints the footrest as optional on the chair, and the variant data prices it at +$40.00 on both the sale and the regular price"
+        ],
+        [
+          "Warranty",
+          "10 years"
+        ],
+        [
+          "Overall chair dimensions",
+          "Not published on this page for the C7 Max; only the seat measurements above are printed"
+        ]
       ],
       "spec_note": "The product page carries spec tables that compare the C7 and the C7 Max in two columns, printed in two different table styles. Every one of them places this variant in the C7 Max column, and every figure above is from that column. The tables disagree on seat width, which one style prints as 20.1in and the other as 20in; both numbers are recorded as printed and are not reconciled. The headrest row prints 3D in one table style and 2.36in, 135 degrees in the other, and both are recorded. The variant's own row in the page's variant data prints Style: C7 Max, Seat Material: Mesh, Frame/Surface Color: All Black, Footrest: With Footrest.",
       "for_who": "The spec table prints a recommended height of 5'7\" to 6'9\" for the C7 Max, which is the seller's own statement of who this chair is sized for; the mesh version is the one the same page rates at 350lb rather than 300lb.",
       "judgment": "The footrest is a flat $40.00 on both printed numbers and moves the percentage without touching the dollar saving: this row reads $489.99 against a $619.99 regular price while the same C7 Max mesh chair without the footrest reads $449.99 against $579.99, so both differences are $40.00 ($489.99 - $449.99 = $40.00; $619.99 - $579.99 = $40.00) and the markdown stays exactly $130.00 on both rows ($619.99 - $489.99 = $130.00; $579.99 - $449.99 = $130.00). That moves the rounded cut from 22% to 21% ($130.00 / $619.99 = 20.97%, against $130.00 / $579.99 = 22.41%)."
+    },
+    "vari-dual-monitor-arm": {
+      "read_at": "2026-10-24T07:35:00+00:00",
+      "specs": [
+        [
+          "Monitor capacity (spec table)",
+          "Dual"
+        ],
+        [
+          "Aspect ratio (spec table)",
+          "16:9"
+        ],
+        [
+          "Product weight (spec table)",
+          "13.23lb"
+        ],
+        [
+          "Assembly (spec table)",
+          "All tools included"
+        ],
+        [
+          "Warranty (spec table)",
+          "10 year"
+        ],
+        [
+          "Weight per monitor (description)",
+          "8.98 kg"
+        ],
+        [
+          "Rotation (description)",
+          "360 degrees"
+        ],
+        [
+          "Mounting (description)",
+          "VESA compatible"
+        ],
+        [
+          "Desk fit (description)",
+          "Works with all Vari desks"
+        ]
+      ],
+      "spec_note": "The spec table prints no per-monitor weight capacity row; the only capacity figure on the page is in the product description, which gives 8.98 kg per monitor. It is printed in kilograms and the page never converts it to pounds. The table's only weight figure is the 13.23lb product weight. The same table carries a column for the Monitor Arm + Laptop Stand, so the two arms can be compared on weight, but that column prints no capacity figure either.",
+      "for_who": "Vari's own description says the arms 'work seamlessly with all of our desks', are 'VESA compatible', hold 'up to 8.98 kg each' and 'can be rotated 360 degrees'. That is the seller's statement of what the arm fits, not an audience sentence: the page names no user type anywhere.",
+      "judgment": "Two monitors at 8.98 kg each is 17.96 kg, which is 39.59 lb at 2.20462 lb per kg (8.98 × 2.20462 = 19.80lb each) — the page prints the capacity in kilograms only and never does this conversion. The price move is $74.75 off $299.00, exactly 25.00% ($74.75 ÷ $299.00 = 0.2500). In the same spec table the laptop-stand column weighs 1.32lb more (14.55lb − 13.23lb = 1.32lb), so this arm is the lighter of the two by 9.98% of its own weight (1.32 ÷ 13.23 = 0.0998)."
+    },
+    "vari-monitor-arm-laptop-stand": {
+      "read_at": "2026-10-24T07:35:00+00:00",
+      "specs": [
+        [
+          "Monitor capacity (spec table)",
+          "Single with Cradle"
+        ],
+        [
+          "Aspect ratio (spec table)",
+          "16:9"
+        ],
+        [
+          "Product weight (spec table)",
+          "14.55lb"
+        ],
+        [
+          "Assembly (spec table)",
+          "All tools included"
+        ],
+        [
+          "Warranty (spec table)",
+          "10 year"
+        ]
+      ],
+      "spec_note": "The table prints no weight capacity and no screen size limit for this arm; the five rows above are every number the page gives. The Monitor Capacity row reads 'Single with Cradle', which is the page's own way of saying the cradle takes one screen.",
+      "for_who": "Vari's description says the arm is for positioning 'your display and laptop side-by-side to use both screens together' — the laptop sits in the cradle, so the two screens are one monitor plus one laptop, not two monitors.",
+      "judgment": "One screen position costs $174.30 here. The dual arm's $224.25 covers two positions, which is $112.13 a position ($224.25 ÷ 2 = $112.125), so a second screen position costs about $62.18 less there ($174.30 − $112.125 = $62.175). The headline percentage points the other way: this arm is 30.00% off ($74.70 ÷ $249.00 = 0.3000) against 25.00% on the dual ($74.75 ÷ $299.00 = 0.2500), while the dollars saved differ by five cents ($74.75 − $74.70 = $0.05). The same $50.00 gap in reference price ($299.00 − $249.00 = $50.00) is what turns into a five-point gap in the percentage."
+    },
+    "vari-essential-task-chair": {
+      "read_at": "2026-10-24T07:35:00+00:00",
+      "specs": [
+        [
+          "Chair type",
+          "Ergonomic"
+        ],
+        [
+          "Material",
+          "Fabric & Mesh"
+        ],
+        [
+          "Features",
+          "Lumbar support, swivel, multisurface"
+        ],
+        [
+          "Adjustments",
+          "Seat height"
+        ],
+        [
+          "Armrest adjustments",
+          "Armrest height"
+        ],
+        [
+          "Dimensions",
+          "17-1/3in (H) x 20in (W) x 22-1/2in (D)"
+        ],
+        [
+          "Seat back height",
+          "20in"
+        ],
+        [
+          "Product weight",
+          "30.9lb"
+        ],
+        [
+          "Seating weight capacity",
+          "275lb"
+        ],
+        [
+          "Assembly",
+          "Minimal assembly required"
+        ],
+        [
+          "Warranty",
+          "3 year"
+        ]
+      ],
+      "spec_note": "The page prints a four-column chair comparison table; every figure above is from the Essential Task Chair column. The Cooling Gel row is printed blank for all four chairs, so it is recorded as not printed rather than as 'no'.",
+      "for_who": "Vari's description: 'The Essential Task Chair delivers ergonomic support and everyday comfort. Designed for simplicity, performance, and all-day use, this chair combines airflow, adjustability, and durability—at an exceptional value.' The page also says it 'moves seamlessly between spaces' at home or in the office.",
+      "judgment": "In the page's own four-chair table this is the only column whose Adjustments row reads seat height alone — the other three read seat height, seat depth and tilt tension — and the only one whose armrests adjust in height alone. Its warranty is 3 years against 5 years on the other three columns, and its seat back is 20in against 22.5in on the Ascend column. The price move is $40.50 off $269.99, which is 15.0% ($40.50 ÷ $269.99 = 0.1500): the smallest absolute saving of the four Vari items read today, where the other three carry $74.75, $74.00 and $74.70."
+    },
+    "vari-essential-electric-standing-desk-48x24": {
+      "read_at": "2026-10-24T07:35:00+00:00",
+      "specs": [
+        [
+          "Lift mechanism",
+          "Electric"
+        ],
+        [
+          "Lift type",
+          "Straight up lift"
+        ],
+        [
+          "Desk edge",
+          "Chamfered"
+        ],
+        [
+          "Dimensions",
+          "27.5-47.2in (H) x 48in (W) x 24in (D)"
+        ],
+        [
+          "Size",
+          "48x24in"
+        ],
+        [
+          "Product weight",
+          "70.78lb"
+        ],
+        [
+          "Weight capacity",
+          "150lb"
+        ],
+        [
+          "Desk max height",
+          "47.2in"
+        ],
+        [
+          "Assembly",
+          "Minimal assembly required"
+        ],
+        [
+          "Certifications",
+          "ANSI/BIFMA"
+        ],
+        [
+          "Warranty",
+          "3 year"
+        ]
+      ],
+      "spec_note": "The page prints a four-desk comparison table; every figure above is from the Essential 48x24 column. The Cable Tray Compatible row is printed blank for this column, so it is recorded as not printed.",
+      "for_who": "Vari calls it 'our most affordable electric standing desk' and 'the easy way to create a workspace you love'. The page's own framing is a first standing desk; the figures on this page show what that framing gives up.",
+      "judgment": "The travel is 47.2in − 27.5in = 19.7in. The other three desks in the same table travel 25in to 50.5in, which is 25.5in — 5.8in more — and they are rated 220lb, 200lb and 220lb against this desk's 150lb. Its lowest position is 27.5in where all three others sit at 25in. The price move is $74.00 off $369.99, exactly 20.00% ($74.00 ÷ $369.99 = 0.2000)."
     }
   }
 }

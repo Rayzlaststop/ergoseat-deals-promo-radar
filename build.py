@@ -43,7 +43,10 @@ def canonical(base: str, path: str = "") -> str:
 def money(value: str, currency: str) -> str:
     symbol = {"USD": "$", "CAD": "CA$", "EUR": "€", "GBP": "£"}.get(currency, currency + " ")
     try:
-        return symbol + f"{float(value):,.2f}".rstrip("0").rstrip(".")
+        # Two decimals always. Stripping trailing zeros printed "$299" and
+        # "$174.3" next to "$369.99", which reads as machine output on a page
+        # whose whole point is that the numbers were copied off the seller.
+        return symbol + f"{float(value):,.2f}"
     except (ValueError, TypeError):
         return symbol + str(value)
 
@@ -230,18 +233,15 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
         faq_schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in item.get("faq", [])
         ]}
-        # One Product node per table row, so every Offer can carry the fields the
-        # seller page actually printed: image and availability. Fields that were
-        # not read stay absent; nothing is guessed. aggregateRating and review are
-        # never emitted, because no rating or review data is collected.
+        # One Product node per table row, but no Offer node: this page quotes
+        # prices it read, it does not sell the product, so publishing price and
+        # priceCurrency as an Offer claims a merchant listing the site cannot
+        # back. Product keeps the name, the description and the image the seller
+        # printed. aggregateRating and review are never emitted, because no rating
+        # or review data is collected.
         product_schemas = []
         for row in item.get("rows", []):
-            offer_node = {"@type": "Offer", "price": row["price"], "priceCurrency": "USD", "url": row["url"]}
-            if row.get("image"):
-                offer_node["image"] = row["image"]
-            if row.get("availability"):
-                offer_node["availability"] = "https://schema.org/" + row["availability"]
-            product_node = {"@context": "https://schema.org", "@type": "Product", "name": row["product"], "description": item.get("description", ""), "url": url, "offers": offer_node}
+            product_node = {"@context": "https://schema.org", "@type": "Product", "name": row["product"], "description": item.get("description", ""), "url": url}
             if row.get("image"):
                 product_node["image"] = row["image"]
             product_schemas.append(product_node)
@@ -451,19 +451,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         discount = round((float(offer["original_price"]) - float(offer["price"])) / float(offer["original_price"]) * 100)
         month = dt.datetime.fromisoformat(offer["fetched_at"].replace("Z", "+00:00")).strftime("%B %Y")
         link = offer.get("affiliate_url") or offer["offer_url"]
-        structured = {"@context": "https://schema.org", "@type": "Product", "name": display_title(offer["title"]), "brand": {"@type": "Brand", "name": offer["brand"]}, "offers": {"@type": "Offer", "url": link, "price": offer["price"], "priceCurrency": offer["currency"]}}
-        if offer.get("valid_until"):
-            structured["offers"]["priceValidUntil"] = offer["valid_until"]
-        # Only fields the collector actually read are emitted: image and availability
-        # stay absent when the source page did not expose them. aggregateRating and
-        # review are never emitted because no rating data is collected.
+        # No Offer node. Google reads a Product carrying price/priceCurrency as a
+        # merchant listing, and this page is a price directory, not the seller: it
+        # has no merchant identity, shipping or return terms to back the claim, so
+        # the markup came back as an invalid item in the Merchant listings report.
+        # The price stays in the visible copy, quoted with its read time; it is not
+        # published as a machine-readable offer. Product keeps name, brand and the
+        # image the seller's page actually printed, and no aggregateRating or
+        # review is ever emitted because no rating data is collected.
+        structured = {"@context": "https://schema.org", "@type": "Product", "name": display_title(offer["title"]), "brand": {"@type": "Brand", "name": offer["brand"]}}
         if offer.get("image"):
             structured["image"] = offer["image"]
-            structured["offers"]["image"] = offer["image"]
-        if offer.get("availability"):
-            structured["offers"]["availability"] = "https://schema.org/" + offer["availability"]
-        if offer.get("affiliate_url"):
-            structured["offers"]["seller"] = {"@type": "Organization", "name": offer["brand"]}
         rel = "nofollow sponsored noopener" if offer.get("affiliate_url") else "nofollow noopener"
         crumb_row = brand_by_norm.get(normalize_name(offer["brand"]))
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
