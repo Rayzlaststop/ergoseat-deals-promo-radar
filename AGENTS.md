@@ -28,3 +28,7 @@
 ::RULE{claim:An absent restriction is not a permission - no one-per-customer limit printed does not mean two orders each qualify; write that as unverified rather than as allowed|scope:permanent}
 ::RULE{links:A coupon page links to the brand's product page and to its provider page, and the product page links back, so the price cluster and the coupon cluster are one net instead of two islands|scope:permanent}
 ::RULE{links:A coupon page pointing at /compare is a placeholder - once that brand has a product page, the link moves to it, so /compare is the floor and not the destination|scope:permanent}
+::RULE{family:No paragraph is repeated across the pages of one family; only the footer, the disclaimer and the spec rows may be reused|scope:permanent}
+::RULE{family:Every page carries at least one fact that holds only in that brand's own terms and cannot be found on a sister page; without it the family is doorways and Google drops the batch|scope:permanent}
+::RULE{index:Request indexing only for canonical addresses that are not yet indexed, highest search volume first, and never for a .html address|scope:permanent}
+::RULE{index:When the daily indexing quota is hit, stop and resume the next day instead of retrying|scope:permanent}
