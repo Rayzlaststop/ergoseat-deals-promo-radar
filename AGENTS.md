@@ -35,3 +35,5 @@
 ::RULE{family:All four incremental slots of a coupon page are filled from official terms; an empty slot counts as "cannot write this page" and the page does not ship, and no exception is granted by the person writing it|scope:permanent}
 ::RULE{output:A day that ships no page is a failed day; a page written and left in the local build is not shipped, it is a gap between the local sitemap count and the live one|scope:permanent}
 ::RULE{output:Zero output is never explained by a stale report - if the Search Console report has not recalculated, say it is stopped and ship something anyway|scope:permanent}
+::RULE{schema:Every detail page carries an Offer or an AggregateOffer, because a detail page without one has a price the crawler cannot read; a page that prints no product price still carries the node, without a price field|scope:permanent}
+::RULE{schema:An Offer carries only fields the seller page prints - no priceValidUntil, no seller, no availability - and its price string matches the visible price character for character|scope:permanent}

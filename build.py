@@ -55,6 +55,27 @@ def schema_script(value: dict) -> str:
     return '<script type="application/ld+json">' + json.dumps(value, ensure_ascii=False).replace("</", "<\\/") + "</script>"
 
 
+def offer_node(price, currency: str, url: str) -> dict:
+    """One Offer for a price the page prints, and nothing else.
+
+    Every detail page carries an Offer, because a detail page without one is a page
+    whose price is invisible to the crawler. Only fields the seller page itself prints
+    are emitted: no priceValidUntil (no date is printed), no seller (this site is not
+    the merchant) and no availability (stock state is not read). A page that prints no
+    product price still gets the node, without a price field, rather than no node at
+    all. The price is a string in the two decimals the page shows, so a checker can
+    compare it with the visible copy character by character.
+    """
+    node = {"@type": "Offer", "url": url}
+    if price not in (None, ""):
+        try:
+            node["price"] = f"{float(price):.2f}"
+        except (TypeError, ValueError):
+            node["price"] = str(price)
+        node["priceCurrency"] = currency or "USD"
+    return node
+
+
 def safe_slug(value: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")[:70] or "offer"
 
@@ -295,18 +316,29 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
         faq_schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in item.get("faq", [])
         ]}
-        # One Product node per table row, but no Offer node: this page quotes
-        # prices it read, it does not sell the product, so publishing price and
-        # priceCurrency as an Offer claims a merchant listing the site cannot
-        # back. Product keeps the name, the description and the image the seller
-        # printed. aggregateRating and review are never emitted, because no rating
-        # or review data is collected.
+        # One Product node per table row, each carrying the price that row prints, and
+        # a page-level node for a coupon page whose table holds thresholds instead of
+        # products. The Offer is the hard item on a detail page: without it the price
+        # on the page is not machine-readable at all. Fields the page does not print
+        # are not emitted - no priceValidUntil, no seller, no availability.
         product_schemas = []
         for row in item.get("rows", []):
             product_node = {"@context": "https://schema.org", "@type": "Product", "name": row["product"], "description": item.get("description", ""), "url": url}
             if row.get("image"):
                 product_node["image"] = row["image"]
+            product_node["offers"] = offer_node(row.get("price"), "USD", row.get("url") or url)
             product_schemas.append(product_node)
+        if not product_schemas:
+            code_value = (item.get("code") or {}).get("code", "")
+            page_name = f'{item.get("brand", "")} {code_value}'.strip() or item["h1"]
+            product_schemas.append({
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": page_name,
+                "description": item.get("description", ""),
+                "url": url,
+                "offers": offer_node(None, "USD", item.get("hero_link") or url),
+            })
         graph = [faq_schema, breadcrumb(brand, item["h1"], url, base)]
         graph = product_schemas + graph
         page = render_page("deal.html", brand, item["title"], body, url, item["description"], {"@context": "https://schema.org", "@graph": graph})
@@ -521,17 +553,16 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         discount = round((float(offer["original_price"]) - float(offer["price"])) / float(offer["original_price"]) * 100)
         month = dt.datetime.fromisoformat(offer["fetched_at"].replace("Z", "+00:00")).strftime("%B %Y")
         link = offer.get("affiliate_url") or offer["offer_url"]
-        # No Offer node. Google reads a Product carrying price/priceCurrency as a
-        # merchant listing, and this page is a price directory, not the seller: it
-        # has no merchant identity, shipping or return terms to back the claim, so
-        # the markup came back as an invalid item in the Merchant listings report.
-        # The price stays in the visible copy, quoted with its read time; it is not
-        # published as a machine-readable offer. Product keeps name, brand and the
-        # image the seller's page actually printed, and no aggregateRating or
-        # review is ever emitted because no rating data is collected.
+        # Every detail page carries an Offer, and this one carries the price the page
+        # prints. The price stays in the visible copy too, quoted with its read time;
+        # the node and the sentence have to agree, because a checker compares them.
+        # Product keeps name, brand and the image the seller's page actually printed,
+        # and no aggregateRating or review is ever emitted because no rating data is
+        # collected.
         structured = {"@context": "https://schema.org", "@type": "Product", "name": display_title(offer["title"]), "brand": {"@type": "Brand", "name": offer["brand"]}}
         if offer.get("image"):
             structured["image"] = offer["image"]
+        structured["offers"] = offer_node(offer["price"], offer.get("currency", "USD"), link)
         rel = "nofollow sponsored noopener" if offer.get("affiliate_url") else "nofollow noopener"
         crumb_row = brand_by_norm.get(normalize_name(offer["brand"]))
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(offer["brand"])
@@ -635,7 +666,16 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'{last_line}'
             f'</section>{spec_block}{who_block}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         )
-        jsonld = {"@context": "https://schema.org", "@graph": [breadcrumb(brand, display_title(row["title"]), target, base)]}
+        # A retained page still needs the Product and Offer nodes: the page exists to
+        # hold the address, and a detail page with no Offer at all is the same as a
+        # page with no price. It carries no price field, because this page states in
+        # its own words that no current price is shown - the last read is printed with
+        # its date and is not republished as a live price.
+        retained_product = {"@context": "https://schema.org", "@type": "Product", "name": display_title(row["title"]), "brand": {"@type": "Brand", "name": row.get("brand", "")}, "url": target}
+        if row.get("image"):
+            retained_product["image"] = row["image"]
+        retained_product["offers"] = offer_node(None, row.get("currency", "USD"), link)
+        jsonld = {"@context": "https://schema.org", "@graph": [retained_product, breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(
             render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
                         f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld),
