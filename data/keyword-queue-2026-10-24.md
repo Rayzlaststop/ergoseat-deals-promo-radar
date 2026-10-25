@@ -72,3 +72,14 @@ three filled slots is superseded for this family.
 
 The person writing the page does not get to grant the exception. A page that is not shipped
 costs a day; a page with a blank slot costs the family.
+
+## 2026-10-25: the four pages did not ship
+
+The slot audit is in data/coupon-slot-audit-2026-10-25.md. Uplift 2 of 4 (no eligibility
+line, no named exclusion), Branch 2 of 4 (no printed end date), Herman Miller 3 of 4 (no
+named excluded models), Haworth 3 of 4 and no live code at all. An empty slot is a page that
+does not ship, so nothing was built and nothing was deployed; the live sitemap is still 52.
+
+The codes that do exist, for the record: Uplift FALL (ends 11/02/2026), Branch WINTER
+(no date printed), Herman Miller FORYOU (ends 26 October 2026). Haworth prints full coupon
+terms and no code.
