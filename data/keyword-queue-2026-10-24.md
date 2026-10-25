@@ -83,3 +83,17 @@ does not ship, so nothing was built and nothing was deployed; the live sitemap i
 The codes that do exist, for the record: Uplift FALL (ends 11/02/2026), Branch WINTER
 (no date printed), Herman Miller FORYOU (ends 26 October 2026). Haworth prints full coupon
 terms and no code.
+
+## 2026-10-25 decision: direct brands frozen, dealers next
+
+The four direct brands did not grow the missing slot, so they are frozen as they are: no
+deletion, no rewriting, nothing queued from them until their own terms print the sentence
+that is missing. Waiting for a terms page to grow overnight is a zero-information action.
+
+The next batch is dealer-side, where the code and the exclusions are printed on the page
+itself rather than on a separate terms page:
+
+1. crandalloffice
+2. btod
+
+Same gate: four slots from the dealer's own page, or the page does not ship.

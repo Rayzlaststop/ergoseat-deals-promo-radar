@@ -33,3 +33,5 @@
 ::RULE{index:Request indexing only for canonical addresses that are not yet indexed, highest search volume first, and never for a .html address|scope:permanent}
 ::RULE{index:When the daily indexing quota is hit, stop and resume the next day instead of retrying|scope:permanent}
 ::RULE{family:All four incremental slots of a coupon page are filled from official terms; an empty slot counts as "cannot write this page" and the page does not ship, and no exception is granted by the person writing it|scope:permanent}
+::RULE{output:A day that ships no page is a failed day; a page written and left in the local build is not shipped, it is a gap between the local sitemap count and the live one|scope:permanent}
+::RULE{output:Zero output is never explained by a stale report - if the Search Console report has not recalculated, say it is stopped and ship something anyway|scope:permanent}
