@@ -329,16 +329,12 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             product_node["offers"] = offer_node(row.get("price"), "USD", row.get("url") or url)
             product_schemas.append(product_node)
         if not product_schemas:
-            code_value = (item.get("code") or {}).get("code", "")
-            page_name = f'{item.get("brand", "")} {code_value}'.strip() or item["h1"]
-            product_schemas.append({
-                "@context": "https://schema.org",
-                "@type": "Product",
-                "name": page_name,
-                "description": item.get("description", ""),
-                "url": url,
-                "offers": offer_node(None, "USD", item.get("hero_link") or url),
-            })
+            # A coupon page whose table holds order thresholds instead of products has
+            # no product price to publish, and a Product node without a price is an
+            # invalid rich result rather than a quiet one. The Offer stands alone: the
+            # node is there, the price field is not, and the page claims no price it
+            # cannot show.
+            product_schemas.append(offer_node(None, "USD", item.get("hero_link") or url))
         graph = [faq_schema, breadcrumb(brand, item["h1"], url, base)]
         graph = product_schemas + graph
         page = render_page("deal.html", brand, item["title"], body, url, item["description"], {"@context": "https://schema.org", "@graph": graph})
@@ -666,16 +662,13 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'{last_line}'
             f'</section>{spec_block}{who_block}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         )
-        # A retained page still needs the Product and Offer nodes: the page exists to
-        # hold the address, and a detail page with no Offer at all is the same as a
-        # page with no price. It carries no price field, because this page states in
-        # its own words that no current price is shown - the last read is printed with
-        # its date and is not republished as a live price.
-        retained_product = {"@context": "https://schema.org", "@type": "Product", "name": display_title(row["title"]), "brand": {"@type": "Brand", "name": row.get("brand", "")}, "url": target}
-        if row.get("image"):
-            retained_product["image"] = row["image"]
-        retained_product["offers"] = offer_node(None, row.get("currency", "USD"), link)
-        jsonld = {"@context": "https://schema.org", "@graph": [retained_product, breadcrumb(brand, display_title(row["title"]), target, base)]}
+        # A retained page still needs an Offer: the page exists to hold the address, and
+        # a detail page with no Offer at all is the same as a page with no price. The
+        # Offer stands alone rather than sitting under a Product, because a Product
+        # without a price is an invalid rich result and this page states in its own
+        # words that no current price is shown - the last read is printed with its date
+        # and is not republished as a live price.
+        jsonld = {"@context": "https://schema.org", "@graph": [offer_node(None, row.get("currency", "USD"), link), breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(
             render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
                         f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld),
