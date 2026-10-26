@@ -1613,7 +1613,8 @@
           "a": "The FAQ points customers to the official Returns page for the current terms and does not print a single site-wide return-window sentence, so the exact window is marked Unconfirmed here. Check the linked Returns page before ordering."
         }
       ],
-      "closing": "Every line above was read from store.hermanmiller.com on 2026-10-16. Herman Miller publishes no coupon code on the pages checked, and the shipping, storage, price-adjustment and warranty terms are the brand's own current claims."
+      "closing": "Every line above was read from store.hermanmiller.com on 2026-10-16. Herman Miller publishes no coupon code on the pages checked, and the shipping, storage, price-adjustment and warranty terms are the brand's own current claims.",
+      "featured_deal": "herman-miller-coupon-code"
     },
     "branch": {
       "status": "live",
@@ -1741,7 +1742,8 @@
           "a": "Unconfirmed on the review date. The Haworth Store shipping and returns pages did not render their policy text in the fetched HTML, so no official wording is quoted here. Check the links in the site footer before ordering."
         }
       ],
-      "closing": "Every line above was read from store.haworth.com on 2026-10-16. The warranty claim process is Haworth's own published text; the shipping and returns terms could not be verified and are marked Unconfirmed rather than guessed."
+      "closing": "Every line above was read from store.haworth.com on 2026-10-16. The warranty claim process is Haworth's own published text; the shipping and returns terms could not be verified and are marked Unconfirmed rather than guessed.",
+      "featured_deal": "haworth-promo-code"
     },
     "steelcase": {
       "status": "dropped",

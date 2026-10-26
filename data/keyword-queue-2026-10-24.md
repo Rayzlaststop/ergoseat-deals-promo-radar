@@ -97,3 +97,30 @@ itself rather than on a separate terms page:
 2. btod
 
 Same gate: four slots from the dealer's own page, or the page does not ship.
+
+## 2026-10-26: Herman Miller and Haworth ship; Uplift and Branch re-read and held
+
+All four direct brands were re-read from their official pages on 26 October 2026 at
+02:16 UTC before anything was written, per the rule that a code is only current on the
+day it is read.
+
+- herman-miller-coupon-code ships. Code FORYOU is still published: free delivery on
+  office and gaming chairs and on orders of $2,500.00 or more, contiguous U.S.,
+  20-26 October 2026. Slots: eligibility filled (Alaska, Hawaii and U.S. territories
+  out; nontransferable; not past purchases or future deliveries), stacking filled
+  ("cannot be combined with other promotions or discounts"), expiry filled (26
+  October 2026), exclusions empty in substance ("Product exclusions apply" names
+  nothing - recorded as unprinted, not padded). 3 of 4.
+- haworth-promo-code ships with no code, per the V-01 rule that an official page
+  printing no code is answered with exactly that. Slots: eligibility filled (US only,
+  employees excluded, not previous purchases), stacking filled, exclusions filled by
+  name (the Breck-through-Pablo list, plus Outlet items and parts), expiry empty (no
+  date printed anywhere). 3 of 4. Same shape as the nouhaus page, which also shipped
+  answering "none published".
+- Uplift and Branch were re-read and print nothing new: Uplift still has no
+  eligibility line and no named exclusion (2 of 4), Branch still prints no end date
+  (2 of 4). Neither ships. Their codes, for the record: FALL ends 11/02/2026, WINTER
+  prints no date.
+- The dealer batch (crandalloffice, btod) stays behind gate one: no monthly search
+  figure from the owner's Google check exists for either word, and the volume gate
+  does not accept an estimate. They are not written and not reported as candidates.
