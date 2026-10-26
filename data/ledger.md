@@ -25,3 +25,19 @@ The 12 `.html` redirect errors are the pre-redesign form: no internal link and n
 entry uses `.html` today, so they are left alone, and indexing is never requested for a
 `.html` address. Clicks 0 and average position 43.7 come from a handful of impressions on
 an almost unindexed site, so they are not a criterion either.
+
+## 2026-10-26 · The 14 redirect errors, pulled from outside
+
+One of the 14 was pulled from outside the site with a random parameter:
+`/providers/staples.html?v=837462` returns 308 to `/providers/staples?v=837462`, then 200.
+The final address carries no `.html`, which is the case the rule calls "already landed on
+the suffix-free address": no internal link was changed, nothing was rebuilt, and no
+indexing was requested for any of the 14.
+
+The site itself has no `href` ending in `.html` today, so there is no internal link left to
+fix. This family should drop out of the report on its own after one recrawl; it is a
+time-layer number until then, and it is not a reason to touch a page.
+
+The other two buckets, 28 discovered-not-indexed and 27 crawled-not-indexed, are the same
+time layer. Nothing on the site changes for them, and indexing is not requested in a batch:
+7 coupon pages with 1 indexed is the normal shape for a domain this age.

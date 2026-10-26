@@ -60,3 +60,44 @@ Unlock for each, one line apiece:
 
 - Crandall: a printed end date for the V1 Think 15%, and a sentence on stacking.
 - BTOD: a sentence on stacking (the date is already printed, and it is today).
+
+## Ruling on the two dealer cells (owner, 2026-10-26 evening)
+
+Two of the calls above were wrong, and the correction changes what a filled cell means on
+this side of the site.
+
+**Dealers do not print stacking, and that is not a gap in the check.** It was judged as
+"we did not look hard enough". It is not: these stores run no codes, so they never write a
+sentence about combining one. Waiting for an official sentence is waiting for something
+that does not exist. The slot is filled by a verifiable negative, not by an official
+answer: conclusion, pages checked, review date and coverage, with method and coverage in
+the first sentence. The sentence this site uses for BTOD:
+
+> On 2026-10-26 we checked BTOD's shipping-policy page, bulk-order page, category pages,
+> product pages and returns page. None of them states whether the Fall Frenzy 10% can be
+> stacked with another discount or a coupon code. This is an absence of a published rule,
+> not a published ban.
+
+What it must never say is that the discount cannot be stacked. That is an official refusal,
+and no official page was read that refuses anything.
+
+**Crandall's end date is filled, not empty.** "While Supplies Last" and "limited-time" are
+the store's own words for the end of the offer. Judged with a review date and a scope
+attached, that is a printed end condition, and the ruler was stricter than the store. The
+Branch call two days ago is not reopened - it was a different cell on a different page -
+but on a dealer page, an official open-ended phrase plus a date of reading is a filled cell.
+
+Revised: BTOD 4 of 4, shipped as `/deals/btod-coupon-code`. Crandall 3 of 4, with stacking
+as the only empty cell; not shipped today, and not swapped for another brand.
+
+## What BTOD's page is actually worth
+
+Not the code - there is none. The value is that the 10% is already inside the price, needs
+no code, and that outlet stock sits inside the 10% while being final sale. Every page
+ranking for this query teaches a code hunt; the first screen here says there is nothing to
+type, and shows the arithmetic: one outlet listing at $625.99 against a $563.39 current
+price, 10% to the cent.
+
+The end date is the one line that goes wrong on its own. The banner prints "ENDS 10/26!",
+the page prints ends October 26 2026, and the row is marked Expired the day the banner
+comes down rather than being left standing as if the sale were still running.
