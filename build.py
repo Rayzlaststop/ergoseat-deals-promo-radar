@@ -52,7 +52,18 @@ def money(value: str, currency: str) -> str:
 
 
 def schema_script(value: dict) -> str:
-    return '<script type="application/ld+json">' + json.dumps(value, ensure_ascii=False).replace("</", "<\\/") + "</script>"
+    # This directory is not the seller. Keep factual product identity, not offers.
+    def directory_schema(node):
+        if isinstance(node, list):
+            return [cleaned for item in node if (cleaned := directory_schema(item)) is not None]
+        if not isinstance(node, dict):
+            return node
+        if node.get("@type") in ("Offer", "AggregateOffer"):
+            return None
+        if node.get("@type") == "Product":
+            return {key: val for key, val in node.items() if key in ("@context", "@type", "name", "brand", "image")}
+        return {key: cleaned for key, val in node.items() if key != "offers" and (cleaned := directory_schema(val)) is not None}
+    return '<script type="application/ld+json">' + json.dumps(directory_schema(value), ensure_ascii=False).replace("</", "<\\/") + "</script>"
 
 
 def offer_node(price, currency: str, url: str) -> dict:
@@ -231,7 +242,11 @@ def load_keyword_deal_pages() -> list:
     source = ROOT / "data" / "deal_pages.json"
     if not source.exists():
         return []
-    return json.loads(source.read_text(encoding="utf-8")).get("pages", [])
+    pages = json.loads(source.read_text(encoding="utf-8")).get("pages", [])
+    guides = ROOT / "data" / "guides.json"
+    if guides.exists():
+        pages.extend(json.loads(guides.read_text(encoding="utf-8")).get("pages", []))
+    return pages
 
 
 def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir: Path) -> list:
@@ -316,6 +331,10 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
                 f'<thead><tr><th>Code</th><th>Was worth</th><th>Status</th><th>What changed</th></tr></thead>'
                 f'<tbody>{expired_cells}</tbody></table></div></section>'
             )
+        figures_html = "".join(
+            f'<figure><img src="{esc(figure["src"])}" alt="{esc(figure["alt"])}" width="1000" height="540" loading="lazy" style="width:100%;height:auto"><figcaption>{esc(figure.get("caption", ""))}</figcaption></figure>'
+            for figure in item.get("figures", [])
+        )
         sections = "".join(
             f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{esc(p)}</p>" for p in block.get("paras", [])) + "</section>"
             for block in item.get("sections", [])
@@ -339,9 +358,15 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
         faq_html = "".join(f'<h3>{esc(q["q"])}</h3><p>{esc(q["a"])}</p>' for q in item.get("faq", []))
         link = item.get("internal_link") or {}
         link_html = f'<p><a href="{esc(link["href"])}">{esc(link["text"])}</a></p>' if link.get("href") else ""
+        source_html = ""
+        if item.get("sources"):
+            source_html = '<section><h2>Sources and review dates</h2><ol>' + ''.join(
+                f'<li id="source-{number}"><a href="{esc(source["url"])}" rel="nofollow noopener">{esc(source["title"])}</a> · Reviewed {esc(source["review_date"])}</li>'
+                for number, source in enumerate(item["sources"], 1)
+            ) + '</ol></section>'
         body = (
             f'<nav class="breadcrumbs"><a href="/">Home</a> › <span>Deals</span></nav>'
-            f'<section class="hero compact"><p class="eyebrow">Official source · single capture {captured_label}</p>'
+            f'<section class="hero compact"><p class="eyebrow">{esc(item.get("eyebrow", "Official source · single capture " + item.get("captured_label", "")))}</p>'
             f'<h1>{esc(item["h1"])}</h1><p>{esc(item["answer"])}</p>'
             f'<p>{esc(item["answer_second"])}</p>'
             f'<p class="muted">{esc(item.get("answer_note", ""))}</p>'
@@ -350,9 +375,9 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             f'<section><h2>{esc(item.get("table_heading", "Prices captured from the official store"))}</h2>'
             f'<p>{esc(item.get("table_intro", ""))}</p>{table_html}'
             f'<p class="muted">Captured {captured} · Reviewed {review}</p></section>'
-            f'{sections}{related_html}{expired_html}{unconfirmed_html}'
+            f'{figures_html}{sections}{related_html}{expired_html}{unconfirmed_html}'
             f'<section class="faq"><h2>Frequently asked questions</h2>{faq_html}</section>'
-            f'<p>{esc(item.get("closing", ""))}</p>{link_html}<p class="disclosure">{esc(disclaimer)}</p>'
+            f'<p>{esc(item.get("closing", ""))}</p>{source_html}{link_html}<p class="disclosure">{esc(disclaimer)}</p>'
         )
         faq_schema = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
             {"@type": "Question", "name": q["q"], "acceptedAnswer": {"@type": "Answer", "text": q["a"]}} for q in item.get("faq", [])
@@ -378,6 +403,8 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             product_schemas.append(offer_node(None, "USD", item.get("hero_link") or url))
         graph = [faq_schema, breadcrumb(brand, item["h1"], url, base)]
         graph = product_schemas + graph
+        if item.get("kind") == "guide":
+            body = '<article class="buying-guide">' + body + '</article>'
         page = render_page("deal.html", brand, item["title"], body, url, item["description"], {"@context": "https://schema.org", "@graph": graph})
         (output_dir / path).parent.mkdir(parents=True, exist_ok=True)
         (output_dir / path).write_text(page, encoding="utf-8")
@@ -437,12 +464,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     prev_sitemap = output_dir / "sitemap.xml"
     if prev_sitemap.exists():
         previous_urls = set(re.findall(r"<loc>([^<]+)</loc>", prev_sitemap.read_text(encoding="utf-8")))
+    live_baseline = os.environ.get("SITE_PREVIOUS_SITEMAP")
+    if live_baseline:
+        previous_urls.update(re.findall(r"<loc>([^<]+)</loc>", Path(live_baseline).read_text(encoding="utf-8")))
     providers = config["providers"]
     if output_dir.exists():
         shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "assets").mkdir(exist_ok=True)
     (output_dir / "assets" / "site.css").write_text((ROOT / "assets" / "site.css").read_text(encoding="utf-8"), encoding="utf-8")
+    if (ROOT / "assets" / "guides").exists():
+        shutil.copytree(ROOT / "assets" / "guides", output_dir / "assets" / "guides")
     last_update = data.get("fetched_at") or "No verified source snapshot yet"
     disclaimer = "Prices and availability can change. Always confirm details on the official seller page."
 
@@ -631,9 +663,9 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         # still written, so an old address keeps resolving, but it is marked noindex
         # and kept out of the sitemap instead of asking a crawler to read it again.
         page_facts = material_facts(detail_row, material_index)
-        if page_facts < 2:
+        if page_facts < 2 and target not in previous_urls:
             thin_pages.append((path, page_facts))
-        else:
+        if page_facts >= 2 or target in previous_urls:
             sitemap_rows.append((canonical(base, path), default_lastmod))
         extra_rows = "".join(
             f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (detail_row.get("specs") or [])
@@ -661,7 +693,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         )
         detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(display_title(offer["title"]))}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, display_title(offer["title"]), target, base)]}
-        (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld, noindex=page_facts < 2), encoding="utf-8")
+        (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld, noindex=page_facts < 2 and target not in previous_urls), encoding="utf-8")
 
     # Retained offer pages: today's collector did not re-read this row. The page keeps
     # its published address and shows no price of its own; the price line sends the
@@ -682,9 +714,9 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         # specification of its own is an address, not a page, so it keeps resolving
         # and leaves the sitemap.
         retained_facts = material_facts(retained_detail, material_index)
-        if retained_facts < 2:
+        if retained_facts < 2 and target not in previous_urls:
             thin_pages.append((path, retained_facts))
-        else:
+        if retained_facts >= 2 or target in previous_urls:
             sitemap_rows.append((canonical(base, path), default_lastmod))
         link = row.get("offer_url") or row.get("source_url") or "/"
         crumb_row = brand_by_norm.get(normalize_name(row.get("brand", "")))
@@ -727,7 +759,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             f'<section class="hero compact"><p class="eyebrow">Address kept · not re-read today</p>'
             f'<h1>{esc(display_title(row["title"]))}</h1>'
             f'<p>This page keeps the address that was published for this product. The seller\'s page was not re-read on {esc(today_label)}, so no current price is shown here.</p>'
-            f'<p class="price-line">Price on the official {esc(row.get("brand", ""))} page as of today</p>'
+            f'<p class="price-line">Price on the official page as of today</p>'
             f'<p><a class="button" href="{esc(link)}" rel="nofollow noopener">Check the price on the official page</a></p>'
             f'{last_line}'
             f'</section>{spec_block}{who_block}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
@@ -741,7 +773,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         jsonld = {"@context": "https://schema.org", "@graph": [offer_node(None, row.get("currency", "USD"), link), breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(
             render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
-                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld, noindex=retained_facts < 2),
+                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld, noindex=retained_facts < 2 and target not in previous_urls),
             encoding="utf-8")
 
     about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>DeskChairDeals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
@@ -771,17 +803,8 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # because nothing points its old address at a live page.
     published = {u for u, _ in sitemap_rows}
     missing = sorted(previous_urls - published)
-    # A page that left the sitemap but is still served - marked noindex,follow - is not
-    # a lost address. The guard exists to catch a page that vanished, not one that
-    # stopped asking to be indexed, so a file that still exists passes.
-    def still_served(url: str) -> bool:
-        rel = url[len(base):].lstrip("/") if url.startswith(base) else ""
-        if not rel:
-            return True
-        # Sitemap addresses are suffix-free; the file behind one is written as .html.
-        return any((output_dir / candidate).exists() for candidate in (rel, rel + ".html", rel + "/index.html"))
     redirect_targets = {canonical(base, old): canonical(base, new) for old, new in redirects}
-    unresolved = [u for u in missing if redirect_targets.get(u) not in published and not still_served(u)]
+    unresolved = [u for u in missing if redirect_targets.get(u) not in published]
     if unresolved:
         raise RuntimeError(
             "Refusing to drop published URLs that have no 301 to a live page "

@@ -17,6 +17,8 @@ import datetime as dt
 import os
 import subprocess
 import sys
+import urllib.request
+import uuid
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
@@ -44,6 +46,9 @@ def child_env() -> dict:
     env = dict(os.environ)
     env["CI"] = "1"
     env["WRANGLER_SEND_METRICS"] = "false"
+    baseline = LOG_DIR / "published-before.xml"
+    if baseline.exists():
+        env["SITE_PREVIOUS_SITEMAP"] = str(baseline)
     return env
 
 
@@ -77,10 +82,24 @@ def main() -> int:
     log("=== daily refresh start ===")
     # Stay on the repository's pipeline before collecting. A failed pull aborts the
     # run: publishing old or divergent code would be worse than not publishing.
-    sync = run_step("sync", ["git", "pull", "--ff-only", "origin", "main"])
+    fetch = run_step("fetch", ["git", "fetch", "origin"])
+    if fetch.returncode != 0:
+        return fetch.returncode
+    sync = run_step("sync", ["git", "pull", "--rebase", "origin", "main"])
     if sync.returncode != 0:
         log("=== daily refresh aborted: git pull failed; site left untouched ===")
         return sync.returncode
+    try:
+        baseline_url = "https://deskchairdeals.com/sitemap.xml?v=" + uuid.uuid4().hex
+        with urllib.request.urlopen(baseline_url, timeout=45) as response:
+            baseline = response.read()
+        if b"<urlset" not in baseline or b"https://deskchairdeals.com/" not in baseline:
+            raise ValueError("Public sitemap response is not the expected domain sitemap")
+        (LOG_DIR / "published-before.xml").write_bytes(baseline)
+        log("BASELINE: saved public sitemap with a fresh random query")
+    except Exception as error:
+        log(f"=== daily refresh aborted: cannot verify public sitemap baseline: {type(error).__name__} ===")
+        return 1
     collect = run_step("collect", [PYTHON, str(ROOT / "scraper.py")])
     if collect.returncode != 0:
         log("=== daily refresh aborted: collector failed; site not rebuilt or deployed ===")
@@ -104,7 +123,9 @@ def main() -> int:
     if snapshot.returncode != 0:
         log("=== daily refresh aborted: could not commit the snapshot; nothing deployed ===")
         return snapshot.returncode
-    publish = run_step("push", "git pull --rebase origin main && git push origin main", shell=True, timeout=300)
+    # Do not pull after building: an intervening commit requires another build.
+    # A rejected push stops this run; the next run fetches/rebases before building.
+    publish = run_step("push", ["git", "push", "origin", "main"], timeout=300)
     if publish.returncode != 0:
         log("=== daily refresh aborted: push failed; nothing deployed ===")
         return publish.returncode
@@ -153,6 +174,19 @@ def main() -> int:
         log(f"=== daily refresh failed verification: production source={live or '(not read)'} head={expected or '(not read)'} ===")
         return 1
     log(f"VERIFIED: production deployment source {live} == HEAD {expected}")
+    try:
+        for path in ("/", "/sitemap.xml"):
+            url = "https://deskchairdeals.com" + path + "?v=" + uuid.uuid4().hex
+            with urllib.request.urlopen(url, timeout=45) as response:
+                content = response.read()
+                if response.status != 200 or response.geturl() != url:
+                    raise ValueError("Unexpected HTTP status or redirect")
+            if path == "/sitemap.xml" and b"https://deskchairdeals.com/" not in content:
+                raise ValueError("Published sitemap does not identify this domain")
+            log(f"EXTERNAL VERIFIED: {path} HTTP 200, zero redirects, random-query read")
+    except Exception as error:
+        log(f"=== daily refresh failed external verification: {type(error).__name__} ===")
+        return 1
     log("=== daily refresh done ===")
     return 0
 
