@@ -17,7 +17,6 @@ import datetime as dt
 import os
 import subprocess
 import sys
-import urllib.request
 import uuid
 from pathlib import Path
 
@@ -50,6 +49,26 @@ def child_env() -> dict:
     if baseline.exists():
         env["SITE_PREVIOUS_SITEMAP"] = str(baseline)
     return env
+
+
+def read_public(path: str) -> bytes:
+    """Use the same normal Windows HTTP client used for deployment readback.
+
+    No user-agent override, cookies, login or weakened certificate validation.
+    Redirects are rejected rather than silently counted as a successful read.
+    """
+    url = "https://deskchairdeals.com" + path + "?v=" + uuid.uuid4().hex
+    command = (
+        "$ErrorActionPreference='Stop'; [Console]::OutputEncoding=[Text.UTF8Encoding]::new(); "
+        f"$r=Invoke-WebRequest -UseBasicParsing -Uri '{url}' -MaximumRedirection 0 -TimeoutSec 45; "
+        "if([int]$r.StatusCode -ne 200){throw 'Expected HTTP 200'}; [Console]::Write($r.Content)"
+    )
+    result = subprocess.run(
+        ["powershell.exe", "-NoProfile", "-NonInteractive", "-Command", command],
+        capture_output=True, text=True, encoding="utf-8", errors="strict",
+        stdin=subprocess.DEVNULL, timeout=60, env=child_env(), check=True,
+    )
+    return result.stdout.encode("utf-8")
 
 
 def run_step(name: str, command: list[str] | str, shell: bool = False, timeout: int = 900) -> subprocess.CompletedProcess:
@@ -90,9 +109,7 @@ def main() -> int:
         log("=== daily refresh aborted: git pull failed; site left untouched ===")
         return sync.returncode
     try:
-        baseline_url = "https://deskchairdeals.com/sitemap.xml?v=" + uuid.uuid4().hex
-        with urllib.request.urlopen(baseline_url, timeout=45) as response:
-            baseline = response.read()
+        baseline = read_public("/sitemap.xml")
         if b"<urlset" not in baseline or b"https://deskchairdeals.com/" not in baseline:
             raise ValueError("Public sitemap response is not the expected domain sitemap")
         (LOG_DIR / "published-before.xml").write_bytes(baseline)
@@ -176,11 +193,7 @@ def main() -> int:
     log(f"VERIFIED: production deployment source {live} == HEAD {expected}")
     try:
         for path in ("/", "/sitemap.xml"):
-            url = "https://deskchairdeals.com" + path + "?v=" + uuid.uuid4().hex
-            with urllib.request.urlopen(url, timeout=45) as response:
-                content = response.read()
-                if response.status != 200 or response.geturl() != url:
-                    raise ValueError("Unexpected HTTP status or redirect")
+            content = read_public(path)
             if path == "/sitemap.xml" and b"https://deskchairdeals.com/" not in content:
                 raise ValueError("Published sitemap does not identify this domain")
             log(f"EXTERNAL VERIFIED: {path} HTTP 200, zero redirects, random-query read")
