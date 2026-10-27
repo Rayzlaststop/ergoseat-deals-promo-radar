@@ -18,6 +18,31 @@ TEMPLATES = ROOT / "templates"
 CONFIG = ROOT / ".ilang" / "site.ilang"
 BRAND_DATA = ROOT / "data" / "brands.json"
 OUT = ROOT / "site"
+SITE_TIMEZONE = dt.timezone(dt.timedelta(hours=8))
+
+
+def site_day() -> dt.date:
+    return dt.datetime.now(SITE_TIMEZONE).date()
+
+
+def same_day_price(row: dict, captured_at: str = "") -> bool:
+    """Publish a price only when its own official-source read is from today.
+
+    A new build/snapshot date must never refresh an old row's evidence date.
+    User policy 2026-10-28 replaces the former keep-empty-price-pages policy.
+    """
+    price = str(row.get("price", ""))
+    source = row.get("source_url") or row.get("offer_url") or row.get("url") or ""
+    if not re.fullmatch(r"\d+(?:\.\d+)?", price) or float(price) <= 0 or not source.startswith("https://"):
+        return False
+    stamp = row.get("price_checked_at") or row.get("fetched_at") or captured_at
+    try:
+        checked = dt.datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
+        if checked.tzinfo is None:
+            checked = checked.replace(tzinfo=SITE_TIMEZONE)
+        return checked.astimezone(SITE_TIMEZONE).date() == site_day()
+    except (TypeError, ValueError):
+        return False
 
 
 def esc(value) -> str:
@@ -196,7 +221,7 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict, featur
     url = canonical(base, path)
     review = esc(item.get("review_date", ""))
     rows = "".join(
-        f'<tr><td>{esc(row["offer"])}</td><td>{esc(row["condition"])}</td>'
+        f'<tr id="{esc(row.get("anchor", ""))}"><td>{esc(row["offer"])}</td><td>{esc(row["condition"])}</td>'
         f'<td><a href="{esc(row["source"])}" rel="nofollow noopener">{esc(row["source"])}</a></td>'
         f'<td>{review}</td></tr>'
         for row in item.get("rows", [])
@@ -240,7 +265,7 @@ def render_brand_page(base: str, brand: str, disclaimer: str, item: dict, featur
     return path, url, render_page("provider.html", brand, f'{item["title"]} | {brand}', body, url, item["description"], structured)
 
 
-def load_keyword_deal_pages() -> list:
+def load_all_keyword_deal_pages() -> list:
     """Single-keyword deal pages, keyed by slug. One source for the page itself and
     for every internal link that points at it."""
     source = ROOT / "data" / "deal_pages.json"
@@ -250,6 +275,20 @@ def load_keyword_deal_pages() -> list:
     guides = ROOT / "data" / "guides.json"
     if guides.exists():
         pages.extend(json.loads(guides.read_text(encoding="utf-8")).get("pages", []))
+    return pages
+
+
+def load_keyword_deal_pages() -> list:
+    pages = []
+    for item in load_all_keyword_deal_pages():
+        # Research guides are not price listings. The user approved the Aeron
+        # policy comparison separately from this commercial-page cleanup.
+        if item.get("kind") == "guide":
+            pages.append(item)
+            continue
+        fresh = [row for row in item.get("rows", []) if same_day_price(row, item.get("captured_at", ""))]
+        if fresh:
+            pages.append({**item, "rows": fresh})
     return pages
 
 
@@ -432,11 +471,9 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         base = "http://localhost:8000"
     data_file = ROOT / "data" / "offers.json"
     data = json.loads(data_file.read_text(encoding="utf-8")) if data_file.exists() else {"fetched_at": "", "offers": [], "sources": []}
-    offers = data.get("offers", [])
-    # Retention ledger. Every offer page ever published stays published: when the
-    # collector does not re-read a row, the page keeps its address and points the
-    # price line at the official page instead of disappearing. Rows are never
-    # deleted from the ledger, so the sitemap can only grow.
+    offers = [row for row in data.get("offers", []) if same_day_price(row)]
+    # Historical evidence remains in the ledger, but is not permission to publish
+    # an empty or stale price page (user policy 2026-10-28).
     archive_file = ROOT / "data" / "offer_archive.json"
     archive = json.loads(archive_file.read_text(encoding="utf-8")) if archive_file.exists() else {"rows": []}
     archived_rows = archive.get("rows", [])
@@ -458,10 +495,6 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # A ledger row names the one address that should be served for its product in
     # canonical_slug. Rows whose canonical address is a live offer are rendered as
     # that offer page, not as a second retained page.
-    retained_rows = [
-        r for r in archived_rows
-        if r.get("_slug") not in current_slugs and (r.get("canonical_slug") or r.get("_slug")) not in current_slugs
-    ]
     # The previous sitemap is read before the output directory is cleared, so the
     # build can refuse to drop a URL that was already published.
     previous_urls = set()
@@ -508,64 +541,45 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     keyword_by_slug = {page["slug"]: page for page in keyword_pages}
     default_lastmod = (re.match(r"^(\d{4}-\d{2}-\d{2})", last_update).group(1) if re.match(r"^(\d{4}-\d{2}-\d{2})", last_update) else dt.date.today().isoformat())
     sitemap_rows = [(canonical(base), default_lastmod), (canonical(base, "compare.html"), default_lastmod), (canonical(base, "about.html"), default_lastmod), (canonical(base, "contact.html"), default_lastmod), (canonical(base, "privacy.html"), default_lastmod)]
+    # Historical brand copy is evidence, not a substitute for today's prices.
+    all_keyword_pages = load_all_keyword_deal_pages()
+    known_commercial_paths = {"deals/" + row["_slug"] for row in archived_rows if row.get("_slug")}
+    known_commercial_paths.update("deals/" + safe_slug(page["slug"]) for page in all_keyword_pages if page.get("kind") != "guide")
+    known_commercial_paths.update("providers/" + row["slug"] for row in brand_rows)
+    known_commercial_paths.update("providers/" + safe_slug(provider["name"]) for provider in providers)
+    provider_slugs = {}
     for provider in providers:
         brand_row = brand_by_norm.get(normalize_name(provider["name"]))
-        if brand_row:
-            item = brand_data.get(brand_row["slug"])
-            if item and item.get("status") == "live":
-                # Retire the old collector URL; it now points at the live brand page.
-                collector_slug = safe_slug(provider["name"])
-                if collector_slug in brand_slugs:
-                    collector_slug = collector_slug + "-verified"
-                redirects.append((f"providers/{collector_slug}", f"providers/{brand_row['slug']}"))
-            elif item and item.get("status") == "dropped":
-                # No live page to publish: 301 the collector URL and the brand slot
-                # to the chosen target so the old empty shell is never served.
-                target = item.get("redirect_to") or "/"
-                collector_slug = safe_slug(provider["name"])
-                redirects.append((f"providers/{brand_row['slug']}", target))
-                if collector_slug in brand_slugs:
-                    redirects.append((f"providers/{collector_slug}-verified", target))
-            # Missing or neither-live-nor-dropped brand data: emit nothing.
+        provider_slug = brand_row["slug"] if brand_row else safe_slug(provider["name"])
+        matching = [row for row in offers if normalize_name(row["brand"]) == normalize_name(provider["name"])]
+        if not matching:
             continue
-        provider_slug = safe_slug(provider["name"])
-        path = f"providers/{provider_slug}.html"
-        matching = [o for o in offers if o.get("brand") == provider["name"]]
-        provider_cards = []
-        for offer in matching:
-            provider_cards.append(deal_card(offer, canonical(base, "deals/" + offer_slug(offer) + ".html")))
-        status = next((s.get("result", "not yet checked") for s in data.get("sources", []) if s.get("provider") == provider["name"]), "not yet checked")
-        kept_cards = [
-            f'<article class="deal-card"><p class="eyebrow">{esc(r.get("brand", ""))}</p>'
-            f'<h3><a href="/deals/{esc(r["_slug"])}">{esc(display_title(r["title"]))}</a></h3>'
-            f'<p class="muted">Address kept · not re-read today · price on the official page</p></article>'
-            for r in retained_rows if normalize_name(r.get("brand", "")) == normalize_name(provider["name"])
-        ]
-        kept_section = (f'<section><h2>Pages kept for addresses already published</h2>{"".join(kept_cards)}</section>' if kept_cards else "")
-        body = f'<section class="hero compact"><p class="eyebrow">Official source</p><h1>{esc(provider["name"])}</h1><p><a href="{esc(provider["home"])}" rel="nofollow noopener">Visit the official store</a></p><p class="muted">Latest source check: {esc(status)}</p></section><section><h2>Verified price reductions</h2>{"".join(provider_cards) or empty_message()}</section>{kept_section}'
-        (output_dir / "providers").mkdir(exist_ok=True)
-        offer_schema = [{"@type": "Offer", "price": o["price"], "priceCurrency": o["currency"], "url": o.get("affiliate_url") or o["offer_url"]} for o in matching]
-        structured = {"@context": "https://schema.org", "@type": "Service", "name": provider["name"] + " verified chair offers", "url": canonical(base, path), "provider": {"@type": "Organization", "name": provider["name"], "url": provider["home"]}, "offers": offer_schema} if offer_schema else breadcrumb(brand, provider["name"], canonical(base, path), base)
-        (output_dir / path).write_text(render_page("provider.html", brand, provider["name"] + " chair deals", body, canonical(base, path), "Official ergonomic chair offer data from the seller.", structured), encoding="utf-8")
-        card_list.append(f'<a class="provider-link" href="/{esc(path[:-5] if path.endswith('.html') else path)}"><strong>{esc(provider["name"])}</strong><span>{len(matching)} verified offer(s)</span></a>')
-        sitemap_rows.append((canonical(base, path), default_lastmod))
-
-    for row in brand_rows:
-        item = brand_data.get(row["slug"])
-        # A brand page is built only when its own sourced content exists; never a placeholder.
-        if not item or item.get("status") != "live":
-            continue
-        item = dict(item)
-        item.update({"slug": row["slug"], "name": row["name"], "home": row["home"]})
-        featured = keyword_by_slug.get(item.get("featured_deal")) if item.get("featured_deal") else None
-        path, url, page = render_brand_page(base, brand, disclaimer, item, featured)
+        provider_slugs[normalize_name(provider["name"])] = provider_slug
+        price_rows = [{
+            "offer": display_title(offer["title"]),
+            "condition": money(offer["price"], offer["currency"]) + " (comparison: " + money(offer["original_price"], offer["currency"]) + "); price read " + offer["fetched_at"],
+            "source": offer["source_url"], "anchor": "product-" + offer_slug(offer),
+        } for offer in matching]
+        current_item = {
+            "slug": provider_slug, "name": provider["name"], "home": provider["home"],
+            "title": provider["name"] + " prices checked " + site_day().isoformat(),
+            "h1": provider["name"] + " prices verified today",
+            "answer": str(len(matching)) + " product prices were read from the official public source on " + site_day().isoformat() + " (Asia/Shanghai). Each row gives the exact read time and source.",
+            "description": "Same-day official prices for " + provider["name"] + ".",
+            "review_date": site_day().isoformat(), "rows": price_rows, "faq": [],
+        }
+        path, url, page = render_brand_page(base, brand, disclaimer, current_item)
         (output_dir / path).parent.mkdir(parents=True, exist_ok=True)
         (output_dir / path).write_text(page, encoding="utf-8")
-        sitemap_rows.append((url, esc(item.get("review_date", default_lastmod))))
-        card_list.append(f'<a class="provider-link" href="/{esc(path[:-5] if path.endswith('.html') else path)}"><strong>{esc(row["name"])}</strong><span>{len(item.get("rows", []))} sourced offer(s) · reviewed {esc(item.get("review_date", ""))}</span></a>')
+        sitemap_rows.append((url, site_day().isoformat()))
+        card_list.append(f'<a class="provider-link" href="/providers/{esc(provider_slug)}"><strong>{esc(provider["name"])}</strong><span>{len(matching)} same-day prices</span></a>')
+        collector_slug = safe_slug(provider["name"])
+        if collector_slug != provider_slug:
+            redirects.append((f"providers/{collector_slug}", f"providers/{provider_slug}"))
+        if collector_slug in brand_slugs:
+            redirects.append((f"providers/{collector_slug}-verified", f"providers/{provider_slug}"))
 
-    # Standalone single-keyword deal pages. Additive by design: each entry renders
-    # one new address and adds it to the sitemap; no existing page is rewritten.
+    # Approved research guides and same-day priced keyword pages.
     sitemap_rows.extend(render_keyword_deal_pages(base, brand, disclaimer, output_dir))
 
     home_itemlist = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [
@@ -602,10 +616,6 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     for offer in offers:
         product_path = "deals/" + offer_slug(offer)
         comparison_rows.append(f'<tr><td><a href="/{esc(product_path)}">{esc(display_title(offer["title"]))}</a></td><td>{esc(offer["brand"])}</td><td>{esc(money(offer["price"], offer["currency"]))}</td><td>{esc(money(offer["original_price"], offer["currency"]))}</td><td><a href="{esc(offer["source_url"])}" rel="nofollow noopener">Source</a></td></tr>')
-    # Retained rows stay in the table with no price of their own: the cell sends the
-    # reader to the official page rather than quoting a stale number as today's.
-    for row in retained_rows:
-        comparison_rows.append(f'<tr><td><a href="/deals/{esc(row["_slug"])}">{esc(display_title(row["title"]))}</a></td><td>{esc(row.get("brand", ""))}</td><td>Check official page</td><td></td><td><a href="{esc(row.get("source_url") or row.get("offer_url") or "#")}" rel="nofollow noopener">Source</a></td></tr>')
     compare_body = '<section class="hero compact"><p class="eyebrow">Compare</p><h1>Current verified chair offers</h1><p>Only price reductions explicitly listed by the seller are included.</p></section><div class="table-wrap"><table><thead><tr><th>Product</th><th>Brand</th><th>Current</th><th>Comparison</th><th>Evidence</th></tr></thead><tbody>' + ("".join(comparison_rows) or '<tr><td colspan="5">No verified price reductions are available yet.</td></tr>') + '</tbody></table></div>'
     compare_list = {"@context": "https://schema.org", "@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i, "url": canonical(base, "deals/" + offer_slug(o) + ".html"), "name": display_title(o["title"])} for i, o in enumerate(offers, 1)]}
     (output_dir / "compare.html").write_text(render_page("compare.html", brand, "Compare verified ergonomic chair offers | " + brand, compare_body, canonical(base, "compare.html"), "Compare current verified chair offers.", compare_list), encoding="utf-8")
@@ -623,6 +633,13 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # One page per verified offer, independent of which listing page survives:
     # every homepage and compare-table card must resolve to a real page.
     for offer in offers:
+        early_detail = offer_details.get(offer_slug(offer)) or archived_by_slug.get(offer_slug(offer)) or {}
+        if material_facts(early_detail, material_index) < 2:
+            provider_slug = provider_slugs[normalize_name(offer["brand"])]
+            merged_target = f"providers/{provider_slug}#product-{offer_slug(offer)}"
+            redirects.append(("deals/" + offer_slug(offer), merged_target))
+            redirects.append(("deals/" + offer_slug(offer) + ".html", merged_target))
+            continue
         path = "deals/" + offer_slug(offer) + ".html"
         # One address per deal: the first listing wins; a later duplicate slug
         # is skipped instead of writing a second page or a second sitemap entry.
@@ -699,87 +716,6 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, display_title(offer["title"]), target, base)]}
         (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld, noindex=page_facts < 2 and target not in previous_urls), encoding="utf-8")
 
-    # Retained offer pages: today's collector did not re-read this row. The page keeps
-    # its published address and shows no price of its own; the price line sends the
-    # reader to the official page, and the last read is quoted with its date only.
-    today_label = dt.date.today().isoformat()
-    for row in retained_rows:
-        path = "deals/" + row["_slug"] + ".html"
-        if path in written_deals:
-            continue
-        written_deals.add(path)
-        target = canonical(base, path)
-        # A retained page reads its enrichment from the same place a live one does: the
-        # detail file first, the ledger second. Without this a product whose specs were
-        # read once loses them the day the collector stops returning its row, and the
-        # page is then judged thin on content it actually has.
-        retained_detail = offer_details.get(row["_slug"]) or row
-        # The same bar as a live offer page: a retained row that carries no
-        # specification of its own is an address, not a page, so it keeps resolving
-        # and leaves the sitemap.
-        retained_facts = material_facts(retained_detail, material_index)
-        if retained_facts < 2 and target not in previous_urls:
-            thin_pages.append((path, retained_facts))
-        if retained_facts >= 2 or target in previous_urls:
-            sitemap_rows.append((canonical(base, path), default_lastmod))
-        link = row.get("offer_url") or row.get("source_url") or "/"
-        crumb_row = brand_by_norm.get(normalize_name(row.get("brand", "")))
-        crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(row.get("brand", ""))
-        last_read = (row.get("last_read_at") or "")[:10] or "an earlier date"
-        last_line = ""
-        if row.get("price") and row.get("original_price"):
-            last_line = (
-                f'<p class="muted">Last read on {esc(last_read)}: '
-                f'{esc(money(row["price"], row.get("currency", "USD")))} against a '
-                f'{esc(money(row["original_price"], row.get("currency", "USD")))} comparison price. '
-                f'That read was not repeated on {esc(today_label)}.</p>'
-            )
-        spec_rows = "".join(
-            f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (retained_detail.get("specs") or [])
-        )
-        spec_block = ""
-        if spec_rows:
-            spec_block = (
-                f'<section><h2>Specifications printed on the official page</h2>'
-                f'<p class="muted">Read from the official product page on {esc(retained_detail.get("read_at") or row.get("spec_read_at") or last_read)}. '
-                f'These figures do not move with a sale.</p>'
-                f'<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Value</th></tr></thead>'
-                f'<tbody>{spec_rows}</tbody></table></div>'
-                + (f'<p class="muted">{esc(retained_detail["spec_note"])}</p>' if retained_detail.get("spec_note") else "")
-                + "</section>"
-            )
-        who_block = (
-            f'<section><h2>Who this is for</h2><p>{esc(retained_detail["for_who"])}</p></section>'
-            if retained_detail.get("for_who") else ""
-        )
-        coupon_page = coupon_for_product.get(row["_slug"])
-        coupon_block = (
-            f'<section><h2>Coupon code and tiers for this brand</h2>'
-            f'<p><a href="/deals/{esc(safe_slug(coupon_page["slug"]))}">{esc(coupon_page["title"])}</a></p></section>'
-            if coupon_page else ""
-        )
-        detail = (
-            f'<nav class="breadcrumbs"><a href="/">Home</a> › <a href="/providers/{esc(crumb_slug)}">{esc(row.get("brand", ""))}</a></nav>'
-            f'<section class="hero compact"><p class="eyebrow">Address kept · not re-read today</p>'
-            f'<h1>{esc(display_title(row["title"]))}</h1>'
-            f'<p>This page keeps the address that was published for this product. The seller\'s page was not re-read on {esc(today_label)}, so no current price is shown here.</p>'
-            f'<p class="price-line">Price on the official page as of today</p>'
-            f'<p><a class="button" href="{esc(link)}" rel="nofollow noopener">Check the price on the official page</a></p>'
-            f'{last_line}'
-            f'</section>{spec_block}{who_block}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
-        )
-        # A retained page still needs an Offer: the page exists to hold the address, and
-        # a detail page with no Offer at all is the same as a page with no price. The
-        # Offer stands alone rather than sitting under a Product, because a Product
-        # without a price is an invalid rich result and this page states in its own
-        # words that no current price is shown - the last read is printed with its date
-        # and is not republished as a live price.
-        jsonld = {"@context": "https://schema.org", "@graph": [offer_node(None, row.get("currency", "USD"), link), breadcrumb(brand, display_title(row["title"]), target, base)]}
-        (output_dir / path).write_text(
-            render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
-                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld, noindex=retained_facts < 2 and target not in previous_urls),
-            encoding="utf-8")
-
     about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>DeskChairDeals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
     (output_dir / "about.html").write_text(render_page("provider.html", brand, "About & disclosures | " + brand, about_body, canonical(base, "about.html"), "About this independent directory and its disclosures.", breadcrumb(brand, "About & disclosures", canonical(base, "about.html"), base)), encoding="utf-8")
     contact_body = '<section class="hero compact"><h1>Contact</h1><p>For questions about this site, its content, or a listed seller link, email us at <a href="mailto:contact@deskchairdeals.com">contact@deskchairdeals.com</a>.</p></section>'
@@ -801,22 +737,62 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     sitemap_rows = unique_rows
     urls = "\n".join(f"  <url><loc>{esc(u)}</loc><lastmod>{lm}</lastmod></url>" for u, lm in sitemap_rows)
     (output_dir / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n", encoding="utf-8")
-    # No address may disappear without a 301 to a page that is still published.
-    # A legal merge (two addresses for one product folded into the canonical one)
-    # passes because the retired address redirects; a genuine lost page still fails,
-    # because nothing points its old address at a live page.
+    # User-authorized same-day price retirements are explicit. Accidental loss
+    # of any guide or utility page must still fail the build.
     published = {u for u, _ in sitemap_rows}
+    live_paths = {u.removeprefix(base + "/") for u in published}
+    live_files = {path.relative_to(output_dir).as_posix()[:-5] for path in output_dir.rglob("*.html")}
+    active_paths = live_paths | live_files
+    retired_paths = sorted(known_commercial_paths - active_paths)
+    normalized_redirects = {}
+    for old, new in redirects:
+        new_path, separator, fragment = new.partition("#")
+        new_path = new_path.lstrip("/")
+        if new_path not in active_paths:
+            next_target = next((target for alias, target in redirects if alias == new_path), "")
+            if next_target:
+                new_path, separator, fragment = next_target.partition("#")
+                new_path = new_path.lstrip("/")
+            if new_path not in active_paths:
+                continue
+        normalized_redirects[old] = new_path + ("#" + fragment if separator else "")
     missing = sorted(previous_urls - published)
-    redirect_targets = {canonical(base, old): canonical(base, new) for old, new in redirects}
-    unresolved = [u for u in missing if redirect_targets.get(u) not in published]
+    unresolved = []
+    for url in missing:
+        old_path = url.removeprefix(base + "/")
+        target = normalized_redirects.get(old_path, "").partition("#")[0]
+        if target in live_paths or old_path in retired_paths:
+            continue
+        unresolved.append(url)
     if unresolved:
-        raise RuntimeError(
-            "Refusing to drop published URLs that have no 301 to a live page "
-            "(add a redirect or restore the page): " + ", ".join(unresolved)
-        )
-    # One brand one address: retired collector URLs 301 to the surviving brand page.
-    if redirects:
-        (output_dir / "_redirects").write_text("".join(f"/{old} /{new.lstrip('/')} 301\n" for old, new in redirects), encoding="utf-8")
+        raise RuntimeError("Unexpected published URL loss outside the same-day price cleanup: " + ", ".join(unresolved))
+
+    # Preserve text but remove links to withdrawn pages.
+    def keep_live_link(match):
+        href = html.unescape(match.group(1))
+        if not href.startswith("/") or href.startswith("//"):
+            return match.group(0)
+        target = href.split("?", 1)[0].split("#", 1)[0].strip("/")
+        target = target[:-5] if target.endswith(".html") else target
+        if not target or target in active_paths or target in normalized_redirects:
+            return match.group(0)
+        return match.group(2)
+    for page_path in output_dir.rglob("*.html"):
+        page = page_path.read_text(encoding="utf-8")
+        page = re.sub(r'<a\b[^>]*href="([^"]+)"[^>]*>(.*?)</a>', keep_live_link, page, flags=re.S)
+        page_path.write_text(page, encoding="utf-8")
+    if normalized_redirects:
+        (output_dir / "_redirects").write_text("".join(f"/{old} /{new} 301\n" for old, new in sorted(normalized_redirects.items())), encoding="utf-8")
+    audit_path = (ROOT / "logs" / "price-cleanup.json") if output_dir == OUT else output_dir.parent / "price-cleanup.json"
+    audit_path.parent.mkdir(exist_ok=True)
+    audit_path.write_text(json.dumps({
+        "policy_authorized_on": "2026-10-28", "price_day": site_day().isoformat(), "timezone": "Asia/Shanghai",
+        "same_day_prices": len(offers), "published_urls": len(published),
+        "retired_paths": retired_paths, "removed_from_previous_sitemap": missing, "merges": normalized_redirects,
+        "withdrawn_paths": [path for path in retired_paths if path not in normalized_redirects],
+        "removed_url_actions": [{"url": url, "action": "301 merge" if url.removeprefix(base + "/") in normalized_redirects else "404 withdrawal", "target": normalized_redirects.get(url.removeprefix(base + "/"), "")} for url in missing],
+        "reason": "No same-day official product price: no commercial page or price row; approved research guides are separate.",
+    }, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     # Keep the retention ledger current: today's rows are merged in, nothing is
     # removed. An existing record keeps the fields the collector does not produce —
     # canonical_slug, former_slugs, specs, for_who, judgment — so enrichment written
@@ -837,10 +813,10 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         }
         ledger[slug_value] = {**ledger.get(slug_value, {}), **fresh}
     archive_file.write_text(
-        json.dumps({"_note": archive.get("_note", ""), "rows": sorted(ledger.values(), key=lambda r: (r.get("brand", ""), r.get("title", "")) )}, ensure_ascii=False, indent=2) + "\n",
+        json.dumps({"_note": "Historical price evidence only. Publish commercial rows and pages only with same-day official prices. Products without independent content merge into the current brand price table; missing-price pages are withdrawn. User policy 2026-10-28.", "rows": sorted(ledger.values(), key=lambda r: (r.get("brand", ""), r.get("title", "")) )}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} source-verified offers; {len(retained_rows)} retained pages; {len(thin_pages)} page(s) served noindex and kept out of the sitemap; base URL {base}")
+    print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} same-day source-verified prices; {len(retired_paths)} retired commercial paths; base URL {base}")
 
 
 def deal_card(offer, url):
@@ -851,6 +827,12 @@ def deal_card(offer, url):
 def keyword_deal_card(page: dict, url: str) -> str:
     """Listing card for a single-keyword deal page. Same shape as a deal card, but
     the capture time is the point of the entry, so it is printed on the card."""
+    if page.get("kind") == "guide":
+        return (
+            f'<article class="deal-card"><p class="eyebrow">Buying guide · policy comparison</p>'
+            f'<h3><a href="{esc(url)}">{esc(page["title"])}</a></h3>'
+            f'<p class="muted">Sources reviewed {esc(page.get("review_date", ""))}. Research guide, not a product price listing.</p></article>'
+        )
     first = (page.get("rows") or [{}])[0]
     price_html = ""
     if first.get("price"):

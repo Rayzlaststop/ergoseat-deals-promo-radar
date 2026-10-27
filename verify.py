@@ -19,7 +19,7 @@ def main() -> None:
     with tempfile.TemporaryDirectory(prefix="ergo-seat-verify-") as temp:
         temp_path = Path(temp)
         config_path = temp_path / "site.ilang"
-        config_path.write_text(source.replace(original, changed, 1), encoding="utf-8")
+        config_path.write_text(source.replace(original, changed, 1).replace("brand:DeskChairDeals,", "brand:DeskChairDeals Preview,", 1), encoding="utf-8")
         parsed = load_config(config_path)
         if not any(provider["name"] == "Branch Preview" for provider in parsed["providers"]):
             raise AssertionError("scraper did not read the changed .ilang provider name")
@@ -35,13 +35,15 @@ def main() -> None:
             else:
                 os.environ["SITE_BASE_URL"] = previous
 
-        changed_page = out / "providers" / "branch-preview.html"
+        # A provider with no same-day price must no longer get an empty page.
+        # Check the configured publisher name on the real homepage instead.
+        changed_page = out / "index.html"
         if not changed_page.exists():
             raise AssertionError("builder did not generate a page from the changed .ilang provider")
         page = changed_page.read_text(encoding="utf-8")
         # Canonical URLs are extensionless sitewide; the .html form only survives as a
         # 301 redirect, so the generated page must carry the bare address.
-        if "Branch Preview" not in page or 'href="https://fixture.example/providers/branch-preview"' not in page:
+        if "DeskChairDeals Preview" not in page or 'href="https://fixture.example/"' not in page:
             raise AssertionError("generated page is missing the changed config value or canonical URL")
         # providers/branch.html legitimately exists as the sourced brand page; what must
         # not exist is the collector page generated from the unmodified config row.

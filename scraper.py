@@ -32,32 +32,6 @@ def offer_slug(offer: dict) -> str:
     return safe_slug(offer.get("brand", "") + "-" + offer.get("title", ""))
 
 
-def gate_thin_rows(rows: list[dict]) -> tuple[list[dict], list[dict]]:
-    """Drop rows that carry no content field of their own.
-
-    A row made of a name, two prices and a URL is not a product record, it is a
-    template waiting to happen: every such page renders identical text and asks a
-    crawler to read 57 of them in one day. Content fields are the specs and the
-    comparison read from the seller's own page, so a SKU without them is not
-    collected and no page is generated for it. The gate sits here, before the
-    snapshot is written, because a page that is never built never has to be retired.
-    """
-    details = json.loads(DETAILS.read_text(encoding="utf-8")).get("pages", {}) if DETAILS.exists() else {}
-    # A merged ledger row carries the enrichment for its canonical address, so the
-    # gate reads it too: a SKU that already has specs recorded keeps being collected.
-    ledger = {r["_slug"]: r for r in json.loads(ARCHIVE.read_text(encoding="utf-8")).get("rows", []) if r.get("_slug")} if ARCHIVE.exists() else {}
-    kept, dropped = [], []
-    for offer in rows:
-        slug = offer_slug(offer)
-        detail = details.get(slug) or ledger.get(slug) or {}
-        specs = detail.get("specs") or []
-        if len(specs) >= 2 or (detail.get("judgment") or "").strip():
-            kept.append(offer)
-        else:
-            dropped.append(offer)
-    return kept, dropped
-
-
 def load_config(path: Path = CONFIG) -> dict:
     text = path.read_text(encoding="utf-8")
     site_match = re.search(r"::STATE\{@SITE,\s*(.*?)\}", text, re.S)
@@ -429,12 +403,11 @@ def scrape(config: dict | None = None) -> dict:
                     parse_configured_offer_rows(raw, provider, checked_at)
                     + parse_ssr_preload_pairs(raw, provider, checked_at)
                     + parse_markup_price_pairs(raw, provider, checked_at))
-                kept, dropped = gate_thin_rows(found)
-                offers.extend(kept)
-                status["result"] = (
-                    f"read; verified explicit markdown rows: {len(found)}; "
-                    f"gated out for carrying no content field: {len(dropped)}"
-                )
+                # Collect genuine prices even when a SKU has no unique editorial
+                # material: build merges those products into the priced brand page
+                # instead of publishing a thin page or an empty historical row.
+                offers.extend(found)
+                status["result"] = f"read; verified explicit markdown rows: {len(found)}"
                 status["final_url"] = final_url
         except urllib.error.HTTPError as exc:
             status["result"] = f"skipped: HTTP {exc.code} (no bypass attempted)"

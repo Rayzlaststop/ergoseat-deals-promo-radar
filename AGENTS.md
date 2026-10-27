@@ -45,3 +45,12 @@
 ::RULE{family:A price page carries at least two facts only that page has - a specification difference, a measured comparison with a sister product, or price history - or it is served noindex,follow and kept out of the sitemap|scope:permanent}
 ::RULE{collector:An offer row with no content field of its own is not written to offers.json and generates no page; the gate sits in scraper.py before the snapshot is written, because a page that is never built never has to be retired|scope:permanent}
 ::BOUNDARY{never:Pad a thin page with keywords, a generic disclaimer or template sentences to make it look longer; content that is different is the only thing that counts as different|scope:permanent}
+
+::MODULE{USER_OVERRIDE_2026_10_28|title:Latest user price cleanup and reporting instruction}
+::RULE{priority:These explicit user instructions replace earlier empty-page retention and collector thin-row rules}
+::RULE{price:Commercial rows and pages require a positive official product price read on the current Asia/Shanghai calendar day; build dates never refresh source evidence dates}
+::RULE{collector:Keep genuine official price rows; a priced product lacking independent content belongs in its same-brand priced table, with a relevant 301 from its old detail URL, not another thin page}
+::RULE{retire:If no same-day price is available, remove the commercial row and page from the build and sitemap; real 404 is allowed by the user's new instruction, with every retirement recorded; do not redirect an unrelated page to the homepage}
+::RULE{protect:Approved research guides including herman-miller-aeron-used and necessary about/contact/privacy pages are not price catalog entries and remain published}
+::RULE{schema:Do not emit Offer or AggregateOffer; Product retains only name, brand and image, overriding older schema rules}
+::RULE{notify:Do not send daily publication or routine metric reports; notify once when this cleanup completes, then report the agreed GSC/GA4 figures together at the 28-day review; ask for the next user-supplied keyword batch before the nine forms are exhausted}
