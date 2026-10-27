@@ -414,9 +414,14 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     details_file = ROOT / "data" / "offer_details.json"
     offer_details = json.loads(details_file.read_text(encoding="utf-8")).get("pages", {}) if details_file.exists() else {}
     archived_by_slug = {r["_slug"]: r for r in archived_rows if r.get("_slug")}
-    # Every specification row on the site, counted once: a value that appears on many
-    # pages is boilerplate, and only a value printed on one page can be a difference.
-    material_index = spec_index(list(offer_details.values()) + archived_rows)
+    # Every specification row on the site, counted once per product: a value that
+    # appears on many products is boilerplate, and only a value printed on one page
+    # can be a difference. Rows are keyed by slug first, because the same product can
+    # sit in both the detail file and the ledger, and counting it twice would make its
+    # own figures look shared.
+    detail_by_slug = {r["_slug"]: r for r in archived_rows if r.get("_slug") and (r.get("specs") or r.get("judgment"))}
+    detail_by_slug.update({slug: row for slug, row in offer_details.items() if row})
+    material_index = spec_index(list(detail_by_slug.values()))
     thin_pages = []
     current_slugs = {offer_slug(o) for o in offers}
     # A ledger row names the one address that should be served for its product in
@@ -668,10 +673,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
             continue
         written_deals.add(path)
         target = canonical(base, path)
+        # A retained page reads its enrichment from the same place a live one does: the
+        # detail file first, the ledger second. Without this a product whose specs were
+        # read once loses them the day the collector stops returning its row, and the
+        # page is then judged thin on content it actually has.
+        retained_detail = offer_details.get(row["_slug"]) or row
         # The same bar as a live offer page: a retained row that carries no
         # specification of its own is an address, not a page, so it keeps resolving
         # and leaves the sitemap.
-        retained_facts = material_facts(row, material_index)
+        retained_facts = material_facts(retained_detail, material_index)
         if retained_facts < 2:
             thin_pages.append((path, retained_facts))
         else:
@@ -689,22 +699,22 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
                 f'That read was not repeated on {esc(today_label)}.</p>'
             )
         spec_rows = "".join(
-            f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (row.get("specs") or [])
+            f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (retained_detail.get("specs") or [])
         )
         spec_block = ""
         if spec_rows:
             spec_block = (
                 f'<section><h2>Specifications printed on the official page</h2>'
-                f'<p class="muted">Read from the official product page on {esc(row.get("spec_read_at") or last_read)}. '
+                f'<p class="muted">Read from the official product page on {esc(retained_detail.get("read_at") or row.get("spec_read_at") or last_read)}. '
                 f'These figures do not move with a sale.</p>'
                 f'<div class="table-wrap"><table><thead><tr><th>Specification</th><th>Value</th></tr></thead>'
                 f'<tbody>{spec_rows}</tbody></table></div>'
-                + (f'<p class="muted">{esc(row["spec_note"])}</p>' if row.get("spec_note") else "")
+                + (f'<p class="muted">{esc(retained_detail["spec_note"])}</p>' if retained_detail.get("spec_note") else "")
                 + "</section>"
             )
         who_block = (
-            f'<section><h2>Who this is for</h2><p>{esc(row["for_who"])}</p></section>'
-            if row.get("for_who") else ""
+            f'<section><h2>Who this is for</h2><p>{esc(retained_detail["for_who"])}</p></section>'
+            if retained_detail.get("for_who") else ""
         )
         coupon_page = coupon_for_product.get(row["_slug"])
         coupon_block = (
