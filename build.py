@@ -105,9 +105,50 @@ def values(brand, title, body, url, description, jsonld=""):
     return {"BRAND": esc(brand), "TITLE": esc(title), "DESCRIPTION": esc(description), "CANONICAL": esc(url), "BODY": body, "JSONLD": jsonld, "FOOT": "This site will display third-party ads, and some links may be affiliate links that earn us a commission if you make a purchase."}
 
 
-def render_page(template_name: str, brand: str, title: str, body: str, url: str, description: str, jsonld=None) -> str:
+def render_page(template_name: str, brand: str, title: str, body: str, url: str, description: str, jsonld=None, noindex: bool = False) -> str:
     template = read_template(template_name)
-    return render(template, values(brand, title, body, url, description, schema_script(jsonld) if jsonld else ""))
+    page = render(template, values(brand, title, body, url, description, schema_script(jsonld) if jsonld else ""))
+    # A page kept for an address but carrying nothing of its own is marked noindex,follow:
+    # it still resolves for a backlink or an old search result, it just does not ask to
+    # be indexed. The sitemap drops the same addresses, so the two never disagree.
+    if noindex:
+        page = page.replace("</head>", '<meta name="robots" content="noindex,follow"></head>', 1)
+    return page
+
+
+def spec_index(detail_rows) -> dict:
+    """How many pages print each (label, value) pair.
+
+    A row that appears on many pages is the template talking, not the product, so it
+    cannot be counted as something this page knows. Only pairs printed once are
+    differences between products.
+    """
+    index = {}
+    for row in detail_rows:
+        for label, value in (row.get("specs") or []):
+            key = (str(label).strip().lower(), str(value).strip().lower())
+            index[key] = index.get(key, 0) + 1
+    return index
+
+
+def material_facts(detail_row, index) -> int:
+    """The facts a page carries that no sister page carries.
+
+    A product page that prints a name, two prices and a link has none, however long
+    the template makes it look. Two is the bar: a specification difference plus a
+    measured comparison, or two differences, or one of either with the seller's own
+    read note. Nothing here counts words.
+    """
+    facts = 0
+    for label, value in (detail_row.get("specs") or []):
+        key = (str(label).strip().lower(), str(value).strip().lower())
+        if index.get(key, 0) <= 1:
+            facts += 1
+    if (detail_row.get("judgment") or "").strip():
+        facts += 1
+    if (detail_row.get("spec_note") or "").strip():
+        facts += 1
+    return facts
 
 
 def breadcrumb(brand: str, title: str, url: str, base: str) -> dict:
@@ -373,6 +414,10 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     details_file = ROOT / "data" / "offer_details.json"
     offer_details = json.loads(details_file.read_text(encoding="utf-8")).get("pages", {}) if details_file.exists() else {}
     archived_by_slug = {r["_slug"]: r for r in archived_rows if r.get("_slug")}
+    # Every specification row on the site, counted once: a value that appears on many
+    # pages is boilerplate, and only a value printed on one page can be a difference.
+    material_index = spec_index(list(offer_details.values()) + archived_rows)
+    thin_pages = []
     current_slugs = {offer_slug(o) for o in offers}
     # A ledger row names the one address that should be served for its product in
     # canonical_slug. Rows whose canonical address is a live offer are rendered as
@@ -543,7 +588,6 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         if path in written_deals:
             continue
         written_deals.add(path)
-        sitemap_rows.append((canonical(base, path), default_lastmod))
         target = canonical(base, path)
         current, original = money(offer["price"], offer["currency"]), money(offer["original_price"], offer["currency"])
         discount = round((float(offer["original_price"]) - float(offer["price"])) / float(offer["original_price"]) * 100)
@@ -577,6 +621,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
                     "judgment": ledger_row.get("judgment", ""),
                     "read_at": ledger_row.get("spec_read_at") or (ledger_row.get("last_read_at") or "")[:10],
                 }
+        # The page earns its place in the index or it does not. A row with fewer than
+        # two facts of its own is a template page: name, two prices, one link. It is
+        # still written, so an old address keeps resolving, but it is marked noindex
+        # and kept out of the sitemap instead of asking a crawler to read it again.
+        page_facts = material_facts(detail_row, material_index)
+        if page_facts < 2:
+            thin_pages.append((path, page_facts))
+        else:
+            sitemap_rows.append((canonical(base, path), default_lastmod))
         extra_rows = "".join(
             f"<tr><td>{esc(label)}</td><td>{esc(value)}</td></tr>" for label, value in (detail_row.get("specs") or [])
         )
@@ -603,7 +656,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         )
         detail = f'<nav class="breadcrumbs"><a href="/">Home</a> › {crumb}</nav><section class="hero compact"><p class="eyebrow">Verified seller price reduction · {esc(month)}</p><h1>{esc(display_title(offer["title"]))}</h1><p class="price-line"><strong>{esc(current)}</strong> <del>{esc(original)}</del> <span class="badge">{discount}% lower</span></p><p>Percent calculation: (comparison price − current price) ÷ comparison price, rounded to the nearest whole percent.</p><p><a class="button" href="{esc(link)}" rel="{rel}">Check offer at {esc(offer["brand"])}</a></p><p class="muted">Captured {esc(offer["fetched_at"])} · <a href="{esc(offer["source_url"])}">Official source page</a></p></section>{extra_blocks}{coupon_block}<p class="disclosure">{esc(disclaimer)}</p>'
         jsonld = {"@context": "https://schema.org", "@graph": [structured, breadcrumb(brand, display_title(offer["title"]), target, base)]}
-        (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld), encoding="utf-8")
+        (output_dir / path).write_text(render_page("deal.html", brand, f'{display_title(offer["title"])} · {discount}% price reduction · {month}', detail, target, f'Official {offer["brand"]} price reduction captured {month}.', jsonld, noindex=page_facts < 2), encoding="utf-8")
 
     # Retained offer pages: today's collector did not re-read this row. The page keeps
     # its published address and shows no price of its own; the price line sends the
@@ -614,8 +667,15 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         if path in written_deals:
             continue
         written_deals.add(path)
-        sitemap_rows.append((canonical(base, path), default_lastmod))
         target = canonical(base, path)
+        # The same bar as a live offer page: a retained row that carries no
+        # specification of its own is an address, not a page, so it keeps resolving
+        # and leaves the sitemap.
+        retained_facts = material_facts(row, material_index)
+        if retained_facts < 2:
+            thin_pages.append((path, retained_facts))
+        else:
+            sitemap_rows.append((canonical(base, path), default_lastmod))
         link = row.get("offer_url") or row.get("source_url") or "/"
         crumb_row = brand_by_norm.get(normalize_name(row.get("brand", "")))
         crumb_slug = crumb_row["slug"] if crumb_row else safe_slug(row.get("brand", ""))
@@ -671,7 +731,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         jsonld = {"@context": "https://schema.org", "@graph": [offer_node(None, row.get("currency", "USD"), link), breadcrumb(brand, display_title(row["title"]), target, base)]}
         (output_dir / path).write_text(
             render_page("deal.html", brand, f'{display_title(row["title"])} · price check on the official page', detail, target,
-                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld),
+                        f'Address kept for {display_title(row["title"])}; price to be confirmed on the official seller page.', jsonld, noindex=retained_facts < 2),
             encoding="utf-8")
 
     about_body = '<section class="hero compact"><h1>About &amp; disclosures</h1><p>DeskChairDeals is an independent directory. It is not affiliated with the listed manufacturers.</p><h2>How data is collected</h2><p>The scheduled collector checks configured public seller pages after reading their robots.txt. It does not access login-only content or bypass site controls. Offers appear only when source data exposes an explicit current price and higher comparison price for the same product.</p><h2>Affiliate disclosure</h2><p>Outbound destinations are direct seller links unless a provider has an approved affiliate URL configured. No commission is represented as active by default.</p><p>Prices and stock can change. Confirm terms on the official seller page.</p></section>'
@@ -701,8 +761,17 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
     # because nothing points its old address at a live page.
     published = {u for u, _ in sitemap_rows}
     missing = sorted(previous_urls - published)
+    # A page that left the sitemap but is still served - marked noindex,follow - is not
+    # a lost address. The guard exists to catch a page that vanished, not one that
+    # stopped asking to be indexed, so a file that still exists passes.
+    def still_served(url: str) -> bool:
+        rel = url[len(base):].lstrip("/") if url.startswith(base) else ""
+        if not rel:
+            return True
+        # Sitemap addresses are suffix-free; the file behind one is written as .html.
+        return any((output_dir / candidate).exists() for candidate in (rel, rel + ".html", rel + "/index.html"))
     redirect_targets = {canonical(base, old): canonical(base, new) for old, new in redirects}
-    unresolved = [u for u in missing if redirect_targets.get(u) not in published]
+    unresolved = [u for u in missing if redirect_targets.get(u) not in published and not still_served(u)]
     if unresolved:
         raise RuntimeError(
             "Refusing to drop published URLs that have no 301 to a live page "
@@ -734,7 +803,7 @@ def main(config_path: Path | None = None, output_dir: Path | None = None):
         json.dumps({"_note": archive.get("_note", ""), "rows": sorted(ledger.values(), key=lambda r: (r.get("brand", ""), r.get("title", "")) )}, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} source-verified offers; {len(retained_rows)} retained pages; base URL {base}")
+    print(f"Built {len(sitemap_rows)} static URLs for {brand}; {len(offers)} source-verified offers; {len(retained_rows)} retained pages; {len(thin_pages)} page(s) served noindex and kept out of the sitemap; base URL {base}")
 
 
 def deal_card(offer, url):

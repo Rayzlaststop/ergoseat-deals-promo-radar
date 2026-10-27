@@ -57,3 +57,21 @@ time layer. Nothing on the site changes for them, and indexing is not requested 
 - `ends_at` was not moved. The code moved into the expired table, which is what that table
   is for; the check now has nothing to fire on for this page.
 - Sitemap: 56 -> 57, one entry for the new page.
+
+## 2026-10-27 · The 55 template pages are out of the index
+
+A page now has to earn its place: two facts only that page carries - a spec difference,
+a measured comparison, or price history - or it is served noindex,follow and left out of
+the sitemap. The page stays at its address, so an old link still resolves; it just stops
+asking to be indexed.
+
+Judged site-wide, not just the batch: 20 offer pages carry specs or a comparison read,
+57 carry neither, and all 57 are Vari. Sitemap 112 -> 55.
+
+The gate is on the collection side as well, in `scraper.py` before the snapshot is
+written: a row whose slug has no detail record with two specs is dropped instead of
+collected, so the next refresh cannot rebuild the batch. The first run on today's data
+keeps 11 of 66 rows.
+
+Nothing was padded. The 57 pages were not rewritten to look fuller - they were taken out
+of the index, which is the honest version of the same decision.
