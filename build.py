@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import datetime as dt
 import html
+import hashlib
 import json
 import os
 import re
@@ -119,6 +120,8 @@ def values(brand, title, body, url, description, jsonld=""):
 def render_page(template_name: str, brand: str, title: str, body: str, url: str, description: str, jsonld=None, noindex: bool = False) -> str:
     template = read_template(template_name)
     page = render(template, values(brand, title, body, url, description, schema_script(jsonld) if jsonld else ""))
+    css_version = hashlib.sha256((ROOT / "assets" / "site.css").read_bytes()).hexdigest()[:12]
+    page = page.replace('href="/assets/site.css"', f'href="/assets/site.css?v={css_version}"')
     # A page kept for an address but carrying nothing of its own is marked noindex,follow:
     # it still resolves for a backlink or an old search result, it just does not ask to
     # be indexed. The sitemap drops the same addresses, so the two never disagree.
