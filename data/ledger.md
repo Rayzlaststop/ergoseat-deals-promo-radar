@@ -41,3 +41,19 @@ time-layer number until then, and it is not a reason to touch a page.
 The other two buckets, 28 discovered-not-indexed and 27 crawled-not-indexed, are the same
 time layer. Nothing on the site changes for them, and indexing is not requested in a batch:
 7 coupon pages with 1 indexed is the normal shape for a domain this age.
+
+## 2026-10-27 · Two pages, one deploy
+
+- Crandall shipped as `/deals/crandall-coupon-code`, 4 of 4. The stacking slot is a dated
+  negative naming five page types; the end-date slot is the store's own "While Supplies
+  Last" with its scope attached.
+- Herman Miller's FORYOU expired on its printed date. The code block is gone and the code
+  sits in the page's expired table as "Expired - ended 26 October 2026"; the body now reads
+  the two no-code sales the store prints today (27 October-12 November 2026) and the
+  delivery rates that replaced the free-delivery waiver.
+- The plan assumed a no-code half would survive the code. It did not: the chair-level free
+  delivery was inside the same 20-26 October window. That is recorded in
+  `data/coupon-slot-audit-2026-10-27.md` rather than papered over with the old sentence.
+- `ends_at` was not moved. The code moved into the expired table, which is what that table
+  is for; the check now has nothing to fire on for this page.
+- Sitemap: 56 -> 57, one entry for the new page.
