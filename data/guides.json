@@ -21,12 +21,32 @@
       "table_heading": "What the reviewed pages actually say",
       "table_intro": "These are different sources with different scopes. A seller's policy, an older article and a manufacturer's warranty are not interchangeable. Numbers are transcribed from the linked pages, not estimated; exceptions and the precise listing still need checking.",
       "table": {
-        "columns": ["Source", "Warranty or return wording read", "What it does not settle"],
+        "columns": [
+          "Source",
+          "Warranty or return wording read",
+          "What it does not settle"
+        ],
         "rows": [
-          ["[1] Herman Miller refurbished FAQ", "5-year refurbished product limited warranty; refurbished Aerons are final sale, with no return, exchange or refund for ordinary change of mind.", "Whether this particular configuration fits you. The FAQ also has separate provisions for damage or a materially different item."],
-          ["[2] Crandall warranty and returns policy", "Remanufactured chairs: 12-year seller warranty and 30-day free returns unless otherwise stated. Original packaging required; one free chair return per household; listed exceptions include a 15% fee for Brisa vinyl, leather or significant wear/damage.", "The exact Aeron listing's exceptions, component history and whether your delivery address is eligible."],
-          ["[3] BTOD returns policy", "Eligible Herman Miller refurbished seating (Aeron) is listed under 60-day free returns. Original box required; a replacement box is listed at $50.", "How this applies to your exact listing or to any conflicting wording shown during ordering."],
-          ["[4] BTOD used-Aeron buying article, dated 19 April 2026", "The article describes a two-year seller warranty and a 30-day trial for its refurbished chairs.", "Why that trial period differs from the 60-day policy page. We have not obtained written clarification."]
+          [
+            "[1] Herman Miller refurbished FAQ",
+            "5-year refurbished product limited warranty; refurbished Aerons are final sale, with no return, exchange or refund for ordinary change of mind.",
+            "Whether this particular configuration fits you. The FAQ also has separate provisions for damage or a materially different item."
+          ],
+          [
+            "[2] Crandall warranty and returns policy",
+            "Remanufactured chairs: 12-year seller warranty and 30-day free returns unless otherwise stated. Original packaging required; one free chair return per household; listed exceptions include a 15% fee for Brisa vinyl, leather or significant wear/damage.",
+            "The exact Aeron listing's exceptions, component history and whether your delivery address is eligible."
+          ],
+          [
+            "[3] BTOD returns policy",
+            "Eligible Herman Miller refurbished seating (Aeron) is listed under 60-day free returns. Original box required; a replacement box is listed at $50.",
+            "How this applies to your exact listing or to any conflicting wording shown during ordering."
+          ],
+          [
+            "[4] BTOD used-Aeron buying article, dated 19 April 2026",
+            "The article describes a two-year seller warranty and a 30-day trial for its refurbished chairs.",
+            "Why that trial period differs from the 60-day policy page. We have not obtained written clarification."
+          ]
         ]
       },
       "figures": [
@@ -82,23 +102,233 @@
         }
       ],
       "faq": [
-        {"q": "Does refurbished mean the original Herman Miller warranty transfers?", "a": "No transfer should be assumed from the word refurbished. Identify the warrantor. Herman Miller's refurbished FAQ excludes purchases from unauthorized resellers from its refurbished limited warranty; a reseller may offer its own separate coverage. Read the actual terms for the purchase. [1]"},
-        {"q": "Is a five-year warranty the same as a five-year return period?", "a": "No. A defect warranty and an ordinary return policy answer different questions. Herman Miller's refurbished FAQ lists five-year limited coverage while making refurbished Aeron purchases final sale. [1]"},
-        {"q": "Should I trust a general buying article's return period?", "a": "Record it, but also read the policy linked to your actual listing. Where published periods conflict, preserve both readings and ask the seller to confirm the order's terms in writing before you buy. Do not silently choose the longer period."},
-        {"q": "What should I ask a private seller?", "a": "Ask which generation and size the chair is, what configuration is installed, what work was done, what evidence shows the actual condition, and whether any written return or after-sale promise applies. An unanswered question remains unknown rather than becoming a favorable assumption."}
+        {
+          "q": "Does refurbished mean the original Herman Miller warranty transfers?",
+          "a": "No transfer should be assumed from the word refurbished. Identify the warrantor. Herman Miller's refurbished FAQ excludes purchases from unauthorized resellers from its refurbished limited warranty; a reseller may offer its own separate coverage. Read the actual terms for the purchase. [1]"
+        },
+        {
+          "q": "Is a five-year warranty the same as a five-year return period?",
+          "a": "No. A defect warranty and an ordinary return policy answer different questions. Herman Miller's refurbished FAQ lists five-year limited coverage while making refurbished Aeron purchases final sale. [1]"
+        },
+        {
+          "q": "Should I trust a general buying article's return period?",
+          "a": "Record it, but also read the policy linked to your actual listing. Where published periods conflict, preserve both readings and ask the seller to confirm the order's terms in writing before you buy. Do not silently choose the longer period."
+        },
+        {
+          "q": "What should I ask a private seller?",
+          "a": "Ask which generation and size the chair is, what configuration is installed, what work was done, what evidence shows the actual condition, and whether any written return or after-sale promise applies. An unanswered question remains unknown rather than becoming a favorable assumption."
+        }
       ],
       "closing": "The useful comparison is the chair you can identify, the work the seller can substantiate, and the commitment you can reverse. Check the linked policy again before placing an order; this dated reading is not a promise that its wording will stay the same.",
       "sources": [
-        {"title": "Herman Miller refurbished Aeron FAQ", "url": "https://store.hermanmiller.com/refurbished-faq.html?lang=en_US", "review_date": "2026-10-28"},
-        {"title": "Crandall warranty and returns", "url": "https://crandalloffice.com/pages/warranty-returns", "review_date": "2026-10-28"},
-        {"title": "BTOD return policy", "url": "https://www.btod.com/return-policy.html", "review_date": "2026-10-28"},
-        {"title": "BTOD used-Aeron buying guide", "url": "https://www.btod.com/blog/buying-used-aerons-online/", "review_date": "2026-10-28"}
+        {
+          "title": "Herman Miller refurbished Aeron FAQ",
+          "url": "https://store.hermanmiller.com/refurbished-faq.html?lang=en_US",
+          "review_date": "2026-10-28"
+        },
+        {
+          "title": "Crandall warranty and returns",
+          "url": "https://crandalloffice.com/pages/warranty-returns",
+          "review_date": "2026-10-28"
+        },
+        {
+          "title": "BTOD return policy",
+          "url": "https://www.btod.com/return-policy.html",
+          "review_date": "2026-10-28"
+        },
+        {
+          "title": "BTOD used-Aeron buying guide",
+          "url": "https://www.btod.com/blog/buying-used-aerons-online/",
+          "review_date": "2026-10-28"
+        }
       ],
-      "internal_link": {"href": "/providers/herman-miller", "text": "Herman Miller source and policy notes"},
+      "internal_link": {
+        "href": "/providers/herman-miller",
+        "text": "Herman Miller source and policy notes"
+      },
       "related": [
-        {"href": "/deals/herman-miller-coupon-code", "text": "Dated Herman Miller promotion readings"},
-        {"href": "/providers/crandalloffice", "text": "Crandall source and policy notes"},
-        {"href": "/providers/btod", "text": "BTOD source and policy notes"}
+        {
+          "href": "/deals/herman-miller-coupon-code",
+          "text": "Dated Herman Miller promotion readings"
+        },
+        {
+          "href": "/providers/crandalloffice",
+          "text": "Crandall source and policy notes"
+        },
+        {
+          "href": "/providers/btod",
+          "text": "BTOD source and policy notes"
+        }
+      ]
+    },
+    {
+      "slug": "used-herman-miller-chairs",
+      "kind": "guide",
+      "brand": "Herman Miller",
+      "keyword": "used herman miller chairs",
+      "review_date": "2026-10-29",
+      "captured_at": "2026-10-29",
+      "captured_label": "29 October 2026; seller-authored guides reviewed individually",
+      "eyebrow": "Used-chair configuration guide · reviewed 29 October 2026",
+      "card_label": "Buying guide · configuration checks",
+      "title": "Used Herman Miller Chairs: Match the Controls Before Comparing Models | DeskChairDeals",
+      "description": "Compare used Herman Miller chairs by the exact model, seat controls, back support and arm movements shown on the actual chair. Includes a configuration-evidence worksheet.",
+      "h1": "Used Herman Miller chairs: match the controls before comparing models",
+      "answer": "Shortlist a used Herman Miller chair only after you can identify the model and see the adjustments you need working on that actual unit. A model name, a clean photograph and the word refurbished do not establish the same thing. Compare the installed controls first; compare sellers and checkout totals after that.",
+      "answer_second": "Start with the seat. Crandall’s Mirra 2 guide shows a front-edge adjustment, while its Aeron Remastered guide describes a different set of seat and back controls. Its Aeron sizing guide also distinguishes A, B and C frames. These are reasons to ask different questions of each listing—not proof that every used chair carries every option in a guide.",
+      "answer_note": "DeskChairDeals desk research, not a hands-on seating assessment or an inventory offer. Source pages were re-read on 29 October 2026. No current chair price, stock claim, medical outcome or manufacturer certification is asserted.",
+      "hero_link": "https://crandalloffice.com/blogs/blog/complete-adjustment-guide-for-the-herman-miller-mirra-2-chair",
+      "hero_link_text": "Read the Mirra 2 adjustment guide",
+      "table_heading": "Match each question to the exact chair",
+      "table_intro": "The first column gives a specific reading from Crandall’s own published guide. The other columns are our inspection-request method. A described function is not a guarantee that a particular used listing includes it or that it will fit you.",
+      "table": {
+        "columns": [
+          "Published guide reading",
+          "Ask to see on the listing’s chair",
+          "Keep unresolved until shown"
+        ],
+        "rows": [
+          [
+            "Mirra 2: the guide describes a control that changes the front edge of the seat. [1]",
+            "A clear view of the front edge and its control being operated, without substituting a different chair.",
+            "Whether that particular seat includes the control and whether it moves and holds. Do not substitute a photograph of the backrest."
+          ],
+          [
+            "Mirra 2: the guide describes back-support height movement and separate pressure controls. [1]",
+            "A rear view showing the support assembly, followed by each claimed movement.",
+            "Presence, adjustment and condition of that assembly on this unit. A rear photo alone does not show movement."
+          ],
+          [
+            "Aeron Remastered: the guide’s PostureFit section describes pressure adjustment and says that assembly does not slide vertically. [2]",
+            "The actual back-support assembly and its adjustment. Ask the seller to name it.",
+            "Whether the listing has the same assembly as the guide. Do not turn a requirement for height adjustment into an assumed feature."
+          ],
+          [
+            "Aeron: Crandall describes raised dots behind the upper back frame: one for A, two for B, three for C. [3]",
+            "A clear view or seller confirmation of the size marking, alongside the full chair and its identifying information.",
+            "Size is one input. It does not establish comfort, generation, arm package or an unchanged frame."
+          ],
+          [
+            "Aeron Classic: Crandall’s cylinder-identification guide distinguishes top-activated and side-activated systems. [4]",
+            "If a cylinder was replaced, its compatibility details and who fitted it; request documentation from the seller.",
+            "Whether “new cylinder” refers to the correct compatible replacement. This is not an instruction to dismantle a chair before purchase."
+          ]
+        ]
+      },
+      "figures": [
+        {
+          "src": "/assets/guides/used-chair-configuration-flow.svg",
+          "alt": "Identify the exact chair, demonstrate its claimed adjustments, then record shown facts and unanswered questions.",
+          "caption": "Our configuration workflow. A description becomes a checked input only when the evidence belongs to the chair being offered."
+        },
+        {
+          "src": "/assets/guides/used-chair-evidence-grid.svg",
+          "alt": "A buying record keeps separate rows for identity, seat, back support, arms and replacement parts, with columns for claim, evidence and unresolved points.",
+          "caption": "One record per listing. An empty evidence field stays unresolved rather than becoming an invented pass score."
+        }
+      ],
+      "sections": [
+        {
+          "h2": "Our method: compare requirements before model reputations",
+          "original_analysis": true,
+          "paras": [
+            "Write your required movement as an action before you write a model name. For example, “I need to change the front edge of the seat” is a different requirement from “I need the seat to go up and down.” Put each in its own row. Then compare the seller’s description with a demonstration of that action on the actual chair. A video showing height adjustment does not answer the front-edge question. Keeping the actions separate stops a demonstration of one mechanism from becoming evidence for every other mechanism.",
+            "Use three evidence states: shown, contradicted and unresolved. Shown means that the particular action or identifying detail was actually supplied for this listing; it does not mean that we have certified the chair. Contradicted means that the supplied evidence conflicts with the written claim and needs explanation. Unresolved means you still lack an answer. Do not replace these states with an invented condition score, a predicted repair bill or a claim that a model is right for everyone."
+          ]
+        },
+        {
+          "h2": "Our worksheet: keep identity and configuration separate",
+          "original_analysis": true,
+          "paras": [
+            "Begin a record with the listing URL and the date of the seller’s reply. Add separate fields for model, generation, size or frame variant, seat controls, back-support assembly, arm movements and declared replacement parts. Attach the corresponding image or demonstration to the relevant field rather than keeping an unlabeled pile of screenshots. If the seller changes the description or offers another unit, start a separate record. Evidence for the first chair should not silently follow the replacement listing.",
+            "For an Aeron, do not let a size marking answer a generation question. The A, B or C evidence belongs in the size row. A claimed Classic or Remastered identity needs its own supporting information. Equally, do not let a generic “adjustable arms” description answer all the arm rows. Name the movements you need and ask which are installed. This record is useful when comparing used Herman Miller office chairs across models because the important differences become questions you can resolve, rather than a contest between familiar product names."
+          ]
+        },
+        {
+          "h2": "Our demonstration request: show the control and the outcome together",
+          "original_analysis": true,
+          "paras": [
+            "Ask the seller to keep both the control and the moving part visible where practical. For the seat, request the exact movement that matters to you, rather than a quick spin of the chair. For the back support, ask which assembly is installed before requesting a demonstration. For the arms, distinguish raising an arm from pivoting its pad or moving it forward. These requests do not prescribe which adjustments every chair should have; they reveal whether the configuration offered matches your own requirement.",
+            "Save a concise result beside each request: what you asked, what was demonstrated and what remains unanswered. If a demonstration does not show the claimed movement clearly, ask for clarification instead of declaring the mechanism broken. A seller can also tell you that an option is absent. That is useful configuration evidence and may simply mean the listing does not match your shortlist. It is not by itself evidence of dishonesty or a defect."
+          ]
+        },
+        {
+          "h2": "Our replacement-parts check: a new part is a separate claim",
+          "original_analysis": true,
+          "paras": [
+            "Keep “part replaced” separate from “chair identified.” Record the component, the stated replacement source, the installation information the seller supplies and the function you can actually observe. A replacement can be genuine work without proving every other component was renewed. The same principle applies to a general refurbishment video: it may explain a workshop’s process, but it does not list the work performed on this particular unit.",
+            "The cylinder example in the table makes this distinction concrete. The published Aeron Classic identification guide describes more than one activation arrangement. Our buying question is therefore about compatibility and documentation, not merely whether a cylinder looks new. Ask the seller to substantiate the installed replacement and its operation. If the seller cannot, leave that line unresolved; do not invent a failure probability, assume an original part or turn this purchasing guide into a repair procedure."
+          ]
+        },
+        {
+          "h2": "What the comparison does—and does not—tell you",
+          "paras": [
+            "Crandall’s adjustment guides describe the chairs and configurations used for those instructions. We use them to make specific requests, not to certify used inventory. Office Logix’s used-versus-refurbished article also separates a general condition label from checking mechanisms and the seller; it recommends trying a nearby used chair where possible. [5] Those are starting points for evidence gathering, not proof that a remotely purchased chair will be comfortable.",
+            "Someone comparing Herman Miller refurbished listings may also be comparing different refurbishers, replacement parts and configurations. This page handles the configuration part of that decision. The separate Aeron buying guide on this site handles the documented warranty and fit-return questions. Neither page supplies a resale estimate, a ranking of comfort, a live offer or a claim that we tested the chairs ourselves."
+          ]
+        },
+        {
+          "h2": "Who this is for",
+          "paras": [
+            "This is for a U.S. buyer trying to compare an actual used-chair listing with another model or configuration before paying. It is particularly useful when the listing has a broad condition label and little detail about installed controls. If your decision depends on physical fit, use the record to identify the exact configuration you need to try; a completed record cannot replace trying that chair or reading the applicable return policy."
+          ]
+        }
+      ],
+      "faq": [
+        {
+          "q": "Is a used Herman Miller chair worth considering if I cannot inspect it?",
+          "a": "It can be considered, but the model name alone is insufficient evidence. First identify the actual configuration and obtain the relevant demonstrations. Keep missing answers unresolved, then check the seller’s terms. This method does not declare a listing good value or predict how it will feel."
+        },
+        {
+          "q": "Does refurbished mean the chair is fully loaded?",
+          "a": "Do not infer an option package from that word. Record condition or work performed separately from seat controls, back support and arm movements. Ask the seller to identify what is actually installed."
+        },
+        {
+          "q": "Can I use an Aeron size marking to compare it with a Mirra 2?",
+          "a": "The marking described in Crandall’s Aeron guide identifies an Aeron A, B or C frame. It is not a shared sizing scale for every Herman Miller model. Compare the controls and actual measurements relevant to your requirements rather than transferring that letter to another chair. [3]"
+        },
+        {
+          "q": "Where can I find second-hand Herman Miller chairs?",
+          "a": "Local used-office-furniture sellers, individual listings and specialist refurbishers are different search routes. Use one evidence record for each actual chair you consider. This guide does not verify every seller on those platforms, recommend an uninspected unit or publish current stock."
+        },
+        {
+          "q": "Should an unanswered question be treated as a defective part?",
+          "a": "No. It is an unresolved input. Ask for the specific missing evidence and distinguish an absent option, an unclear demonstration and a demonstrated malfunction. They are different findings."
+        }
+      ],
+      "closing": "A useful shortlist describes what each actual chair is and what its controls demonstrably do. Resolve those inputs before comparing model reputations or checkout totals. Re-read the source guide for the relevant model, and keep seller-specific evidence with the listing it belongs to.",
+      "sources": [
+        {
+          "title": "Crandall: Mirra 2 adjustment guide",
+          "url": "https://crandalloffice.com/blogs/blog/complete-adjustment-guide-for-the-herman-miller-mirra-2-chair",
+          "review_date": "2026-10-29"
+        },
+        {
+          "title": "Crandall: Aeron Remastered adjustment guide",
+          "url": "https://crandalloffice.com/blogs/blog/complete-adjustment-guide-for-the-herman-miller-aeron-remastered-chair",
+          "review_date": "2026-10-29"
+        },
+        {
+          "title": "Crandall: Aeron sizes and size markings",
+          "url": "https://crandalloffice.com/blogs/blog/herman-miller-aeron-sizes-a-b-c-what-you-should-know",
+          "review_date": "2026-10-29"
+        },
+        {
+          "title": "Crandall: identify the Aeron Classic cylinder activation type",
+          "url": "https://crandalloffice.com/blogs/blog/how-to-identify-the-cylinder-on-the-herman-miller-aeron-classic-chair",
+          "review_date": "2026-10-29"
+        },
+        {
+          "title": "Office Logix: used versus refurbished office chairs",
+          "url": "https://www.officelogixshop.com/blogs/news/used-vs-refurbished-office-chairs-things-you-should-know-before-buying",
+          "review_date": "2026-10-29"
+        }
+      ],
+      "related": [
+        {
+          "href": "/deals/herman-miller-aeron-used",
+          "text": "Used Aeron: separate warranty coverage from fit-return terms"
+        }
       ]
     }
   ]

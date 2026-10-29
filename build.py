@@ -829,7 +829,7 @@ def keyword_deal_card(page: dict, url: str) -> str:
     the capture time is the point of the entry, so it is printed on the card."""
     if page.get("kind") == "guide":
         return (
-            f'<article class="deal-card"><p class="eyebrow">Buying guide · policy comparison</p>'
+            f'<article class="deal-card"><p class="eyebrow">{esc(page.get("card_label", "Buying guide · policy comparison"))}</p>'
             f'<h3><a href="{esc(url)}">{esc(page["title"])}</a></h3>'
             f'<p class="muted">Sources reviewed {esc(page.get("review_date", ""))}. Research guide, not a product price listing.</p></article>'
         )
