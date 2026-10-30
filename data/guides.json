@@ -176,7 +176,7 @@
       "h1": "Used Herman Miller chairs: match the controls before comparing models",
       "answer": "Shortlist a used Herman Miller chair only after you can identify the model and see the adjustments you need working on that actual unit. A model name, a clean photograph and the word refurbished do not establish the same thing. Compare the installed controls first; compare sellers and checkout totals after that.",
       "answer_second": "Start with the seat. Crandall’s Mirra 2 guide shows a front-edge adjustment, while its Aeron Remastered guide describes a different set of seat and back controls. Its Aeron sizing guide also distinguishes A, B and C frames. These are reasons to ask different questions of each listing—not proof that every used chair carries every option in a guide.",
-      "answer_note": "DeskChairDeals desk research, not a hands-on seating assessment or an inventory offer. Source pages were re-read on 29 October 2026. No current chair price, stock claim, medical outcome or manufacturer certification is asserted.",
+      "answer_note": "DeskChairDeals desk research, not a hands-on seating assessment or an inventory offer. Original source readings are dated 29 October 2026; the added lumbar comparison and arm-option source were read on 30 October 2026. Each source retains its own review date. No current chair price, stock claim, medical outcome or manufacturer certification is asserted.",
       "hero_link": "https://crandalloffice.com/blogs/blog/complete-adjustment-guide-for-the-herman-miller-mirra-2-chair",
       "hero_link_text": "Read the Mirra 2 adjustment guide",
       "table_heading": "Match each question to the exact chair",
@@ -225,6 +225,11 @@
           "src": "/assets/guides/used-chair-evidence-grid.svg",
           "alt": "A buying record keeps separate rows for identity, seat, back support, arms and replacement parts, with columns for claim, evidence and unresolved points.",
           "caption": "One record per listing. An empty evidence field stays unresolved rather than becoming an invented pass score."
+        },
+        {
+          "src": "/assets/guides/aeron-classic-lumbar-movements.svg",
+          "alt": "Aeron Classic comparison: a sliding lumbar pad moves vertically; the PostureFit assembly in the cited guide adjusts pressure without height movement.",
+          "caption": "Original explanatory diagram based on Crandall’s Aeron Classic lumbar guide [6], read 30 October 2026. These are different installed assemblies, not a diagnostic test or a claim about every used listing."
         }
       ],
       "sections": [
@@ -261,6 +266,14 @@
           ]
         },
         {
+          "h2": "A lumbar label needs a movement",
+          "original_analysis": false,
+          "paras": [
+            "Crandall’s Aeron Classic guide distinguishes a sliding lumbar pad, which can move vertically and be flipped, from a PostureFit assembly whose dial changes pressure without a height adjustment. [6] This comparison was read on 30 October 2026. It describes the two assemblies in that guide; it does not identify the support installed on a seller’s chair.",
+            "Our buying check is to name the installed assembly before testing a movement. Keep its identity, the requested action and the observed result in separate fields. If a listing says only “lumbar support,” ask for a rear view and the assembly name. A demonstration of pressure adjustment does not establish vertical movement. If the pictured assembly differs from the one your question assumed, correct the question rather than treating the difference alone as a broken mechanism."
+          ]
+        },
+        {
           "h2": "What the comparison does—and does not—tell you",
           "paras": [
             "Crandall’s adjustment guides describe the chairs and configurations used for those instructions. We use them to make specific requests, not to certify used inventory. Office Logix’s used-versus-refurbished article also separates a general condition label from checking mechanisms and the seller; it recommends trying a nearby used chair where possible. [5] Those are starting points for evidence gathering, not proof that a remotely purchased chair will be comfortable.",
@@ -294,6 +307,14 @@
         {
           "q": "Should an unanswered question be treated as a defective part?",
           "a": "No. It is an unresolved input. Ask for the specific missing evidence and distinguish an absent option, an unclear demonstration and a demonstrated malfunction. They are different findings."
+        },
+        {
+          "q": "Does lumbar support always adjust up and down?",
+          "a": "No. In Crandall’s Aeron Classic guide, the sliding pad has vertical movement while the PostureFit assembly adjusts pressure without a height adjustment. Name the installed support before asking for a demonstration. This is a comparison of the assemblies described in that guide, read 30 October 2026, not an authentication or fit assessment of a used chair. [6]"
+        },
+        {
+          "q": "Does every used Aeron have the same arm adjustments?",
+          "a": "No common adjustment package should be assumed. BTOD’s inspection guide describes Aeron Classic arms with fixed height, height adjustment only, or height plus pivot adjustment. Ask the seller which movements the actual chair includes and demonstrate those separately. An absent optional movement and a supplied control that fails to work are different findings. Source read 30 October 2026. [7]"
         }
       ],
       "closing": "A useful shortlist describes what each actual chair is and what its controls demonstrably do. Resolve those inputs before comparing model reputations or checkout totals. Re-read the source guide for the relevant model, and keep seller-specific evidence with the listing it belongs to.",
@@ -322,6 +343,16 @@
           "title": "Office Logix: used versus refurbished office chairs",
           "url": "https://www.officelogixshop.com/blogs/news/used-vs-refurbished-office-chairs-things-you-should-know-before-buying",
           "review_date": "2026-10-29"
+        },
+        {
+          "title": "Crandall: Aeron Classic sliding lumbar pad and PostureFit options",
+          "url": "https://crandalloffice.com/blogs/blog/a-comprehensive-guide-to-the-lumbar-options-on-the-herman-miller-aeron-classic-chair",
+          "review_date": "2026-10-30"
+        },
+        {
+          "title": "BTOD: used Aeron inspection, arm adjustment variants",
+          "url": "https://www.btod.com/blog/herman-miller-aeron-read-this/",
+          "review_date": "2026-10-30"
         }
       ],
       "related": [
