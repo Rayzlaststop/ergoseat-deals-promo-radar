@@ -176,7 +176,7 @@
       "h1": "Used Herman Miller chairs: match the controls before comparing models",
       "answer": "Shortlist a used Herman Miller chair only after you can identify the model and see the adjustments you need working on that actual unit. A model name, a clean photograph and the word refurbished do not establish the same thing. Compare the installed controls first; compare sellers and checkout totals after that.",
       "answer_second": "Start with the seat. Crandall’s Mirra 2 guide shows a front-edge adjustment, while its Aeron Remastered guide describes a different set of seat and back controls. Its Aeron sizing guide also distinguishes A, B and C frames. These are reasons to ask different questions of each listing—not proof that every used chair carries every option in a guide.",
-      "answer_note": "DeskChairDeals desk research, not a hands-on seating assessment or an inventory offer. Original source readings are dated 29 October 2026; the added lumbar comparison and arm-option source were read on 30 October 2026. Each source retains its own review date. No current chair price, stock claim, medical outcome or manufacturer certification is asserted.",
+      "answer_note": "DeskChairDeals desk research, not a hands-on seating assessment or an inventory offer. Initial source readings are dated 29 October 2026; the lumbar and arm-option sources were read on 30 October, and the added component-history examples on 31 October. Each source retains its own review date. No current chair price, stock claim, medical outcome or manufacturer certification is asserted.",
       "hero_link": "https://crandalloffice.com/blogs/blog/complete-adjustment-guide-for-the-herman-miller-mirra-2-chair",
       "hero_link_text": "Read the Mirra 2 adjustment guide",
       "table_heading": "Match each question to the exact chair",
@@ -223,8 +223,8 @@
         },
         {
           "src": "/assets/guides/used-chair-evidence-grid.svg",
-          "alt": "A buying record keeps separate rows for identity, seat, back support, arms and replacement parts, with columns for claim, evidence and unresolved points.",
-          "caption": "One record per listing. An empty evidence field stays unresolved rather than becoming an invented pass score."
+          "alt": "One claim, its own evidence: size markings identify size, a working control demonstrates that movement, and a component date belongs with the identified part. Whole-chair age may remain unresolved.",
+          "caption": "Our evidence record, with component-date fields added on 31 October 2026. Keep the marking, the named part and the seller’s documentation together. This diagram is a buying method, not an authentication."
         },
         {
           "src": "/assets/guides/aeron-classic-lumbar-movements.svg",
@@ -274,6 +274,14 @@
           ]
         },
         {
+          "h2": "Keep component dates separate from the whole chair",
+          "original_analysis": false,
+          "paras": [
+            "In its Amazon open-box review, BTOD reports different dates on the seat frame and the mechanism of the chair it inspected. [8] That is the reviewer’s particular sample, not a test performed by DeskChairDeals and not evidence that every open-box chair has mixed components. Crandall’s arm-pad article separately compares its own aftermarket replacement with OEM construction. [9] A component can have its own origin and replacement history; appearance alone does not supply that history.",
+            "Our record adds three fields to each dated item: where the marking appears, which component it describes, and what documentation connects it to the listing. Keep a legible photograph beside that row. If the seat and mechanism show different dates, preserve both rather than averaging them or choosing the more recent one as the chair’s age. Ask the seller what was replaced and what remains undocumented. A missing label leaves an identification question open; it does not by itself establish a counterfeit chair or justify inventing a manufacturing year. Ask for accessible evidence and records, not a dismantling exercise before purchase."
+          ]
+        },
+        {
           "h2": "What the comparison does—and does not—tell you",
           "paras": [
             "Crandall’s adjustment guides describe the chairs and configurations used for those instructions. We use them to make specific requests, not to certify used inventory. Office Logix’s used-versus-refurbished article also separates a general condition label from checking mechanisms and the seller; it recommends trying a nearby used chair where possible. [5] Those are starting points for evidence gathering, not proof that a remotely purchased chair will be comfortable.",
@@ -315,6 +323,10 @@
         {
           "q": "Does every used Aeron have the same arm adjustments?",
           "a": "No common adjustment package should be assumed. BTOD’s inspection guide describes Aeron Classic arms with fixed height, height adjustment only, or height plus pivot adjustment. Ask the seller which movements the actual chair includes and demonstrate those separately. An absent optional movement and a supplied control that fails to work are different findings. Source read 30 October 2026. [7]"
+        },
+        {
+          "q": "Does one date stamp prove the age of the whole used chair?",
+          "a": "No whole-chair age is established by that detail alone. In BTOD’s reviewed Amazon sample, the seat frame and mechanism had different dates. Record the component next to each marking and ask what was replaced. If a label is missing, keep the identity or age field unresolved rather than assigning a year or declaring authenticity from its absence. This is our evidence-record method, not an authentication service. Source read 31 October 2026. [8]"
         }
       ],
       "closing": "A useful shortlist describes what each actual chair is and what its controls demonstrably do. Resolve those inputs before comparing model reputations or checkout totals. Re-read the source guide for the relevant model, and keep seller-specific evidence with the listing it belongs to.",
@@ -353,6 +365,16 @@
           "title": "BTOD: used Aeron inspection, arm adjustment variants",
           "url": "https://www.btod.com/blog/herman-miller-aeron-read-this/",
           "review_date": "2026-10-30"
+        },
+        {
+          "title": "BTOD: Amazon open-box Aeron review, separate component dates",
+          "url": "https://www.btod.com/blog/truth-about-open-box-aeron-amazon/",
+          "review_date": "2026-10-31"
+        },
+        {
+          "title": "Crandall: its aftermarket Aeron arm pads versus OEM construction",
+          "url": "https://crandalloffice.com/blogs/blog/herman-miller-aeron-aftermarket-vs-oem-arm-pads-how-to-install",
+          "review_date": "2026-10-31"
         }
       ],
       "related": [
