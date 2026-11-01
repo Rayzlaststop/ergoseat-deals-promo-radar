@@ -303,6 +303,19 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
     pages = load_keyword_deal_pages()
     rows_out = []
     for item in pages:
+        def guide_copy(value):
+            text = esc(value)
+            if item.get("kind") != "guide":
+                return text
+            sources = item.get("sources", [])
+            def citation(match):
+                number = int(match.group(1))
+                if not 1 <= number <= len(sources):
+                    return match.group(0)
+                label = esc(f'Source {number}, reviewed {sources[number - 1]["review_date"]}')
+                return f'<a class="source-ref" href="#source-{number}" aria-label="{label}">[{number}]</a>'
+            return re.sub(r"\[(\d+)\]", citation, text)
+
         path = f"deals/{safe_slug(item['slug'])}.html"
         url = canonical(base, path)
         review = esc(item.get("review_date", ""))
@@ -330,7 +343,7 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
         if spec:
             head_cells = "".join(f"<th>{esc(col)}</th>" for col in spec["columns"])
             body_cells = "".join(
-                "<tr>" + "".join(f"<td>{esc(cell)}</td>" for cell in row) + "</tr>" for row in spec["rows"]
+                "<tr>" + "".join(f"<td>{guide_copy(cell)}</td>" for cell in row) + "</tr>" for row in spec["rows"]
             )
             table_html = (
                 f'<div class="table-wrap"><table><thead><tr>{head_cells}</tr></thead>'
@@ -375,11 +388,11 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
                 f'<tbody>{expired_cells}</tbody></table></div></section>'
             )
         figures_html = "".join(
-            f'<figure><img src="{esc(figure["src"])}" alt="{esc(figure["alt"])}" width="1000" height="540" loading="lazy" style="width:100%;height:auto"><figcaption>{esc(figure.get("caption", ""))}</figcaption></figure>'
+            f'<figure><img src="{esc(figure["src"])}" alt="{esc(figure["alt"])}" width="1000" height="540" loading="lazy" style="width:100%;height:auto"><figcaption>{guide_copy(figure.get("caption", ""))}</figcaption></figure>'
             for figure in item.get("figures", [])
         )
         sections = "".join(
-            f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{esc(p)}</p>" for p in block.get("paras", [])) + "</section>"
+            f'<section><h2>{esc(block["h2"])}</h2>' + "".join(f"<p>{guide_copy(p)}</p>" for p in block.get("paras", [])) + "</section>"
             for block in item.get("sections", [])
         )
         # A coupon page and the price pages of the same brand are one subject seen from
@@ -398,7 +411,7 @@ def render_keyword_deal_pages(base: str, brand: str, disclaimer: str, output_dir
             f'<section><h2>{esc(item.get("unconfirmed_heading", "What this page does not confirm"))}</h2>'
             f'<ul class="unconfirmed">{unconfirmed}</ul></section>' if unconfirmed else ""
         )
-        faq_html = "".join(f'<h3>{esc(q["q"])}</h3><p>{esc(q["a"])}</p>' for q in item.get("faq", []))
+        faq_html = "".join(f'<h3>{esc(q["q"])}</h3><p>{guide_copy(q["a"])}</p>' for q in item.get("faq", []))
         link = item.get("internal_link") or {}
         link_html = f'<p><a href="{esc(link["href"])}">{esc(link["text"])}</a></p>' if link.get("href") else ""
         source_html = ""

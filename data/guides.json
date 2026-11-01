@@ -327,6 +327,10 @@
         {
           "q": "Does one date stamp prove the age of the whole used chair?",
           "a": "No whole-chair age is established by that detail alone. In BTOD’s reviewed Amazon sample, the seat frame and mechanism had different dates. Record the component next to each marking and ask what was replaced. If a label is missing, keep the identity or age field unresolved rather than assigning a year or declaring authenticity from its absence. This is our evidence-record method, not an authentication service. Source read 31 October 2026. [8]"
+        },
+        {
+          "q": "Can height and weight alone tell me which used chair will fit?",
+          "a": "Treat them as starting information, not a fit result. Identify the exact model, size and installed controls, then compare the seat dimensions and movements that matter to you. If possible, try that configuration. If you cannot, keep the fit question unresolved and read the listing’s applicable fit-return terms before paying. A reader of BTOD’s Aeron review raises the same size-and-seat-depth question; that individual comment is a question source, not a sizing rule. [10]"
         }
       ],
       "closing": "A useful shortlist describes what each actual chair is and what its controls demonstrably do. Resolve those inputs before comparing model reputations or checkout totals. Re-read the source guide for the relevant model, and keep seller-specific evidence with the listing it belongs to.",
@@ -375,6 +379,11 @@
           "title": "Crandall: its aftermarket Aeron arm pads versus OEM construction",
           "url": "https://crandalloffice.com/blogs/blog/herman-miller-aeron-aftermarket-vs-oem-arm-pads-how-to-install",
           "review_date": "2026-10-31"
+        },
+        {
+          "title": "BTOD Aeron review: public reader question about size and seat depth",
+          "url": "https://www.btod.com/blog/herman-miller-aeron-review/",
+          "review_date": "2026-11-01"
         }
       ],
       "related": [
